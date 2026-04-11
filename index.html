@@ -530,36 +530,36 @@
                     <div class="step-box">
                         <div class="step-circle">1</div>
                         <div class="step-content">
-                            <h4>安裝 gws CLI</h4>
-                            <p><code>npm install -g @googleworkspace/cli</code></p>
+                            <h4>Clone GitHub Repo</h4>
+                            <p><code>git clone https://github.com/Lydia47/pm-release-accelerator.git</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">2</div>
                         <div class="step-content">
-                            <h4>認證 Google Workspace</h4>
-                            <p><code>gws auth setup</code> &rarr; <code>gws auth login -s drive,sheets,docs</code></p>
+                            <h4>安裝 Skills 到 Claude Code</h4>
+                            <p><code>cd pm-release-accelerator &amp;&amp; cp -r .claude/commands/* ~/.claude/commands/</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">3</div>
                         <div class="step-content">
-                            <h4>複製 Skills 到 Claude Code</h4>
-                            <p><code>cp -r .claude/commands/ ~/.claude/commands/</code></p>
+                            <h4>安裝 &amp; 認證 gws CLI</h4>
+                            <p><code>npm install -g @googleworkspace/cli</code><br><code>gws auth setup</code> &rarr; <code>gws auth login -s drive,sheets,docs</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">4</div>
                         <div class="step-content">
                             <h4>開始使用</h4>
-                            <p><code>/prd interactive</code> &mdash; 輸入 user scenario 即可一條龍產出完整 PRD</p>
+                            <p>在 Claude Code 輸入 <code>/prd interactive</code>，貼入 user scenario 即可一條龍產出完整 PRD</p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">5</div>
                         <div class="step-content">
                             <h4>下游串接</h4>
-                            <p>拿到 PRD Doc ID 後 &rarr; <code>/test-case ... &lt;DOC_ID&gt;</code> &rarr; <code>/release-note &lt;DOC_ID&gt;</code> &rarr; <code>/translate</code></p>
+                            <p>拿到 PRD Doc ID 後 &rarr; <code>/release-note &lt;DOC_ID&gt;</code> &rarr; <code>/translate maac auto</code></p>
                         </div>
                     </div>
                 </div>
