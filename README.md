@@ -2,7 +2,7 @@
 
 > AI Skills × Google Workspace × Slack — 自動化 PM 產品開發文件流程
 
-從 User Scenario 到翻譯發布，一條指令串起整條 pipeline。
+從 User Scenario 到翻譯發布，一條指令完成所有文件。
 
 **[Documentation Site →](https://lydia47.github.io/pm-release-accelerator/)**
 
@@ -17,7 +17,7 @@
 | `/release-note` | PRD → Internal Update → 推 Slack | PRD Google Doc → 📢 Internal Update + Slack |
 | `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + 自動發布 | Google Sheet + locales-publish → staging/production |
 
-## Pipeline 流程
+## 整體流程
 
 ```
 /prd  ──建立完整 PRD──→  /test-case <DOC_ID>  ──→  /release-note <DOC_ID>  ──→  /translate
