@@ -428,7 +428,7 @@
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">4</div>
-                        <div class="flow-text"><strong>/translate</strong> &mdash; zh-TW &rarr; EN/TH/JA 翻譯 + 術語表 + Slack review + <code>locales-publish</code> 自動發布到 staging/production</div>
+                        <div class="flow-text"><strong>/translate</strong> &mdash; 用戶填完 zh-TW → AI 自動翻譯 EN/TH/JA 寫回同一份 Sheet → 推 Slack review（附 PRD）→ Reviewer 確認後 <code>locales-publish</code> 自動更新 staging &amp; production</div>
                     </div>
                 </div>
             </div>
@@ -468,7 +468,7 @@
                         <strong>&#9881;&#65039; replaceAllText API</strong> &mdash; 使用 Google Docs <code>replaceAllText</code> API 精準替換 placeholder，不需手動複製貼上
                     </div>
                     <div class="tree-aside">
-                        <strong>&#x1F4CA; /translate 獨立產出</strong> &mdash; Google Sheet（同 tab 多欄：Section | zh-TW | EN | TH | JA）+ <code>locales-publish</code> 自動發布到 staging &amp; production
+                        <strong>&#x1F4CA; /translate 端到端</strong> &mdash; 用戶填 zh-TW → AI 翻譯寫回同一份 UI Translation Sheet → Slack review（附 PRD link）→ Reviewer 確認 → <code>locales-publish</code> 自動更新到 staging &amp; production
                     </div>
                 </div>
             </div>
