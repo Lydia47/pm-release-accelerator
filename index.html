@@ -376,6 +376,8 @@
                     <span class="cover-tag">&#x1F9EA; Test Case</span>
                     <span class="cover-tag">&#x1F4E2; Release Note</span>
                     <span class="cover-tag">&#x1F310; Translation</span>
+                    <span class="cover-tag">&#x1F517; Pipeline</span>
+                    <span class="cover-tag">&#x2705; Verify</span>
                 </div>
                 <div class="cover-links">
                     <a href="https://github.com/Lydia47/pm-release-accelerator" class="cover-link" target="_blank">&#x1F419; GitHub Repo</a>
@@ -421,7 +423,7 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>4 個 Claude Code Skills，加速產品開發文件產出</p>
+                <p>6 個 Claude Code Skills，加速產品開發文件產出</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
@@ -438,6 +440,14 @@
                     <div class="flow-step">
                         <div class="flow-num">4</div>
                         <div class="flow-text"><strong>/translate</strong> &mdash; 用戶填完 zh-TW → AI 自動翻譯 EN/TH/JA 寫回同一份 Sheet → 推 Slack review（附 PRD）→ Reviewer 確認後 <code>locales-publish</code> 自動更新 staging &amp; production</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">5</div>
+                        <div class="flow-text"><strong>/release-pipeline</strong> &mdash; PRD Doc ID &rarr; 一鍵串接 /test-case &rarr; /release-note &rarr; /translate，每步 user confirmation gate，失敗可 retry 或 skip</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">6</div>
+                        <div class="flow-text"><strong>/verify</strong> &mdash; Feature Name + Staging URL &rarr; Build check + Playwright golden path 驗證 + 截圖收集 + 結構化 Verification Report</div>
                     </div>
                 </div>
             </div>
@@ -629,8 +639,8 @@
                         <p>自動追蹤 feature 上線後的使用數據</p>
                     </div>
                     <div class="next-step-card">
-                        <h3>&#x1F916; E2E 全自動</h3>
-                        <p>Playwright MCP 成熟後，test-case 全自動執行</p>
+                        <h3>&#x2705; /verify 上線驗證</h3>
+                        <p>Build check + Playwright golden path + 截圖報告，結構化驗證已上線功能</p>
                     </div>
                     <div class="next-step-card">
                         <h3>&#x1F4DD; PRD 回寫</h3>
