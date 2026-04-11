@@ -363,14 +363,13 @@
                 <h2 class="subtitle">AI Skills &times; Google Workspace &times; Slack</h2>
                 <p>自動化 PM 產品開發文件流程<br>從 PRD 撰寫到翻譯發布，一條指令串起整條 pipeline</p>
                 <div class="cover-tags">
-                    <span class="cover-tag">&#x1F4DD; PRD Draft</span>
-                    <span class="cover-tag">&#x1F916; Feature Spec</span>
+                    <span class="cover-tag">&#x1F4DD; PRD Generator</span>
                     <span class="cover-tag">&#x1F9EA; Test Case</span>
                     <span class="cover-tag">&#x1F4E2; Release Note</span>
                     <span class="cover-tag">&#x1F310; Translation</span>
                 </div>
                 <div class="cover-links">
-                    <a href="#" class="cover-link">&#x1F419; GitHub Repo</a>
+                    <a href="https://github.com/Lydia47/pm-release-accelerator" class="cover-link" target="_blank">&#x1F419; GitHub Repo</a>
                     <a href="#" class="cover-link" id="quickStartLink">Quick Start &#8595;</a>
                 </div>
                 <div class="scroll-hint">Scroll to Start &#8595;</div>
@@ -413,27 +412,23 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>5 個 Claude Code Skills，串起完整的產品開發文件 pipeline</p>
+                <p>4 個 Claude Code Skills，串起完整的產品開發文件 pipeline</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>/prd-draft</strong> &mdash; 吃散亂資料 + Deep Research &rarr; 完整 PRD（含 codebase 探索 + reqflow 查詢）</div>
+                        <div class="flow-text"><strong>/prd</strong> &mdash; User Scenario &rarr; Deep Research（codebase + reqflow + 競品）&rarr; 完整 PRD + Feature Spec + Test Cases，一條龍產出</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>/prd</strong> &mdash; Scope 定義 &rarr; Feature Spec（User Stories, AC, Test Cases）</div>
+                        <div class="flow-text"><strong>/test-case</strong> &mdash; 解析 test cases &rarr; Playwright 腳本 + AI 瀏覽器測試 + 測試報告 + Asana bug task</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>/test-case</strong> &mdash; 解析 test cases &rarr; Playwright 腳本 + 測試報告</div>
+                        <div class="flow-text"><strong>/release-note</strong> &mdash; PRD &rarr; Internal Update &rarr; 寫回 PRD Doc + 直推 Slack（含 thread 拆分）</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">4</div>
-                        <div class="flow-text"><strong>/release-note</strong> &mdash; PRD &rarr; Internal Update &rarr; 直推 Slack（含 thread 拆分）</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">5</div>
-                        <div class="flow-text"><strong>/translate</strong> &mdash; zh-TW &rarr; EN/TH/JA 翻譯 + 術語表對照 + Slack review request</div>
+                        <div class="flow-text"><strong>/translate</strong> &mdash; zh-TW &rarr; EN/TH/JA 翻譯 + 術語表 + Slack review + <code>locales-publish</code> 自動發布到 staging/production</div>
                     </div>
                 </div>
             </div>
@@ -448,25 +443,13 @@
                 <div class="doc-tree">
                     <div class="doc-tree-root">
                         <div class="doc-tree-title">
-                            <span>/prd-draft 建立 PRD Google Doc</span>
+                            <span>/prd 建立 PRD Google Doc</span>
                             <span class="tree-badge">Single Source of Truth</span>
                         </div>
                         <div class="tree-item">
                             <span class="tree-icon">&#x1F4DD;</span>
-                            <span class="tree-label">PRD (策略面)</span>
-                            <span class="tree-source">/prd-draft 填入</span>
-                        </div>
-                        <div class="tree-connector"></div>
-                        <div class="tree-item">
-                            <span class="tree-icon">&#x1F916;</span>
-                            <span class="tree-label">Feature Spec &larr; <code>{{FEATURE_SPEC_CONTENT}}</code></span>
-                            <span class="tree-source">/prd 填入</span>
-                        </div>
-                        <div class="tree-connector"></div>
-                        <div class="tree-item">
-                            <span class="tree-icon">&#x1F9EA;</span>
-                            <span class="tree-label">Test Case &larr; <code>{{TEST_CASE_CONTENT}}</code></span>
-                            <span class="tree-source">/test-case 填入</span>
+                            <span class="tree-label">PRD (策略面) + Feature Spec + Test Cases</span>
+                            <span class="tree-source">/prd 一次填入</span>
                         </div>
                         <div class="tree-connector"></div>
                         <div class="tree-item">
@@ -485,7 +468,7 @@
                         <strong>&#9881;&#65039; replaceAllText API</strong> &mdash; 使用 Google Docs <code>replaceAllText</code> API 精準替換 placeholder，不需手動複製貼上
                     </div>
                     <div class="tree-aside">
-                        <strong>&#x1F4CA; /translate 獨立產出</strong> &mdash; Google Sheet（同 tab 多欄：Section | zh-TW | EN | TH | JA）
+                        <strong>&#x1F4CA; /translate 獨立產出</strong> &mdash; Google Sheet（同 tab 多欄：Section | zh-TW | EN | TH | JA）+ <code>locales-publish</code> 自動發布到 staging &amp; production
                     </div>
                 </div>
             </div>
@@ -528,6 +511,11 @@
                         <div class="tool-name">GitHub CLI</div>
                         <div class="tool-sub">Codebase 搜尋<br>awesome-cresclab repo index</div>
                     </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F680;</span>
+                        <div class="tool-name">locales-publish</div>
+                        <div class="tool-sub">翻譯發布到 Firebase<br>staging &amp; production</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -564,14 +552,14 @@
                         <div class="step-circle">4</div>
                         <div class="step-content">
                             <h4>開始使用</h4>
-                            <p><code>/prd-draft interactive</code> 或 <code>/prd-draft &lt;Google Doc URL&gt;</code></p>
+                            <p><code>/prd interactive</code> &mdash; 輸入 user scenario 即可一條龍產出完整 PRD</p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">5</div>
                         <div class="step-content">
-                            <h4>Pipeline 串接</h4>
-                            <p>拿到 PRD Doc ID 後 &rarr; <code>/prd &lt;DOC_ID&gt;</code> &rarr; <code>/test-case ... &lt;DOC_ID&gt;</code> &rarr; <code>/release-note ... &lt;DOC_ID&gt;</code></p>
+                            <h4>下游串接</h4>
+                            <p>拿到 PRD Doc ID 後 &rarr; <code>/test-case ... &lt;DOC_ID&gt;</code> &rarr; <code>/release-note &lt;DOC_ID&gt;</code> &rarr; <code>/translate</code></p>
                         </div>
                     </div>
                 </div>
@@ -584,10 +572,10 @@
             <div class="content">
                 <h2>Resources &amp; Next Steps</h2>
                 <div class="links-container">
-                    <a href="#" class="resource-link">&#x1F419; GitHub Repo</a>
-                    <a href="#" class="resource-link">&#x1F4DD; PRD Template (Full)</a>
-                    <a href="#" class="resource-link">&#x1F4CB; PRD Template (Lite)</a>
-                    <a href="#" class="resource-link">&#x1F31F; awesome-cresclab</a>
+                    <a href="https://github.com/Lydia47/pm-release-accelerator" class="resource-link" target="_blank">&#x1F419; GitHub Repo</a>
+                    <a href="https://docs.google.com/document/d/1wlZw9yLnKXWR-uu_q-5_R-bz6sENCn0ragnVXX07WNQ/edit" class="resource-link" target="_blank">&#x1F4DD; PRD Template (Full)</a>
+                    <a href="https://docs.google.com/document/d/1PPvBJv-iPZGMH_ql7oayGPXfYlsdHLoZn_edMoRsLFw/edit" class="resource-link" target="_blank">&#x1F4CB; PRD Template (Lite)</a>
+                    <a href="https://github.com/chatbotgang/awesome-cresclab" class="resource-link" target="_blank">&#x1F31F; awesome-cresclab</a>
                 </div>
                 <div class="next-step-grid">
                     <div class="next-step-card">
