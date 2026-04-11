@@ -135,8 +135,43 @@ When the user provides reviewer corrections:
 2. If corrections introduce new term mappings:
    - Update `~/.claude/commands/resources/translation-glossary.md` with the new terms.
    - Note the update: "已更新術語表：[term] → [new translation]"
-3. Regenerate the comparison CSV if requested.
-4. Optionally re-post an updated review to Slack.
+3. Update the Google Sheet with corrected translations using `gws sheets spreadsheets values update`.
+4. Regenerate the comparison CSV if requested.
+5. Optionally re-post an updated review to Slack.
+
+### Phase 6: Publish to Staging & Production
+
+After reviewer confirmation and Google Sheet is updated, use `locales-publish` CLI to sync translations to the product:
+
+1. **Determine the app**: Map the product to the app name:
+   | Product | App Name |
+   |:--------|:---------|
+   | MAAC | `maac` |
+   | CAAC | `caac` |
+   | Admin Center | `admin-center` |
+   | LIFF | `liff` |
+
+2. **Preview changes** — always dry-run first:
+   ```bash
+   ~/.claude/skills/locales-publish/scripts/locales-publish <app> --dry-run --json
+   ```
+   Parse the JSON output and show the user a summary of added/modified/removed keys.
+
+3. **Publish to staging** — after user confirms:
+   ```bash
+   ~/.claude/skills/locales-publish/scripts/locales-publish <app> --env staging --yes
+   ```
+   - If only specific keys were translated, use `--keys key1 key2 ...` to publish partially.
+
+4. **Publish to production** — explicitly ask the user: "確認要發布到 production 嗎？這會影響線上用戶。"
+   ```bash
+   ~/.claude/skills/locales-publish/scripts/locales-publish <app> --env production --yes
+   ```
+   **Never publish to production without double-confirming with the user.**
+
+5. **Auth error handling**:
+   - If "Not logged in" → show the login command and ask user to run: `! ~/.claude/skills/locales-publish/scripts/locales-publish login`
+   - If "gws authentication failed" → ask user to run: `! gws auth login`
 
 ## Rules
 
