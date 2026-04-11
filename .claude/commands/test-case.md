@@ -223,9 +223,8 @@ Compile all results into a test report:
      --params '{"documentId":"<PRD_DOC_ID>"}' \
      --json "$(cat /tmp/batch_update.json)"
    ```
-   - If no PRD doc ID provided, create a standalone Google Doc in the product folder:
-     - **MAAC**: `gws drive files create --upload <file> --upload-content-type text/markdown --json '{"name":"[FeatureName] Test Report","parents":["1evGluXJWI-avb2uiGzcJJTBfaa74SJwK"],"mimeType":"application/vnd.google-apps.document"}' --params '{"supportsAllDrives":true}'`
-     - **CAAC**: same with parent `1DFzoOtmsKZYzWszmWjFdGLg2JKXxx1GH`
+   - If no PRD doc ID provided, create a standalone Google Doc in the Agentic folder:
+     `gws drive files create --upload <file> --upload-content-type text/markdown --json '{"name":"[FeatureName] Test Report","parents":["1abeez_q7YDfH0uYYbz4kGznStD8QySaQ"],"mimeType":"application/vnd.google-apps.document"}' --params '{"supportsAllDrives":true}'`
    - Share the Google Doc URL with the user.
 
 ### Phase 5: Follow-up Actions

@@ -98,8 +98,8 @@ For each target language, translate all segments:
        --params '{"fileId":"<SHEET_ID>","addParents":"<FOLDER_ID>","supportsAllDrives":true}' \
        --json '{}'
      ```
-     - **MAAC** folder: `1evGluXJWI-avb2uiGzcJJTBfaa74SJwK`
-     - **CAAC** folder: `1DFzoOtmsKZYzWszmWjFdGLg2JKXxx1GH`
+     - Default folder: **Agentic** (`1abeez_q7YDfH0uYYbz4kGznStD8QySaQ`)
+     - Optionally also add to product folder: MAAC (`1evGluXJWI-avb2uiGzcJJTBfaa74SJwK`) or CAAC (`1DFzoOtmsKZYzWszmWjFdGLg2JKXxx1GH`)
    - Share the Google Sheet URL with the user: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit`
 
 2. Post review requests to Slack via Slack MCP, using the team's established format.
