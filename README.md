@@ -16,16 +16,21 @@
 | `/test-case` | 解析 📝 test cases → Playwright 腳本 + 測試報告 | PRD Google Doc → 🤖 Test Case section |
 | `/release-note` | PRD → Internal Update → 推 Slack | PRD Google Doc → 📢 Internal Update + Slack |
 | `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + 自動發布 | Google Sheet + locales-publish → staging/production |
+| `/release-pipeline` | PRD Doc ID → 一鍵串接 /test-case → /release-note → /translate | PRD Google Doc（回寫所有 section）+ Slack |
+| `/verify` | Feature + Staging URL → Build check + Playwright 驗證 + 截圖報告 | Verification Report（Google Drive + 本地） |
 
 ## 整體流程
 
 ```
-/prd  ──建立完整 PRD──→  /test-case <DOC_ID>  ──→  /release-note <DOC_ID>  ──→  /translate
-         ↓                      ↓                         ↓                         ↓
-  📝 PRD + 🤖 Spec       測試執行 + 報告          📢 Internal Update         Google Sheet
-  + 🤖 Test Cases        回寫 PRD Doc             回寫 PRD Doc + Slack       + locales-publish
-                                                                              → staging → production
+/prd  ──建立完整 PRD──→  /release-pipeline <DOC_ID>  ─┬─→  /test-case    → 測試報告回寫 PRD
+         ↓                                             ├─→  /release-note → Internal Update + Slack
+  📝 PRD + 🤖 Spec                                    └─→  /translate    → Google Sheet + publish
+  + 🤖 Test Cases
+                          /verify <feature> <staging_url>  ──→  Build check + Playwright + 截圖報告
 ```
+
+> 💡 `/release-pipeline` 是 orchestrator — 串接下游 3 個 skill，每步都有 user confirmation gate。
+> `/verify` 是獨立的上線前驗證工具，可搭配 `/release-pipeline` 或單獨使用。
 
 所有產出都寫入**同一份 PRD Google Doc**（Agentic Drive folder），使用 `{{PLACEHOLDER}}` markers + Google Docs `replaceAllText` API。
 
@@ -70,6 +75,15 @@ cp -r .claude/commands/* ~/.claude/commands/
 /test-case ~/Downloads/spec.md https://staging.example.com <PRD_DOC_ID>
 /release-note ~/Downloads/prd.md <PRD_DOC_ID>
 /translate ~/Downloads/release_note.md
+
+# 一鍵串接所有下游流程（推薦）
+/release-pipeline <PRD_DOC_ID>
+/release-pipeline <PRD_DOC_ID> --staging https://staging.maac.io --product maac
+/release-pipeline <PRD_DOC_ID> --skip translate
+
+# 上線前驗證
+/verify "Lead Capture" https://staging.vivace.io
+/verify "Custom Field" https://staging.maac.io --prd <PRD_DOC_ID>
 ```
 
 ## `/prd` 做了什麼？
@@ -93,8 +107,8 @@ cp -r .claude/commands/* ~/.claude/commands/
 | **Slack MCP** | 讀 thread / 發訊息 / review request | `/prd`, `/release-note`, `/translate` |
 | **Figma MCP** | 設計稿截圖比對 | `/test-case` |
 | **Asana MCP** | Bug task 建立 | `/test-case` |
-| **Playwright MCP** | AI 驅動瀏覽器測試 | `/test-case` |
-| **GitHub CLI** | Codebase 搜尋 | `/prd` |
+| **Playwright MCP** | AI 驅動瀏覽器測試 | `/test-case`, `/verify` |
+| **GitHub CLI** | Codebase 搜尋 | `/prd`, `/verify` |
 | **locales-publish** | 翻譯發布到 Firebase (staging/production) | `/translate` |
 
 ## Google Drive 輸出
@@ -113,6 +127,8 @@ cp -r .claude/commands/* ~/.claude/commands/
 ├── test-case.md              # AI-Driven Test Case Executor
 ├── release-note.md           # Release Note Generator + Slack
 ├── translate.md              # Translation Flow + locales-publish
+├── release-pipeline.md       # Release Pipeline Orchestrator (串接上述 4 個 skill)
+├── verify.md                 # Post-Implementation Verification
 └── resources/
     └── prd-template.md       # PRD 範本（Full version）
 ```
