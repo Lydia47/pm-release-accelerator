@@ -273,18 +273,18 @@
 
         /* ===== TOOL ROW ===== */
         .tool-row {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
-            margin-top: 2.5rem; max-width: 920px; margin-left: auto; margin-right: auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+            margin-top: 2rem; max-width: 960px; margin-left: auto; margin-right: auto;
         }
         .tool-box {
-            background: #ffffff; border-radius: 20px; padding: 1.6rem 1.4rem;
+            background: #ffffff; border-radius: 18px; padding: 1.3rem 1rem;
             border: 1px solid rgba(0,0,0,0.06); text-align: center;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
         .tool-box:hover { transform: translateY(-6px); box-shadow: 0 22px 45px rgba(0,0,0,0.12); }
-        .tool-icon-lg { font-size: 2.6rem; display: block; margin-bottom: 0.8rem; }
-        .tool-name { font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.3rem; }
-        .tool-sub { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+        .tool-icon-lg { font-size: 2.2rem; display: block; margin-bottom: 0.6rem; }
+        .tool-name { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.2rem; }
+        .tool-sub { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; }
 
         /* ===== STEP BOXES ===== */
         .step-boxes {
@@ -336,7 +336,7 @@
         @media (max-width: 1024px) {
             .pain-grid,
             .next-step-grid { grid-template-columns: 1fr; }
-            .tool-row { grid-template-columns: repeat(2, 1fr); }
+            .tool-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
         }
         @media (max-width: 600px) {
             .tool-row { grid-template-columns: 1fr; }
@@ -573,9 +573,9 @@
                 <h2>實戰案例：WebWidget Lead Capture</h2>
                 <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成</p>
 
-                <div style="background: #f9f9fb; border-radius: 16px; padding: 1.4rem 1.8rem; text-align: left; margin-bottom: 1.8rem; border: 1px solid rgba(0,0,0,0.06);">
-                    <div style="font-size: 0.85rem; font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">User Scenario Input</div>
-                    <p style="font-size: 1.05rem; color: var(--text-main); margin: 0; line-height: 1.6;">&ldquo;WebWidget lead capture 希望透過 SDK 實現 data gravity 幫助客戶更快收集顧客的 email / phone 等資料，預期是透過 popup or web chat 對話過程發出一個填寫 email or phone 就能取得 prize 的流程來做到&rdquo;</p>
+                <div style="background: #f9f9fb; border-radius: 14px; padding: 1rem 1.5rem; text-align: left; margin-bottom: 1.2rem; border: 1px solid rgba(0,0,0,0.06);">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-orange); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;">User Scenario Input</div>
+                    <p style="font-size: 0.95rem; color: var(--text-main); margin: 0; line-height: 1.5;">&ldquo;WebWidget lead capture 希望透過 SDK 實現 data gravity 幫助客戶更快收集顧客的 email / phone，預期透過 popup or web chat 對話中填寫 email/phone 就能取得 prize&rdquo;</p>
                 </div>
 
                 <div class="flow-steps" style="max-width: 100%;">
@@ -602,7 +602,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.8rem;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-top: 1.2rem;">
                     <div style="background: white; border-radius: 14px; padding: 1.2rem; border: 1px solid rgba(0,0,0,0.06); text-align: center;">
                         <div style="font-size: 2rem; font-weight: 800; color: var(--accent-orange);">6</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">Features</div>
