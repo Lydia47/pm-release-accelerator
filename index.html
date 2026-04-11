@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Release Pipeline — AI Skills x Google Workspace x Slack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --bg-color: #fbfbfd;
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-orange: #FF6B00;
+            --accent-gradient: linear-gradient(135deg, #FF6B00 0%, #FF8800 100%);
+            --accent-purple: #7F5AF0;
+            --accent-cyan: #0071e3;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
+            --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+            --font-main: 'SF Pro Display', 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+            --text-color: var(--text-main);
+        }
+
+        /* ===== BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%; width: 100%;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1 {
+            font-size: 4rem; font-weight: 800;
+            margin-bottom: 1rem; letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+        h1, h2 { color: var(--text-main); letter-spacing: -0.03em; line-height: 1.1; }
+        h2 {
+            font-size: 3.2rem; font-weight: 700; margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        h3 { font-size: 1.8rem; margin-bottom: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-main); }
+        p { color: var(--text-secondary); font-size: 1.35rem; line-height: 1.7; font-weight: 400; margin-bottom: 1.5rem; }
+        .neon-text { color: #111111; }
+        .subtitle {
+            font-size: 1.5rem; color: var(--accent-orange); font-weight: 600;
+            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9;
+        }
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: rgba(0,0,0,0.05); padding: 0.2em 0.4em;
+            border-radius: 6px; color: #d63384; font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+        }
+
+        /* ===== LAYOUT ===== */
+        @keyframes aurora-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #slides-container {
+            height: 100vh; width: 100vw; overflow-y: scroll;
+            scroll-snap-type: y mandatory; scroll-behavior: smooth; position: relative;
+            background:
+                radial-gradient(circle at 15% 50%, rgba(108, 99, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 102, 0, 0.08), transparent 25%);
+            background-color: var(--bg-color);
+            background-size: 200% 200%;
+            animation: aurora-move 20s ease infinite;
+        }
+        .slide {
+            height: 100vh; width: 100%; scroll-snap-align: start;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; padding: 2rem; overflow: hidden;
+        }
+        .content {
+            max-width: 1000px; width: 100%; text-align: center;
+            opacity: 0; transform: translateY(40px) scale(0.98);
+            transition: opacity 0.8s ease, transform 0.8s var(--ease-out-back);
+        }
+        .slide.visible .content { opacity: 1; transform: translateY(0) scale(1); }
+        .content h2, .content p, .content .card-grid, .content .pain-grid,
+        .content .flow-steps, .content .tool-row, .content .step-boxes,
+        .content .doc-tree, .content .links-container, .content .next-step-grid {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s var(--ease-out-back);
+        }
+        .slide.visible .content h2 { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+        .slide.visible .content p { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+        .slide.visible .content .card-grid,
+        .slide.visible .content .pain-grid,
+        .slide.visible .content .flow-steps,
+        .slide.visible .content .tool-row,
+        .slide.visible .content .step-boxes,
+        .slide.visible .content .doc-tree,
+        .slide.visible .content .links-container,
+        .slide.visible .content .next-step-grid { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+
+        .page-indicator {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.5);
+            position: fixed; top: 50%; left: 20px; transform: translateY(-50%);
+            padding: 15px 10px; border-radius: 30px; font-size: 1rem; font-weight: 600;
+            color: var(--text-main); writing-mode: vertical-rl; text-orientation: mixed;
+            z-index: 100; transition: all 0.3s var(--ease-smooth);
+        }
+        .page-indicator:hover { background: rgba(255,255,255,0.95); box-shadow: var(--shadow-lg); }
+
+        .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+        .nav-controls button {
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.8);
+            color: #111111; width: 56px; height: 56px; border-radius: 50%;
+            cursor: pointer; font-size: 1.2rem; transition: all 0.3s var(--ease-out-back);
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-controls button:hover { transform: scale(1.15); background: #fff; box-shadow: var(--shadow-md); color: var(--accent-orange); }
+        .nav-controls button:active { transform: scale(0.95); }
+
+        @media (max-width: 768px) {
+            .page-indicator { left: auto; right: 20px; top: 20px; transform: none; writing-mode: horizontal-tb; }
+            .nav-controls { display: none; }
+            .slide { padding: 1rem; }
+        }
+
+        /* ===== CHAPTER BADGE ===== */
+        .chapter-badge {
+            position: absolute; top: 30px; left: 40px;
+            font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em;
+            color: var(--text-color); opacity: 0.5;
+            border-left: 3px solid var(--accent-orange); padding-left: 12px;
+            z-index: 10; transition: opacity 0.3s;
+        }
+        .slide:hover .chapter-badge { opacity: 0.8; }
+
+        /* ===== COVER ===== */
+        .highlight-bar {
+            display: inline-block; background: var(--accent-orange); color: white;
+            padding: 0.3rem 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 0.05em; margin-bottom: 1.5rem;
+        }
+        .cover-tags { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .cover-tag {
+            font-size: 1rem; font-weight: 600; padding: 0.5rem 1.4rem;
+            border-radius: 999px; border: 1px solid rgba(0,0,0,0.1); background: white;
+            color: #333; box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .cover-tag:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .cover-links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+        .cover-link {
+            display: flex; align-items: center; gap: 8px; text-decoration: none;
+            color: #111; font-size: 1.1rem; font-weight: 600; padding: 0.8rem 1.8rem;
+            border: 1px solid rgba(0,0,0,0.12); border-radius: 50px;
+            transition: all 0.3s ease; background: white;
+        }
+        .cover-link:hover { background: #111; color: #fff; }
+        .scroll-hint { margin-top: 2rem; font-size: 1rem; color: var(--text-secondary); letter-spacing: 0.05em; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+        /* ===== PAIN POINT CARDS ===== */
+        .pain-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+            margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;
+        }
+        .pain-card {
+            background: #ffffff; border-radius: 20px; padding: 1.6rem 1.8rem;
+            border: 1px solid rgba(0,0,0,0.06); text-align: left;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative; overflow: hidden;
+        }
+        .pain-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 4px; height: 100%; background: var(--accent-orange);
+        }
+        .pain-card:hover { transform: translateY(-4px); box-shadow: 0 22px 45px rgba(0,0,0,0.12); }
+        .pain-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.6rem; }
+        .pain-card p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0; line-height: 1.6; }
+        .pain-num { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+
+        /* ===== FLOW STEPS ===== */
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 0.8rem;
+            max-width: 800px; margin: 1.5rem auto 0; text-align: left;
+        }
+        .flow-step {
+            display: flex; align-items: flex-start; gap: 1.2rem;
+            background: #ffffff; border-radius: 16px; padding: 1.2rem 1.6rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+        }
+        .flow-step:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+        .flow-step:not(:last-child)::after {
+            content: ''; position: absolute; left: 2.15rem; top: 100%;
+            width: 2px; height: 0.8rem; background: rgba(255, 107, 0, 0.2);
+        }
+        .flow-num {
+            width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-orange);
+            color: white; font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem;
+        }
+        .flow-text { font-size: 1.05rem; color: var(--text-main); line-height: 1.5; }
+        .flow-text strong { color: var(--accent-orange); }
+        .flow-text code { font-size: 0.88rem; }
+
+        /* ===== DOC TREE (Slide 4) ===== */
+        .doc-tree {
+            max-width: 780px; margin: 2rem auto 0; text-align: left;
+        }
+        .doc-tree-root {
+            background: #ffffff; border-radius: 20px; padding: 1.8rem 2rem;
+            border: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-sm);
+        }
+        .doc-tree-title {
+            font-size: 1.15rem; font-weight: 800; color: var(--accent-orange);
+            margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem;
+        }
+        .doc-tree-title .tree-badge {
+            font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.7rem;
+            border-radius: 999px; background: rgba(255, 107, 0, 0.1); color: var(--accent-orange);
+        }
+        .tree-item {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.9rem 1.2rem; border-radius: 12px; margin-bottom: 0.5rem;
+            border: 1px solid rgba(0,0,0,0.04); background: #fafafa;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .tree-item:hover { transform: translateX(4px); background: #f5f5f7; }
+        .tree-item .tree-icon { font-size: 1.3rem; flex-shrink: 0; }
+        .tree-item .tree-label { font-size: 0.98rem; font-weight: 600; color: var(--text-main); }
+        .tree-item .tree-source {
+            font-size: 0.82rem; font-weight: 600; color: var(--accent-orange);
+            margin-left: auto; padding: 0.15rem 0.6rem; border-radius: 999px;
+            background: rgba(255, 107, 0, 0.08);
+        }
+        .tree-connector {
+            width: 2px; height: 0.5rem; background: rgba(0,0,0,0.08);
+            margin-left: 2.2rem;
+        }
+        .tree-note {
+            margin-top: 1.2rem; padding: 1rem 1.2rem; border-radius: 12px;
+            background: rgba(255, 107, 0, 0.04); border: 1px solid rgba(255, 107, 0, 0.1);
+            font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;
+        }
+        .tree-note strong { color: var(--accent-orange); }
+        .tree-aside {
+            margin-top: 1rem; padding: 1rem 1.2rem; border-radius: 12px;
+            background: rgba(0, 113, 227, 0.04); border: 1px solid rgba(0, 113, 227, 0.1);
+            font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;
+        }
+        .tree-aside strong { color: var(--accent-cyan); }
+
+        /* ===== TOOL ROW ===== */
+        .tool-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+            margin-top: 2.5rem; max-width: 920px; margin-left: auto; margin-right: auto;
+        }
+        .tool-box {
+            background: #ffffff; border-radius: 20px; padding: 1.6rem 1.4rem;
+            border: 1px solid rgba(0,0,0,0.06); text-align: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .tool-box:hover { transform: translateY(-6px); box-shadow: 0 22px 45px rgba(0,0,0,0.12); }
+        .tool-icon-lg { font-size: 2.6rem; display: block; margin-bottom: 0.8rem; }
+        .tool-name { font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.3rem; }
+        .tool-sub { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+
+        /* ===== STEP BOXES ===== */
+        .step-boxes {
+            display: flex; flex-direction: column; gap: 1rem;
+            max-width: 800px; margin: 2rem auto 0; text-align: left;
+        }
+        .step-box {
+            display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; align-items: start;
+            background: #ffffff; border-radius: 16px; padding: 1.4rem 1.6rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .step-box:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+        .step-circle {
+            width: 2.4rem; height: 2.4rem; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), #ff8c00);
+            color: white; font-weight: 800; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-content h4 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.3rem; }
+        .step-content p { font-size: 0.95rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+        /* ===== RESOURCE LINKS ===== */
+        .links-container { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+        .resource-link {
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+            color: #111; font-size: 1.1rem; font-weight: 600; padding: 0.9rem 1.8rem;
+            border: 1px solid rgba(0,0,0,0.12); border-radius: 50px; transition: all 0.3s;
+            background: white;
+        }
+        .resource-link:hover { background: #111; color: #ffffff; }
+
+        /* ===== NEXT STEPS ===== */
+        .next-step-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 1.4rem; margin-top: 2rem; text-align: left;
+            max-width: 900px; margin-left: auto; margin-right: auto;
+        }
+        .next-step-card {
+            background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 24px; padding: 1.6rem; box-shadow: var(--shadow-md);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .next-step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .next-step-card h3 { font-size: 1.15rem; margin-bottom: 0.7rem; }
+        .next-step-card p { font-size: 0.98rem; margin-bottom: 0; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .pain-grid,
+            .next-step-grid { grid-template-columns: 1fr; }
+            .tool-row { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .tool-row { grid-template-columns: 1fr; }
+            .cover-tags { gap: 0.6rem; }
+            .cover-tag { font-size: 0.85rem; padding: 0.4rem 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-indicator" id="pageIndicator">1 / 7</div>
+    <nav class="nav-controls">
+        <button id="prevBtn" aria-label="Previous Slide">&#9650;</button>
+        <button id="nextBtn" aria-label="Next Slide">&#9660;</button>
+    </nav>
+
+    <main id="slides-container">
+
+        <!-- ===== SLIDE 1: Cover ===== -->
+        <section class="slide">
+            <div class="content">
+                <div class="highlight-bar">Crescendo Lab &middot; PM Tooling</div>
+                <h1 class="neon-text">PM Release Pipeline</h1>
+                <h2 class="subtitle">AI Skills &times; Google Workspace &times; Slack</h2>
+                <p>自動化 PM 產品開發文件流程<br>從 PRD 撰寫到翻譯發布，一條指令串起整條 pipeline</p>
+                <div class="cover-tags">
+                    <span class="cover-tag">&#x1F4DD; PRD Draft</span>
+                    <span class="cover-tag">&#x1F916; Feature Spec</span>
+                    <span class="cover-tag">&#x1F9EA; Test Case</span>
+                    <span class="cover-tag">&#x1F4E2; Release Note</span>
+                    <span class="cover-tag">&#x1F310; Translation</span>
+                </div>
+                <div class="cover-links">
+                    <a href="#" class="cover-link">&#x1F419; GitHub Repo</a>
+                    <a href="#" class="cover-link" id="quickStartLink">Quick Start &#8595;</a>
+                </div>
+                <div class="scroll-hint">Scroll to Start &#8595;</div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 2: Pain Points (BEFORE) ===== -->
+        <section class="slide">
+            <div class="chapter-badge">BEFORE</div>
+            <div class="content">
+                <h2>Pain Points</h2>
+                <p>每次產品上線前，PM 都要面對這些重複性高、容易出錯的文件工作</p>
+                <div class="pain-grid">
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F4C4;</span>
+                        <h4>PRD 撰寫耗時</h4>
+                        <p>散亂的 Google Docs、Slack threads、PDF 需手動整理成結構化 PRD，每次花費 2-4 小時</p>
+                    </div>
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F310;</span>
+                        <h4>翻譯流程瑣碎</h4>
+                        <p>EN/TH/JA 三語翻譯需手動對照術語表，review request 手動發 Slack 給不同 reviewer</p>
+                    </div>
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F9EA;</span>
+                        <h4>測試追蹤困難</h4>
+                        <p>Feature Spec 中的 test cases 散落各處，無法自動產出腳本或追蹤結果</p>
+                    </div>
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F4E2;</span>
+                        <h4>Release Note 重工</h4>
+                        <p>每次從 PRD 手動摘要，重新排版 Internal Update，手動貼 Slack</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 3: What We Built (SOLUTION) ===== -->
+        <section class="slide">
+            <div class="chapter-badge">SOLUTION</div>
+            <div class="content">
+                <h2>What We Built</h2>
+                <p>5 個 Claude Code Skills，串起完整的產品開發文件 pipeline</p>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-num">1</div>
+                        <div class="flow-text"><strong>/prd-draft</strong> &mdash; 吃散亂資料 + Deep Research &rarr; 完整 PRD（含 codebase 探索 + reqflow 查詢）</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">2</div>
+                        <div class="flow-text"><strong>/prd</strong> &mdash; Scope 定義 &rarr; Feature Spec（User Stories, AC, Test Cases）</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">3</div>
+                        <div class="flow-text"><strong>/test-case</strong> &mdash; 解析 test cases &rarr; Playwright 腳本 + 測試報告</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">4</div>
+                        <div class="flow-text"><strong>/release-note</strong> &mdash; PRD &rarr; Internal Update &rarr; 直推 Slack（含 thread 拆分）</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">5</div>
+                        <div class="flow-text"><strong>/translate</strong> &mdash; zh-TW &rarr; EN/TH/JA 翻譯 + 術語表對照 + Slack review request</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 4: Single Doc Architecture ===== -->
+        <section class="slide">
+            <div class="chapter-badge">ARCHITECTURE</div>
+            <div class="content">
+                <h2>Single Doc Architecture</h2>
+                <p>所有產出都寫入同一份 PRD Google Doc，不再散落各處</p>
+                <div class="doc-tree">
+                    <div class="doc-tree-root">
+                        <div class="doc-tree-title">
+                            <span>/prd-draft 建立 PRD Google Doc</span>
+                            <span class="tree-badge">Single Source of Truth</span>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-icon">&#x1F4DD;</span>
+                            <span class="tree-label">PRD (策略面)</span>
+                            <span class="tree-source">/prd-draft 填入</span>
+                        </div>
+                        <div class="tree-connector"></div>
+                        <div class="tree-item">
+                            <span class="tree-icon">&#x1F916;</span>
+                            <span class="tree-label">Feature Spec &larr; <code>{{FEATURE_SPEC_CONTENT}}</code></span>
+                            <span class="tree-source">/prd 填入</span>
+                        </div>
+                        <div class="tree-connector"></div>
+                        <div class="tree-item">
+                            <span class="tree-icon">&#x1F9EA;</span>
+                            <span class="tree-label">Test Case &larr; <code>{{TEST_CASE_CONTENT}}</code></span>
+                            <span class="tree-source">/test-case 填入</span>
+                        </div>
+                        <div class="tree-connector"></div>
+                        <div class="tree-item">
+                            <span class="tree-icon">&#x1F4E2;</span>
+                            <span class="tree-label">Internal Update &larr; <code>{{INTERNAL_UPDATE_CONTENT}}</code></span>
+                            <span class="tree-source">/release-note 填入</span>
+                        </div>
+                        <div class="tree-connector"></div>
+                        <div class="tree-item">
+                            <span class="tree-icon">&#x1F4B0;</span>
+                            <span class="tree-label">Pricing</span>
+                            <span class="tree-source" style="background: rgba(0,0,0,0.05); color: var(--text-secondary);">手動填寫</span>
+                        </div>
+                    </div>
+                    <div class="tree-note">
+                        <strong>&#9881;&#65039; replaceAllText API</strong> &mdash; 使用 Google Docs <code>replaceAllText</code> API 精準替換 placeholder，不需手動複製貼上
+                    </div>
+                    <div class="tree-aside">
+                        <strong>&#x1F4CA; /translate 獨立產出</strong> &mdash; Google Sheet（同 tab 多欄：Section | zh-TW | EN | TH | JA）
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 5: Integration Stack ===== -->
+        <section class="slide">
+            <div class="chapter-badge">INTEGRATIONS</div>
+            <div class="content">
+                <h2>Integration Stack</h2>
+                <p>背後串接的工具與 MCP Server，讓 Skill 能直接讀寫各種外部系統</p>
+                <div class="tool-row">
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F527;</span>
+                        <div class="tool-name">gws CLI</div>
+                        <div class="tool-sub">Google Drive / Sheets / Docs 讀寫<br>私有文件直讀，自動轉 Google Docs</div>
+                    </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F4AC;</span>
+                        <div class="tool-name">Slack MCP</div>
+                        <div class="tool-sub">讀 thread / 搜 channel / 發訊息<br>+ thread replies</div>
+                    </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F3A8;</span>
+                        <div class="tool-name">Figma MCP</div>
+                        <div class="tool-sub">設計稿截圖比對<br>test-case 用</div>
+                    </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x2705;</span>
+                        <div class="tool-name">Asana MCP</div>
+                        <div class="tool-sub">Bug task 建立<br>test-case 用</div>
+                    </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F3AD;</span>
+                        <div class="tool-name">Playwright MCP</div>
+                        <div class="tool-sub">AI 驅動瀏覽器測試<br>自動化 E2E</div>
+                    </div>
+                    <div class="tool-box">
+                        <span class="tool-icon-lg">&#x1F419;</span>
+                        <div class="tool-name">GitHub CLI</div>
+                        <div class="tool-sub">Codebase 搜尋<br>awesome-cresclab repo index</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 6: How to Start (QUICK START) ===== -->
+        <section class="slide" id="quickStartSlide">
+            <div class="chapter-badge">QUICK START</div>
+            <div class="content">
+                <h2>How to Start</h2>
+                <p>五步驟開始使用，從安裝到 pipeline 串接</p>
+                <div class="step-boxes">
+                    <div class="step-box">
+                        <div class="step-circle">1</div>
+                        <div class="step-content">
+                            <h4>安裝 gws CLI</h4>
+                            <p><code>npm install -g @googleworkspace/cli</code></p>
+                        </div>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-circle">2</div>
+                        <div class="step-content">
+                            <h4>認證 Google Workspace</h4>
+                            <p><code>gws auth setup</code> &rarr; <code>gws auth login -s drive,sheets,docs</code></p>
+                        </div>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-circle">3</div>
+                        <div class="step-content">
+                            <h4>複製 Skills 到 Claude Code</h4>
+                            <p><code>cp -r .claude/commands/ ~/.claude/commands/</code></p>
+                        </div>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-circle">4</div>
+                        <div class="step-content">
+                            <h4>開始使用</h4>
+                            <p><code>/prd-draft interactive</code> 或 <code>/prd-draft &lt;Google Doc URL&gt;</code></p>
+                        </div>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-circle">5</div>
+                        <div class="step-content">
+                            <h4>Pipeline 串接</h4>
+                            <p>拿到 PRD Doc ID 後 &rarr; <code>/prd &lt;DOC_ID&gt;</code> &rarr; <code>/test-case ... &lt;DOC_ID&gt;</code> &rarr; <code>/release-note ... &lt;DOC_ID&gt;</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 7: Resources & Next Steps ===== -->
+        <section class="slide">
+            <div class="chapter-badge">RESOURCES</div>
+            <div class="content">
+                <h2>Resources &amp; Next Steps</h2>
+                <div class="links-container">
+                    <a href="#" class="resource-link">&#x1F419; GitHub Repo</a>
+                    <a href="#" class="resource-link">&#x1F4DD; PRD Template (Full)</a>
+                    <a href="#" class="resource-link">&#x1F4CB; PRD Template (Lite)</a>
+                    <a href="#" class="resource-link">&#x1F31F; awesome-cresclab</a>
+                </div>
+                <div class="next-step-grid">
+                    <div class="next-step-card">
+                        <h3>&#x1F504; Agent 自動化</h3>
+                        <p>串接 Scheduled Agents，定期掃 reqflow 主動提議新功能</p>
+                    </div>
+                    <div class="next-step-card">
+                        <h3>&#x1F4CA; Adoption Dashboard</h3>
+                        <p>自動追蹤 feature 上線後的使用數據</p>
+                    </div>
+                    <div class="next-step-card">
+                        <h3>&#x1F916; E2E 全自動</h3>
+                        <p>Playwright MCP 成熟後，test-case 全自動執行</p>
+                    </div>
+                    <div class="next-step-card">
+                        <h3>&#x1F4DD; PRD 回寫</h3>
+                        <p>直接更新 Google Doc 的 rich formatting（不只純文字）</p>
+                    </div>
+                </div>
+                <div style="margin-top: 2.5rem; opacity: 0.46; font-size: 0.95rem; color: var(--text-secondary);">
+                    Crescendo Lab &middot; PM Release Pipeline &middot; 2026
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const getAllSlides = () => Array.from(document.querySelectorAll('.slide')).filter(s => window.getComputedStyle(s).display !== 'none');
+            let slides = getAllSlides();
+            const indicator = document.getElementById('pageIndicator');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentIndex = 0;
+
+            const updateIndicator = (index) => {
+                slides = getAllSlides();
+                indicator.textContent = `${index + 1} / ${slides.length}`;
+            };
+            updateIndicator(currentIndex);
+
+            const scrollToSlide = (index) => {
+                slides = getAllSlides();
+                if (index < 0 || index >= slides.length) return;
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        slides = getAllSlides();
+                        const index = slides.indexOf(entry.target);
+                        if (index !== -1) { currentIndex = index; updateIndicator(currentIndex); }
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { root: document.getElementById('slides-container'), threshold: 0.5 });
+
+            slides.forEach(slide => observer.observe(slide));
+
+            prevBtn.addEventListener('click', () => scrollToSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => scrollToSlide(currentIndex + 1));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); scrollToSlide(currentIndex + 1); }
+                else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); scrollToSlide(currentIndex - 1); }
+            });
+
+            /* Quick Start link scrolls to slide 6 */
+            const quickStartLink = document.getElementById('quickStartLink');
+            if (quickStartLink) {
+                quickStartLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    scrollToSlide(5);
+                });
+            }
+
+            if (slides.length > 0) {
+                updateIndicator(0);
+                slides[0].classList.add('visible');
+            }
+        });
+    </script>
+</body>
+</html>
