@@ -18,6 +18,7 @@
 | `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + 自動發布 | Google Sheet + locales-publish → staging/production |
 | `/release-pipeline` | PRD Doc ID → 一鍵串接 /test-case → /release-note → /translate | PRD Google Doc（回寫所有 section）+ Slack |
 | `/verify` | Feature + Staging URL → Build check + Playwright 驗證 + 截圖報告 | Verification Report（Google Drive + 本地） |
+| `/ga-tracking` | GA4 Measurement ID → React SPA 埋碼（gtag.js + analytics module + router + events） | index.html, src/lib/analytics.js, App.jsx, handlers |
 
 ## 整體流程
 
@@ -84,6 +85,10 @@ cp -r .claude/commands/* ~/.claude/commands/
 # 上線前驗證
 /verify "Lead Capture" https://staging.vivace.io
 /verify "Custom Field" https://staging.maac.io --prd <PRD_DOC_ID>
+
+# GA4 埋碼（給一個 Measurement ID 就開工）
+/ga-tracking G-HZRJ3ZNSB9
+/ga-tracking help   # 只印 GA4 Measurement ID 建立流程
 ```
 
 ## `/prd` 做了什麼？
@@ -129,6 +134,7 @@ cp -r .claude/commands/* ~/.claude/commands/
 ├── translate.md              # Translation Flow + locales-publish
 ├── release-pipeline.md       # Release Pipeline Orchestrator (串接上述 4 個 skill)
 ├── verify.md                 # Post-Implementation Verification
+├── ga-tracking.md            # GA4 Embedder (Measurement ID → 埋碼完整流程)
 └── resources/
     └── prd-template.md       # PRD 範本（Full version）
 ```
