@@ -63,8 +63,8 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 
 ## 部署
 
-- **GitHub Pages**: `docs/index.html`（single-page slide deck，需更新以反映新 16 skill 架構）
-- 修改後 push 即自動部署
+- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 16 skill 三層架構）
+- 修改後 push 到 main 即自動部署到 https://lydia47.github.io/pm-release-accelerator/
 
 ## 與 pm-hub 的關係
 
