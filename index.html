@@ -423,33 +423,22 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>6 個 Claude Code Skills，加速產品開發文件產出</p>
+                <p>16 個 Claude Code Skills，分三層覆蓋從探索到上線的完整 PM 工作流</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>/prd</strong> &mdash; User Scenario &rarr; Deep Research（codebase + reqflow + 競品）&rarr; 完整 PRD + Feature Spec + Test Cases，一條龍產出</div>
+                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/product-thinking</code>：ICE 評分 / 四大風險掃描 / 成功指標 / 假設句型，引導 PM 結構化評估功能需求</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>/test-case</strong> &mdash; 解析 test cases &rarr; Playwright 腳本 + AI 瀏覽器測試 + 測試報告 + Asana bug task</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>/release-note</strong> &mdash; PRD &rarr; Internal Update &rarr; 寫回 PRD Doc + 直推 Slack（含 thread 拆分）</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">4</div>
-                        <div class="flow-text"><strong>/translate</strong> &mdash; 用戶填完 zh-TW → AI 自動翻譯 EN/TH/JA 寫回同一份 Sheet → 推 Slack review（附 PRD）→ Reviewer 確認後 <code>locales-publish</code> 自動更新 staging &amp; production</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">5</div>
-                        <div class="flow-text"><strong>/release-pipeline</strong> &mdash; PRD Doc ID &rarr; 一鍵串接 /test-case &rarr; /release-note &rarr; /translate，每步 user confirmation gate，失敗可 retry 或 skip</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">6</div>
-                        <div class="flow-text"><strong>/verify</strong> &mdash; Feature Name + Staging URL &rarr; Build check + Playwright golden path 驗證 + 截圖收集 + 結構化 Verification Report</div>
+                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate</code>（locales-publish）&rarr; <code>/verify</code>。<code>/release-pipeline</code> 一鍵串接，<code>/ga-tracking</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 16 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽16-支" style="color: var(--accent-cyan);">README</a>。</p>
             </div>
         </section>
 
@@ -529,7 +518,7 @@
                         <div class="step-circle">2</div>
                         <div class="step-content">
                             <h4>安裝 Skills 到 Claude Code</h4>
-                            <p><code>cd pm-release-accelerator &amp;&amp; cp -r .claude/commands/* ~/.claude/commands/</code></p>
+                            <p><code>cd pm-release-accelerator &amp;&amp; cp -r .claude/skills/* ~/.claude/skills/</code></p>
                         </div>
                     </div>
                     <div class="step-box">
@@ -543,14 +532,14 @@
                         <div class="step-circle">4</div>
                         <div class="step-content">
                             <h4>開始使用</h4>
-                            <p>在 Claude Code 輸入 <code>/prd interactive</code>，貼入 user scenario 即可一條龍產出完整 PRD</p>
+                            <p>跟 AI 對話探索問題 &rarr; 需要時 <code>/product-thinking</code> 評估 &rarr; <code>/new-prd</code> 建立 PRD draft，後續可 <code>/sync-prd</code>、<code>/review-prd</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">5</div>
                         <div class="step-content">
                             <h4>下游串接</h4>
-                            <p>拿到 PRD Doc ID 後 &rarr; <code>/release-note &lt;DOC_ID&gt;</code> &rarr; <code>/translate &lt;product&gt; auto</code></p>
+                            <p>PRD 定稿後 &rarr; <code>/release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-gdoc</p>
                         </div>
                     </div>
                 </div>
@@ -562,7 +551,7 @@
             <div class="chapter-badge">CASE STUDY</div>
             <div class="content" style="max-width: 1100px;">
                 <h2>實戰案例：WebWidget Lead Capture</h2>
-                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成</p>
+                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成<br><span style="font-size: 0.85rem; color: var(--text-secondary);">（此案例使用早期 v1 命令；現在對應 <code>/new-prd</code> &rarr; <code>/gen-release-notes</code> &rarr; <code>/translate</code>）</span></p>
 
                 <div style="background: #f9f9fb; border-radius: 14px; padding: 1rem 1.5rem; text-align: left; margin-bottom: 1.2rem; border: 1px solid rgba(0,0,0,0.06);">
                     <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-orange); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;">User Scenario Input</div>

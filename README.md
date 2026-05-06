@@ -1,150 +1,246 @@
 # PM Release Accelerator
 
-> AI Skills × Google Workspace × Slack — 自動化 PM 產品開發文件流程
+> Git-as-SSOT × AI Skills × Google Workspace × Slack — 從探索到上線、從寫 PRD 到發翻譯，一條龍 PM 工作流。
 
-從 User Scenario 到翻譯發布，一條指令完成所有文件。
+整合 **pm-hub 的規格閉環架構** 與 **release-side 自動化** 的混合式 PM 工作流：PRD 與 Spec 住在 Git repo，Google Doc 是 read-only snapshot，下游發布鏈（test → release notes → translate → verify）全部 AI 自動化。
 
 **[Documentation Site →](https://lydia47.github.io/pm-release-accelerator/)**
 
 ---
 
-## Skills 總覽
-
-| Skill | 功能 | 輸出位置 |
-|:------|:-----|:---------|
-| `/prd` | User Scenario → Deep Research → PRD + Feature Spec + Test Cases | PRD Google Doc（新建，一條龍產出） |
-| `/test-case` | 解析 📝 test cases → Playwright 腳本 + 測試報告 | PRD Google Doc → 🤖 Test Case section |
-| `/release-note` | PRD → Internal Update → 推 Slack | PRD Google Doc → 📢 Internal Update + Slack |
-| `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + 自動發布 | Google Sheet + locales-publish → staging/production |
-| `/release-pipeline` | PRD Doc ID → 一鍵串接 /test-case → /release-note → /translate | PRD Google Doc（回寫所有 section）+ Slack |
-| `/verify` | Feature + Staging URL → Build check + Playwright 驗證 + 截圖報告 | Verification Report（Google Drive + 本地） |
-| `/ga-tracking` | GA4 Measurement ID → React SPA 埋碼（gtag.js + analytics module + router + events） | index.html, src/lib/analytics.js, App.jsx, handlers |
-
-## 整體流程
+## 三層架構
 
 ```
-/prd  ──建立完整 PRD──→  /release-pipeline <DOC_ID>  ─┬─→  /test-case    → 測試報告回寫 PRD
-         ↓                                             ├─→  /release-note → Internal Update + Slack
-  📝 PRD + 🤖 Spec                                    └─→  /translate    → Google Sheet + publish
-  + 🤖 Test Cases
-                          /verify <feature> <staging_url>  ──→  Build check + Playwright + 截圖報告
+┌─────────────────────────────────────────────────────────────┐
+│ 1. 探索 / 評估                                                │
+│    /product-thinking   ICE × 風險 × 指標 × 假設句型           │
+└────────────────────────┬────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 2. PRD Lifecycle（Git-as-SSOT）                              │
+│    /new-prd        建立 prds/{name}/ + evaluation.md         │
+│    /sync-prd       會議結論 / Slack 討論回流到 PRD            │
+│    /review-prd     PM/Eng/QA/PD 四角色平行 review            │
+│    /sync-gdoc      推到 Google Doc 給 stakeholder            │
+│    /pull-gdoc-comments   把 Doc 評論整理回 PRD                │
+│    /archive-prd    更新 specs/ + 搬到 archive                │
+│    /gen-product-spec     從 source code 反向產 SSOT spec      │
+└────────────────────────┬────────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 3. 上線發布鏈                                                 │
+│    /gen-test-cases     從 PRD 產測試定義（覆蓋）             │
+│    /test-run           QA 執行紀錄（手動 or --auto Playwright）│
+│    /gen-release-notes  External + Internal + 推 Slack        │
+│    /gen-hc-content     Help Center 素材                      │
+│    /translate          UI 翻譯 → Sheet → Slack review → publish│
+│    /verify             上線前 build check + Playwright       │
+│    /release-pipeline   一鍵串接：test → release-note → translate│
+│    /ga-tracking        GA4 SPA 埋碼（gtag + analytics module）│
+└─────────────────────────────────────────────────────────────┘
 ```
 
-> 💡 `/release-pipeline` 是 orchestrator — 串接下游 3 個 skill，每步都有 user confirmation gate。
-> `/verify` 是獨立的上線前驗證工具，可搭配 `/release-pipeline` 或單獨使用。
+## Skills 全覽（16 支）
 
-所有產出都寫入**同一份 PRD Google Doc**（Agentic Drive folder），使用 `{{PLACEHOLDER}}` markers + Google Docs `replaceAllText` API。
+### 探索 / 評估
+
+| Skill | 功能 | 輸出 |
+|:------|:-----|:-----|
+| `/product-thinking` | ICE 評分 / 四大風險掃描 / 成功指標 / 假設句型 | 評估報告（→ `/new-prd` 整理進 `evaluation.md`） |
+
+### PRD Lifecycle
+
+| Skill | 功能 | 輸出 |
+|:------|:-----|:-----|
+| `/new-prd` | 整理對話結論 + 讀現有 spec → 建 PRD draft | `prds/{name}/prd.md` + `evaluation.md` |
+| `/sync-prd` | 把會議 / Slack 決策同步進 PRD（含人工確認 gate） | 修改 `prds/{name}/prd.md` |
+| `/review-prd` | PM/Eng/QA/PD **四 subagent 平行** review，含跨 PRD 衝突偵測 | `prds/{name}/review.md` |
+| `/sync-gdoc` | PRD 資料夾 → Google Doc，每個 .md 一個分頁 | Google Doc URL（寫回 `gdoc_id` frontmatter） |
+| `/pull-gdoc-comments` | Google Doc 評論 → 結構化摘要 → 回流到 PRD | 修改 `prd.md`、可選 mark resolved |
+| `/archive-prd` | Spec Delta 更新 `specs/` + 搬 PRD 到 archive | `specs/{domain}/spec.md` 更新 + `prds/archive/{date}-{name}/` |
+| `/gen-product-spec` | 平行 subagent 讀 source code → 反向產出 Product Spec | `specs/{domain}/spec.md` + capability files |
+
+### 上線發布鏈
+
+| Skill | 功能 | 輸出 |
+|:------|:-----|:-----|
+| `/gen-test-cases` | 從 PRD 產 P0/P1/P2 × Happy/Edge/Error/Regression test cases | `prds/{name}/test-cases.md`（覆蓋） |
+| `/test-run` | 建 QA 執行紀錄，**`--auto` 模式用 Playwright 自動跑** | `prds/{name}/test-runs/{date}.md` + screenshots |
+| `/gen-release-notes` | External + Internal Update，可選推 Slack（學頻道風格） | `prds/{name}/release-notes.md` + Slack post |
+| `/gen-hc-content` | Help Center 等級素材（功能介紹 + 情境 + 步驟 + FAQ） | `prds/{name}/hc-content.md` |
+| `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + locales-publish | Google Sheet + 翻譯發布到 staging/production |
+| `/verify` | 上線前 build check + Playwright golden path + 截圖報告 | `prds/{name}/verification-{date}.md` + Drive |
+| `/release-pipeline` | Orchestrator：串 gen-test-cases → test-run → gen-release-notes → translate → sync-gdoc | 全套產物 + summary dashboard |
+| `/ga-tracking` | GA4 SPA 埋碼（gtag.js + 集中式 analytics module + RouteTracker） | `index.html`, `src/lib/analytics.js`, App.jsx |
+
+## 目錄結構
+
+```
+.
+├── specs/                  # Product Spec（持續演進的 SSOT）
+│   └── {domain}/
+│       ├── spec.md
+│       └── capabilities/
+│           └── {name}.md
+│
+├── prds/                   # PRD（每次專案的變更提案）
+│   ├── {prd-name}/           # 進行中
+│   │   ├── evaluation.md     #   product-thinking 評估報告
+│   │   ├── prd.md            #   PRD 主文（含 Spec Delta）
+│   │   ├── review.md         #   review-prd 結果
+│   │   ├── test-cases.md     #   測試案例定義
+│   │   ├── test-runs/        #   每次測試執行紀錄
+│   │   │   └── YYYY-MM-DD.md
+│   │   ├── release-notes.md  #   External + Internal
+│   │   ├── hc-content.md     #   Help Center 素材
+│   │   └── verification-*.md #   上線前驗證報告
+│   └── archive/              # 已歸檔
+│       └── YYYY-MM-DD-{prd-name}/
+│
+├── templates/              # 範本
+│   ├── prd-template.md
+│   ├── test-cases-template.md
+│   ├── release-notes-template.md
+│   ├── hc-content-template.md
+│   └── spec-template.md
+│
+├── scripts/
+│   └── md_to_gdoc.py       # Markdown → Google Doc 格式轉換
+│
+├── .claude/skills/         # 16 支 SKILL.md
+│
+└── docs/                   # 靜態網站
+    └── index.html
+```
+
+## 核心概念
+
+| 概念 | 說明 |
+|:-----|:-----|
+| **Product Spec** (`specs/`) | 產品規格的 SSOT，描述系統目前的行為，依 domain 分模組 |
+| **PRD** (`prds/`) | 針對某次專案的需求文件，描述要對 Product Spec 做什麼變更 |
+| **Spec Delta** | PRD 中的區塊，描述對 Product Spec 的差異，歸檔時更新到 `specs/` |
+| **evaluation.md** | `/product-thinking` 的 ICE/風險/指標分析存檔 |
+| **review.md** | `/review-prd` 四角色 subagent debate 結果 |
+| **Test Cases** | 從 PRD 產生的測試案例定義，PRD 改了就重新產生（會被覆蓋） |
+| **Test Run** | 每次測試的執行紀錄，從 test cases 複製，QA 打勾用（不會被覆蓋） |
+| **Closed Loop** | Slack/會議/Google Doc 的外部討論透過 `/sync-prd` 與 `/pull-gdoc-comments` 回流 |
+
+## 生命週期
+
+```
+draft → in-review → approved → archived
+```
+
+| 階段 | 動作 | Git 操作 |
+|:-----|:-----|:---------|
+| **draft** | PM + AI refine PRD | branch + commit `prds/{name}/` |
+| **in-review** | team review | 開 PR、用 `/sync-gdoc` 推 Google Doc |
+| **approved** | PRD 定稿 | merge PR |
+| **archived** | spec-delta 更新 spec + PRD 搬到 archive | `/archive-prd` |
+
+## 典型流程
+
+```
+自然對話探索 ──── PM 跟 AI 討論問題、用戶痛點、解法方向
+   │
+   │ ← /product-thinking ── 結構化評估（ICE、風險、指標）
+   │
+   │ 方向確定 → 建立 PRD
+   ▼
+/new-prd ────────── 建 PRD draft + evaluation.md
+   │
+   │ refine ↔ /sync-prd ── 會議 / Slack 決策回流
+   ▼
+/review-prd ─────── PM/Eng/QA/PD 四 subagent 平行 review
+   │
+   │ 修改完成 → 進入發布鏈
+   ▼
+/release-pipeline ─┬─→ /gen-test-cases ─→ /test-run（--auto Playwright）
+                   ├─→ /gen-release-notes ─→ Slack
+                   ├─→ /translate ──────→ Sheet → review → publish
+                   └─→ /sync-gdoc ──────→ Google Doc
+   │
+   │ 上線前
+   ▼
+/verify ─────────── build check + Playwright golden path + 報告
+   │
+   │ 上線後
+   ▼
+/archive-prd ────── 更新 specs/ + 搬 archive
+```
 
 ## 安裝
 
-### 1. 安裝 gws CLI
+### 1. Clone
+
+```bash
+git clone https://github.com/lydia47/pm-release-accelerator.git
+cd pm-release-accelerator
+```
+
+### 2. 安裝 gws CLI（Google Workspace）
 
 ```bash
 npm install -g @googleworkspace/cli
-```
-
-### 2. 認證 Google Workspace
-
-```bash
 gws auth setup        # 一次性設定 GCP project
 gws auth login -s drive,sheets,docs,gmail,calendar
 ```
 
-### 3. 複製 Skills
+### 3. 複製 Skills 到 Claude Code
 
 ```bash
-# 複製所有 skill 檔案到 Claude Code commands 目錄
-cp -r .claude/commands/* ~/.claude/commands/
+# 全 user-level（所有專案可用）
+cp -r .claude/skills/* ~/.claude/skills/
+
+# 或 project-level（僅當前 repo）
+# .claude/skills/ 直接放在你的 PM repo 即可
 ```
 
-### 4. 開始使用
+### 4. （可選）安裝 locales-publish
+
+`/translate` skill 需要：
 
 ```bash
-# 互動模式：輸入 user scenario 即可
-/prd interactive
-
-# 從 Google Doc 開始
-/prd https://docs.google.com/document/d/xxx/edit
-
-# 從本地檔案
-/prd ~/Downloads/feature_brief.pdf ~/research/competitor.md
-
-# Lite PRD（小功能/優化）
-/prd ~/Downloads/scope.md --lite
-
-# 下游串接（拿到 PRD Doc ID 後）
-/test-case ~/Downloads/spec.md https://staging.example.com <PRD_DOC_ID>
-/release-note ~/Downloads/prd.md <PRD_DOC_ID>
-/translate ~/Downloads/release_note.md
-
-# 一鍵串接所有下游流程（推薦）
-/release-pipeline <PRD_DOC_ID>
-/release-pipeline <PRD_DOC_ID> --staging https://staging.maac.io --product maac
-/release-pipeline <PRD_DOC_ID> --skip translate
-
-# 上線前驗證
-/verify "Lead Capture" https://staging.vivace.io
-/verify "Custom Field" https://staging.maac.io --prd <PRD_DOC_ID>
-
-# GA4 埋碼（給一個 Measurement ID 就開工）
-/ga-tracking G-HZRJ3ZNSB9
-/ga-tracking help   # 只印 GA4 Measurement ID 建立流程
+git clone https://github.com/chatbotgang/locales-management.git ~/.claude/skills/locales-publish
 ```
 
-## `/prd` 做了什麼？
+### 5. （可選）MCP servers
 
-一個指令，6 個 Phase：
-
-| Phase | 做什麼 | 整合工具 |
-|:------|:-------|:---------|
-| 1. Collect | 解析所有輸入（Google Doc/Sheets/PDF/Slack/inline） | gws CLI, Slack MCP |
-| 2. Research | Codebase 探索 + Reqflow 查詢 + 競品研究 | GitHub CLI, gws CLI, WebSearch |
-| 3. Strategy | PRD 上半部：Goal → Scope → TA → Selling Points → Glossary | — |
-| 4. Feature Spec | 下半部：User Stories & AC → User Flow → Business Logic → Test Cases → NFR | — |
-| 5. Q&A | 互動解決所有 TBD 和模糊點 | Agent, WebSearch |
-| 6. Output | 寫入 Google Drive + 回傳 Doc ID | gws CLI |
+- **Slack** — `/gen-release-notes`、`/translate`、`/sync-prd` 用
+- **Playwright** — `/test-run --auto`、`/verify`、`/ga-tracking` 用
+- **Figma** — `/test-run`（PD 比對）、`/verify` 用
+- **Asana** — `/test-run`（建 bug task）、`/verify` 用
 
 ## 整合工具
 
 | 工具 | 用途 | 使用的 Skills |
 |:-----|:-----|:-------------|
-| **gws CLI** | Google Drive/Sheets/Docs 讀寫 | `/prd`, `/translate`, 所有輸出 |
-| **Slack MCP** | 讀 thread / 發訊息 / review request | `/prd`, `/release-note`, `/translate` |
-| **Figma MCP** | 設計稿截圖比對 | `/test-case` |
-| **Asana MCP** | Bug task 建立 | `/test-case` |
-| **Playwright MCP** | AI 驅動瀏覽器測試 | `/test-case`, `/verify` |
-| **GitHub CLI** | Codebase 搜尋 | `/prd`, `/verify` |
-| **locales-publish** | 翻譯發布到 Firebase (staging/production) | `/translate` |
+| **gws CLI** | Google Drive/Sheets/Docs 讀寫 | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate`, `/verify` |
+| **Slack MCP** | 讀 thread / 發訊息 / review request | `/sync-prd`, `/gen-release-notes`, `/translate` |
+| **Figma MCP** | 設計稿截圖比對 | `/test-run`, `/verify` |
+| **Asana MCP** | Bug task 建立 | `/test-run`, `/verify` |
+| **Playwright MCP** | AI 驅動瀏覽器測試 | `/test-run --auto`, `/verify`, `/ga-tracking` |
+| **GitHub CLI** | Codebase 搜尋 / PR 管理 | `/gen-product-spec`, `/verify` |
+| **locales-publish** | 翻譯發布到 Firebase | `/translate` |
 
-## Google Drive 輸出
+## 與 pm-hub 的關係
 
-| 資料夾 | 用途 |
-|:-------|:-----|
-| **Agentic** (default) | 所有新建的 PRD、翻譯 Sheet |
-| MAAC | 可選額外加入 |
-| CAAC | 可選額外加入 |
+本專案是 [pm-hub](https://github.com/chatbotgang/pm-hub) 的**超集**：
 
-## 檔案結構
+- 採用 pm-hub 的 12 支核心 skill（PRD lifecycle + 規格閉環）
+- 加上 4 支發布鏈獨有 skill（`/translate`, `/verify`, `/ga-tracking`, `/release-pipeline`）
 
-```
-.claude/commands/
-├── prd.md                    # PRD Generator (策略 + Feature Spec 一條龍)
-├── test-case.md              # AI-Driven Test Case Executor
-├── release-note.md           # Release Note Generator + Slack
-├── translate.md              # Translation Flow + locales-publish
-├── release-pipeline.md       # Release Pipeline Orchestrator (串接上述 4 個 skill)
-├── verify.md                 # Post-Implementation Verification
-├── ga-tracking.md            # GA4 Embedder (Measurement ID → 埋碼完整流程)
-└── resources/
-    └── prd-template.md       # PRD 範本（Full version）
-```
+如果你只需要 PRD 管理 → 用 pm-hub 即可。  
+如果你還要做 release / 翻譯 / 上線驗證 / GA 埋碼 → 用本專案。
 
 ## 參考
 
+- [pm-hub](https://github.com/chatbotgang/pm-hub) — PRD/Spec 閉環架構來源
 - [awesome-cresclab](https://github.com/chatbotgang/awesome-cresclab) — Codebase index
 - [gws CLI](https://github.com/googleworkspace/cli) — Google Workspace CLI
 - [locales-management](https://github.com/chatbotgang/locales-management) — locales-publish CLI
-- [HC Release Skill](https://github.com/kaddwang/Helping-Center-Release-Skill) — 設計參考
+- [HC Release Skill](https://github.com/kaddwang/Helping-Center-Release-Skill) — 早期設計參考
 
 ---
 
