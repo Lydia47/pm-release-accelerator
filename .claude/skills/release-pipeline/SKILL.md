@@ -140,7 +140,7 @@ PM 提供：
    - 翻 EN（SaaS 專業）/ TH（ภาษาทางการ）/ JA（敬語）
    - 寫回同一份 sheet
    - 推 TH/JA Slack review，附 PRD link
-   - **不自動 publish production**，等 PM 明確授權後才 `locales-publish`
+   - **不自動 publish production**，等 PM 明確授權後才 `cl-locales publish --env production`
 4. 結果摘要：
 
    ```
@@ -196,7 +196,7 @@ PM: [Owner] | Product: [Product] | Target: [Date]
 Suggested Follow-up:
   - /verify "[FeatureName]" [staging_url] — 上線前驗證
   - /archive-prd [name] — 開發完畢後歸檔，更新 Product Spec
-  - locales-publish — reviewer 確認後發翻譯
+  - `cl-locales publish` — reviewer 確認後發翻譯到 Firebase Storage
 ```
 
 ## Error Handling

@@ -68,7 +68,7 @@
 | `/test-run` | 建 QA 執行紀錄，**`--auto` 模式用 Playwright 自動跑** | `prds/{name}/test-runs/{date}.md` + screenshots |
 | `/gen-release-notes` | External + Internal Update，可選推 Slack（學頻道風格） | `prds/{name}/release-notes.md` + Slack post |
 | `/gen-hc-content` | Help Center 等級素材（功能介紹 + 情境 + 步驟 + FAQ） | `prds/{name}/hc-content.md` |
-| `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + locales-publish | Google Sheet + 翻譯發布到 staging/production |
+| `/translate` | zh-TW → EN/TH/JA + 術語表 + Slack review + cl-locales publish | Google Sheet + 翻譯發布到 Firebase Storage（staging/production） |
 | `/verify` | 上線前 build check + Playwright golden path + 截圖報告 | `prds/{name}/verification-{date}.md` + Drive |
 | `/release-pipeline` | Orchestrator：串 gen-test-cases → test-run → gen-release-notes → translate → sync-gdoc | 全套產物 + summary dashboard |
 | `/ga-tracking` | GA4 SPA 埋碼（gtag.js + 集中式 analytics module + RouteTracker） | `index.html`, `src/lib/analytics.js`, App.jsx |
@@ -197,13 +197,24 @@ cp -r .claude/skills/* ~/.claude/skills/
 # .claude/skills/ 直接放在你的 PM repo 即可
 ```
 
-### 4. （可選）安裝 locales-publish
+### 4. （可選）安裝 cl-locales
 
-`/translate` skill 需要：
+`/translate` skill 需要 `cl-locales` CLI（前身是 locales-publish，現已改名並大幅擴充功能 — 支援 add/update/delete/publish + batch + AI signature）：
 
+**方式 A（推薦）：透過 Claude Code plugin**
 ```bash
-git clone https://github.com/chatbotgang/locales-management.git ~/.claude/skills/locales-publish
+# 從 chatbotgang/cclab 安裝
+# 詳細指令請見 https://github.com/chatbotgang/cclab
 ```
+
+**方式 B：手動 clone**
+```bash
+git clone https://github.com/chatbotgang/skills.git /tmp/cl-skills
+cp -r /tmp/cl-skills/skills/cl-locales ~/.claude/skills/cl-locales
+# 之後在 /translate 中用完整路徑：~/.claude/skills/cl-locales/scripts/locales-cli
+```
+
+首次使用需 Firebase 登入：`cl-locales login`（會開瀏覽器）
 
 ### 5. （可選）MCP servers
 
@@ -222,7 +233,7 @@ git clone https://github.com/chatbotgang/locales-management.git ~/.claude/skills
 | **Asana MCP** | Bug task 建立 | `/test-run`, `/verify` |
 | **Playwright MCP** | AI 驅動瀏覽器測試 | `/test-run --auto`, `/verify`, `/ga-tracking` |
 | **GitHub CLI** | Codebase 搜尋 / PR 管理 | `/gen-product-spec`, `/verify` |
-| **locales-publish** | 翻譯發布到 Firebase | `/translate` |
+| **cl-locales** | 翻譯 CRUD + 發布到 Firebase Storage | `/translate` |
 
 ## 與 pm-hub 的關係
 
@@ -239,7 +250,8 @@ git clone https://github.com/chatbotgang/locales-management.git ~/.claude/skills
 - [pm-hub](https://github.com/chatbotgang/pm-hub) — PRD/Spec 閉環架構來源
 - [awesome-cresclab](https://github.com/chatbotgang/awesome-cresclab) — Codebase index
 - [gws CLI](https://github.com/googleworkspace/cli) — Google Workspace CLI
-- [locales-management](https://github.com/chatbotgang/locales-management) — locales-publish CLI
+- [chatbotgang/skills — cl-locales](https://github.com/chatbotgang/skills/tree/main/skills/cl-locales) — 翻譯 CRUD + publish CLI（取代 locales-publish）
+- [chatbotgang/cclab](https://github.com/chatbotgang/cclab) — Claude Code plugin marketplace（含 cl-locales plugin）
 - [HC Release Skill](https://github.com/kaddwang/Helping-Center-Release-Skill) — 早期設計參考
 
 ---

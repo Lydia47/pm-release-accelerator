@@ -51,7 +51,7 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 | Figma MCP | — | `/test-run`（PD 比對）, `/verify` |
 | Asana MCP | — | `/test-run`, `/verify` |
 | GitHub CLI | `gh` | `/gen-product-spec`, `/verify` |
-| locales-publish | `~/.claude/skills/locales-publish/scripts/locales-publish` | `/translate` |
+| cl-locales | `cl-locales`（plugin）or `~/.claude/skills/cl-locales/scripts/locales-cli`（手動） | `/translate` |
 
 ## Spec / PRD 連動機制
 
