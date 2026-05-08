@@ -1,10 +1,10 @@
 # PM Release Accelerator
 
 ## Overview
-16 個 Claude Code Skills，分三層：
-- **探索層**：`/product-thinking`
-- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`
-- **發布鏈**：`/gen-test-cases`, `/test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate`, `/verify`, `/release-pipeline`, `/ga-tracking`
+20 個 Claude Code Skills，分三層：
+- **探索層**：`/product-thinking`, `/competitor-screenshot`
+- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/outline-patch-safe`
+- **發布鏈**：`/gen-test-cases`, `/test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate`, `/verify`, `/release-pipeline`, `/ga-tracking`, `/deploy-status`, `/announce-slack`
 
 採用 **pm-hub 架構**（PRD/Spec 住在 `prds/`、`specs/`），加上 release-side 自動化。
 
@@ -45,12 +45,15 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 
 | 工具 | 路徑 | 使用的 Skills |
 |:-----|:-----|:-------------|
-| gws CLI | `~/.cargo/bin/gws` | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate`, `/verify` |
-| Slack MCP | — | `/sync-prd`, `/gen-release-notes`, `/translate` |
-| Playwright MCP | — | `/test-run --auto`, `/verify`, `/ga-tracking` |
+| gws CLI | `~/.cargo/bin/gws` | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate`, `/verify`, `/announce-slack` |
+| Slack MCP | — | `/sync-prd`, `/gen-release-notes`, `/translate`, `/announce-slack` |
+| Playwright MCP | — | `/test-run --auto`, `/verify`, `/ga-tracking`, `/competitor-screenshot` |
 | Figma MCP | — | `/test-run`（PD 比對）, `/verify` |
 | Asana MCP | — | `/test-run`, `/verify` |
-| GitHub CLI | `gh` | `/gen-product-spec`, `/verify` |
+| GitHub MCP / CLI | `gh` | `/gen-product-spec`, `/verify`, `/deploy-status` |
+| cl-outline plugin | `mcp__plugin_cl-outline_outline__*` | `/outline-patch-safe`, `/announce-slack`, `/competitor-screenshot` |
+| GCS (gcloud/gsutil) | — | `/competitor-screenshot` |
+| Firebase CLI | `firebase` | `/deploy-status`（Firebase Hosting release 查詢） |
 | cl-locales | `cl-locales`（plugin）or `~/.claude/skills/cl-locales/scripts/locales-cli`（手動） | `/translate` |
 
 ## Spec / PRD 連動機制
@@ -63,7 +66,7 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 
 ## 部署
 
-- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 16 skill 三層架構）
+- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 20 skill 三層架構）
 - 修改後 push 到 main 即自動部署到 https://lydia47.github.io/pm-release-accelerator/
 
 ## 與 pm-hub 的關係
