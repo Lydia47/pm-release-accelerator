@@ -421,7 +421,7 @@
                 <div class="highlight-bar">Crescendo Lab &middot; PM Tooling</div>
                 <h1 class="neon-text">PM Release Accelerator</h1>
                 <h2 class="subtitle">Git-as-SSOT &times; AI Skills &times; Release Pipeline</h2>
-                <p>16 個 Claude Code Skills，從探索評估到上線發布<br>PRD 與 Spec 住在 Git，下游發布鏈全自動</p>
+                <p>20 個 Claude Code Skills，從探索評估到上線發布<br>PRD 與 Spec 住在 Git，下游發布鏈全自動</p>
                 <div class="cover-tags">
                     <span class="cover-tag">&#x1F9E0; Discovery</span>
                     <span class="cover-tag">&#x1F4DD; PRD Lifecycle</span>
@@ -484,22 +484,22 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>16 個 Claude Code Skills，分三層覆蓋從探索到上線的完整 PM 工作流</p>
+                <p>20 個 Claude Code Skills，分三層覆蓋從探索到上線的完整 PM 工作流</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/product-thinking</code>：ICE 評分 / 四大風險掃描 / 成功指標 / 假設句型，引導 PM 結構化評估功能需求</div>
+                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/product-thinking</code>：ICE 評分 / 風險掃描 / 成功指標 / 假設句型；<code>/competitor-screenshot</code>：平行 Playwright 截圖 → JPEG → GCS → Outline attachment append</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/outline-patch-safe</code>（cl-outline patch 的 pre/post-flight 驗證 wrapper）。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate</code>（cl-locales）&rarr; <code>/verify</code>。<code>/release-pipeline</code> 一鍵串接，<code>/ga-tracking</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
+                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate</code>（cl-locales）&rarr; <code>/verify</code> &rarr; <code>/deploy-status</code>（跨 repo PR 部署狀態）&rarr; <code>/announce-slack</code>（短公告 draft）。<code>/release-pipeline</code> 串接，<code>/ga-tracking</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
-                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 16 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽16-支" style="color: var(--accent-cyan);">README</a>。</p>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 20 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽20-支" style="color: var(--accent-cyan);">README</a>。</p>
             </div>
         </section>
 
@@ -520,6 +520,7 @@
                         </div>
                         <div class="arch-chips">
                             <span class="arch-chip">/product-thinking</span>
+                            <span class="arch-chip">/competitor-screenshot</span>
                         </div>
                     </div>
                     <div class="arch-arrow">&darr;</div>
@@ -539,6 +540,7 @@
                             <span class="arch-chip">/pull-gdoc-comments</span>
                             <span class="arch-chip">/archive-prd</span>
                             <span class="arch-chip">/gen-product-spec</span>
+                            <span class="arch-chip">/outline-patch-safe</span>
                         </div>
                         <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack / gdoc 評論透過 sync-prd &amp; pull-gdoc-comments 自動回流</div>
                     </div>
@@ -559,6 +561,8 @@
                             <span class="arch-chip">/translate</span>
                             <span class="arch-chip">/verify</span>
                             <span class="arch-chip">/ga-tracking</span>
+                            <span class="arch-chip">/deploy-status</span>
+                            <span class="arch-chip">/announce-slack</span>
                             <span class="arch-chip arch-chip-strong">/release-pipeline</span>
                         </div>
                     </div>

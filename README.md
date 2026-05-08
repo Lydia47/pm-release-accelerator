@@ -13,7 +13,8 @@
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. 探索 / 評估                                                │
-│    /product-thinking   ICE × 風險 × 指標 × 假設句型           │
+│    /product-thinking         ICE × 風險 × 指標 × 假設句型     │
+│    /competitor-screenshot    平行截圖 → JPEG → GCS → Outline  │
 └────────────────────────┬────────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -25,6 +26,7 @@
 │    /pull-gdoc-comments   把 Doc 評論整理回 PRD                │
 │    /archive-prd    更新 specs/ + 搬到 archive                │
 │    /gen-product-spec     從 source code 反向產 SSOT spec      │
+│    /outline-patch-safe   cl-outline patch 的 safe wrapper     │
 └────────────────────────┬────────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -37,16 +39,19 @@
 │    /verify             上線前 build check + Playwright       │
 │    /release-pipeline   一鍵串接：test → release-note → translate│
 │    /ga-tracking        GA4 SPA 埋碼（gtag + analytics module）│
+│    /deploy-status      跨 repo PR → merge/CI/release/prod 狀態 │
+│    /announce-slack     已上線 → #announce-product 短公告 draft │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Skills 全覽（16 支）
+## Skills 全覽（20 支）
 
 ### 探索 / 評估
 
 | Skill | 功能 | 輸出 |
 |:------|:-----|:-----|
 | `/product-thinking` | ICE 評分 / 四大風險掃描 / 成功指標 / 假設句型 | 評估報告（→ `/new-prd` 整理進 `evaluation.md`） |
+| `/competitor-screenshot` | 平行 Playwright 截圖 → JPEG 壓縮 → GCS 上傳 → Outline attachment append | 本機 PNG/JPG + GCS URLs + Outline 文件 patched |
 
 ### PRD Lifecycle
 
@@ -59,6 +64,7 @@
 | `/pull-gdoc-comments` | Google Doc 評論 → 結構化摘要 → 回流到 PRD | 修改 `prd.md`、可選 mark resolved |
 | `/archive-prd` | Spec Delta 更新 `specs/` + 搬 PRD 到 archive | `specs/{domain}/spec.md` 更新 + `prds/archive/{date}-{name}/` |
 | `/gen-product-spec` | 平行 subagent 讀 source code → 反向產出 Product Spec | `specs/{domain}/spec.md` + capability files |
+| `/outline-patch-safe` | cl-outline `update_document` 的 pre/post-flight 驗證 wrapper，防 silent fail | per-patch ✅/❌ + revision before/after |
 
 ### 上線發布鏈
 
@@ -72,6 +78,8 @@
 | `/verify` | 上線前 build check + Playwright golden path + 截圖報告 | `prds/{name}/verification-{date}.md` + Drive |
 | `/release-pipeline` | Orchestrator：串 gen-test-cases → test-run → gen-release-notes → translate → sync-gdoc | 全套產物 + summary dashboard |
 | `/ga-tracking` | GA4 SPA 埋碼（gtag.js + 集中式 analytics module + RouteTracker） | `index.html`, `src/lib/analytics.js`, App.jsx |
+| `/deploy-status` | 跨 repo PR → 四階段狀態（merged → CI → release → smoke），含 cantata/Zeffiroso/Polifonia/rubato/Grazioso 對照表 | 結構化 status table（含 ✅/❌/⚠️/❓） |
+| `/announce-slack` | 已上線功能 → #announce-product 短版 Slack draft（en/zh-TW），與 `/gen-release-notes` 互補 | Slack draft preview + 編輯連結 |
 
 ## 目錄結構
 
@@ -107,7 +115,7 @@
 ├── scripts/
 │   └── md_to_gdoc.py       # Markdown → Google Doc 格式轉換
 │
-├── .claude/skills/         # 16 支 SKILL.md
+├── .claude/skills/         # 20 支 SKILL.md
 │
 └── docs/                   # 靜態網站
     └── index.html
