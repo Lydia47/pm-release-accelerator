@@ -1,6 +1,6 @@
 ---
-name: translate
-description: "UI 字串翻譯流程：填 zh-TW → 自動翻譯 EN/TH/JA → cl-locales 寫回 Sheet → 推 Slack review → cl-locales publish 發到 Firebase Storage。Triggers on: translate, 翻譯, locales, 多國語言, ui translation."
+name: translate-locales
+description: "UI 字串翻譯流程（前身 translate）：填 zh-TW → 自動翻譯 EN/TH/JA → cl-locales 寫回 Sheet → 推 Slack review → cl-locales publish 發到 Firebase Storage。Triggers on: translate locales, translate, 翻譯, locales, 多國語言, ui translation."
 ---
 
 # Translation Flow
@@ -217,8 +217,8 @@ PM 填 zh-TW → Phase 1: 讀 Sheet 找需翻譯（gws / cl-locales lookup）
 ## Example Invocation
 
 ```
-/translate maac auto
-/translate caac leadCapture.form.title=收集聯絡資訊 leadCapture.form.submit=送出
-/translate maac auto --prd https://docs.google.com/document/d/xxx/edit
-/translate maac "MAAC main content rows 3090-3100"
+/translate-locales maac auto
+/translate-locales caac leadCapture.form.title=收集聯絡資訊 leadCapture.form.submit=送出
+/translate-locales maac auto --prd https://docs.google.com/document/d/xxx/edit
+/translate-locales maac "MAAC main content rows 3090-3100"
 ```

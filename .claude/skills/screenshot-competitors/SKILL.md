@@ -1,6 +1,6 @@
 ---
-name: competitor-screenshot
-description: "競品研究自動化：URL 列表 → Playwright 截圖 → JPEG 壓縮 → GCS 上傳 → Outline attachment → 在指定文件 patch。Triggers on: competitor screenshot, 競品截圖, screenshot competitors, capture pricing, screenshot pricing, 競品研究."
+name: screenshot-competitors
+description: "競品研究自動化（前身 competitor-screenshot）：URL 列表 → Playwright 截圖 → JPEG 壓縮 → GCS 上傳 → Outline attachment → 在指定文件 patch。Triggers on: screenshot competitors, competitor screenshot, 競品截圖, capture pricing, screenshot pricing, 競品研究."
 ---
 
 # Competitor Screenshot
@@ -162,19 +162,19 @@ gsutil -m cp \
 
 ```bash
 # 單一 target
-/competitor-screenshot --targets '[{"name":"klaviyo","url":"https://www.klaviyo.com/pricing","label":"pricing"}]'
+/screenshot-competitors --targets '[{"name":"klaviyo","url":"https://www.klaviyo.com/pricing","label":"pricing"}]'
 
 # 多 target + 追加到 Outline
-/competitor-screenshot --targets ./competitors.json --outline-doc-id abc123
+/screenshot-competitors --targets ./competitors.json --outline-doc-id abc123
 
 # 自訂 output dir
-/competitor-screenshot --targets '[...]' --output-dir ~/Downloads/research-2026-05-09/
+/screenshot-competitors --targets '[...]' --output-dir ~/Downloads/research-2026-05-09/
 
 # 從 stdin 讀
-cat competitors.json | /competitor-screenshot --outline-doc-id abc123
+cat competitors.json | /screenshot-competitors --outline-doc-id abc123
 
 # 自訂 GCS bucket（仍須是私有 bucket）
-/competitor-screenshot --targets '[...]' --gcs-bucket my-private-research-bucket
+/screenshot-competitors --targets '[...]' --gcs-bucket my-private-research-bucket
 ```
 
 `competitors.json` 範例：

@@ -1,6 +1,6 @@
 ---
-name: product-thinking
-description: "Product thinking 評估框架。引導 PM 一步步評估功能需求：確認情境、ICE 評分、風險掃描、成功指標、假設句型。完成後引導進入 /new-prd。Triggers on: evaluate feature, product thinking, feature evaluation, ICE scoring, 功能評估."
+name: evaluate-feature
+description: "功能評估框架（前身 product-thinking）。引導 PM 一步步評估功能需求：確認情境、ICE 評分、風險掃描、成功指標、假設句型。完成後引導進入 /new-prd。Triggers on: evaluate feature, feature evaluation, ICE scoring, 功能評估, score idea, product thinking."
 ---
 
 # Product Thinking 評估框架

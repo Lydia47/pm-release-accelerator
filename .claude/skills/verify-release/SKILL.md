@@ -1,6 +1,6 @@
 ---
-name: verify
-description: "上線前驗證：給 feature 名稱與 staging URL，做 build check + Playwright golden path 測試 + 截圖證據 + 驗證報告。Triggers on: verify, 驗證, post-implementation, smoke test, golden path, 上線前."
+name: verify-release
+description: "上線前驗證（前身 verify）：給 feature 名稱與 staging URL，做 build check + Playwright golden path 測試 + 截圖證據 + 驗證報告。Triggers on: verify release, verify, 驗證, post-implementation, smoke test, golden path, 上線前, pre-release check, validation."
 ---
 
 # Post-Implementation Verification
@@ -174,14 +174,14 @@ PM 提供：
 
 ```bash
 # 從 local PRD 讀 test cases
-/verify "Custom Field" https://staging.maac.io --prd custom-field-tagging
+/verify-release "Custom Field" https://staging.maac.io --prd custom-field-tagging
 
 # 從 Google Doc PRD 讀
-/verify "Custom Field" https://staging.maac.io --prd 1Fat-GQ4yvnukbsXGK1Md44O1sFm5o8uHrzSpvwyR2nc
+/verify-release "Custom Field" https://staging.maac.io --prd 1Fat-GQ4yvnukbsXGK1Md44O1sFm5o8uHrzSpvwyR2nc
 
 # 手動提供 golden path
-/verify "Lead Capture" https://staging.vivace.io --golden-path "login > form builder > save > preview"
+/verify-release "Lead Capture" https://staging.vivace.io --golden-path "login > form builder > save > preview"
 
 # 帶登入資訊
-/verify "WhatsApp Journey" https://staging.maac.io --auth user@test.com:password --prd journey-whatsapp-node
+/verify-release "WhatsApp Journey" https://staging.maac.io --auth user@test.com:password --prd journey-whatsapp-node
 ```

@@ -1,6 +1,6 @@
 ---
 name: gen-release-notes
-description: "從 PRD 產生 release notes（External + Internal 兩個版本），可選 push 到 Slack channel。Triggers on: gen release notes, release notes, 發布說明, changelog, internal update, slack release."
+description: "從 PRD 產生 release notes（External + Internal 兩個版本），可選 push 到 Slack channel。Triggers on: gen release notes, release notes, 發布說明, changelog, internal update, post release notes to slack."
 ---
 
 # Generate Release Notes
@@ -151,8 +151,8 @@ gws docs documents batchUpdate \
 完成後提醒：
 > 接下來可以：
 > - `/gen-hc-content {name}` 產 Help Center 素材
-> - `/translate {product} auto --prd <gdoc_url>` 翻譯 UI 字串
-> - `/release-pipeline {name}` 跑完整 release pipeline
+> - `/translate-locales {product} auto --prd <gdoc_url>` 翻譯 UI 字串
+> - `/run-release-pipeline {name}` 跑完整 release pipeline
 
 ## Example Invocation
 

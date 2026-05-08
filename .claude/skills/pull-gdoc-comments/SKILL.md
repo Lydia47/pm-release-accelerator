@@ -1,6 +1,6 @@
 ---
 name: pull-gdoc-comments
-description: "從 Google Doc 讀取 comment，整理成結構化摘要，協助 PM 決定如何反映到 PRD。Triggers on: pull comments, gdoc comments, 拉評論, 讀取評論, review comments."
+description: "從 Google Doc 讀取 comment（包含 stakeholder gdoc feedback），整理成結構化摘要，協助 PM 決定如何反映到 PRD。Triggers on: pull comments, gdoc comments, 拉評論, 讀取評論, review comments, stakeholder feedback gdoc, stakeholder gdoc feedback."
 ---
 
 # Pull Google Doc Comments

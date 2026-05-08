@@ -1,6 +1,6 @@
 ---
-name: announce-slack
-description: "已上線功能 → #announce-product 格式 Slack draft（含 product context、feature points、links）。Triggers on: announce slack, slack draft, 公告 draft, announce product, 上線通知 slack, internal update slack."
+name: announce-launch
+description: "已上線功能 → #announce-product 格式 Slack draft（前身 announce-slack；含 product context、feature points、links）。Triggers on: announce launch, announce slack, slack draft, 公告 draft, announce product, 上線通知 slack, internal update slack."
 ---
 
 # Announce Slack Draft
@@ -11,7 +11,7 @@ description: "已上線功能 → #announce-product 格式 Slack draft（含 pro
 
 兩個 skill 場景不同，**不要混用**：
 
-| | `/gen-release-notes` | `/announce-slack`（本 skill） |
+| | `/gen-release-notes` | `/announce-launch`（本 skill） |
 |---|---|---|
 | 時機 | Release **前**（內部 review） | 功能**上線當天** |
 | 長度 | 完整 internal update（多段、含 metadata 表、competitor analysis、FAQ） | 8-10 行短公告 |
@@ -156,14 +156,14 @@ cc @{相關 stakeholders}
 
 ```
 # 從 Outline PRD 自動 fetch context
-/announce-slack --feature "WhatsApp Agent Recognition" --prd https://app.getoutline.com/doc/abc
+/announce-launch --feature "WhatsApp Agent Recognition" --prd https://app.getoutline.com/doc/abc
 
 # 中文版、指定上線日期
-/announce-slack --feature "Lead Capture v2" --shipped-date 2026-05-08 --lang zh-TW
+/announce-launch --feature "Lead Capture v2" --shipped-date 2026-05-08 --lang zh-TW
 
 # 推到非預設 channel
-/announce-slack --feature "Ads to Chat P1.5" --channel "#proj-ads-to-chat"
+/announce-launch --feature "Ads to Chat P1.5" --channel "#proj-ads-to-chat"
 
 # 沒有 PRD，互動式輸入
-/announce-slack --feature "Custom Field Tagging"
+/announce-launch --feature "Custom Field Tagging"
 ```

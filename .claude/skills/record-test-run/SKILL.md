@@ -1,6 +1,6 @@
 ---
-name: test-run
-description: "從 test-cases.md 建立一份新的 test run 執行紀錄供 QA 打勾。可選 --auto 用 Playwright AI 自動執行並填入結果。Triggers on: test run, 開測試, 建立測試, new test run, 開始測試, auto test, playwright run."
+name: record-test-run
+description: "從 test-cases.md 建立一份新的 test run 執行紀錄供 QA 打勾（前身 test-run）。可選 --auto 用 Playwright AI 自動執行並填入結果。Triggers on: record test run, test run, 開測試, 建立測試, new test run, 開始測試, auto test, playwright run."
 ---
 
 # Test Run
@@ -29,9 +29,9 @@ test-cases.md（定義）          test-runs/（執行紀錄）
 ## 輸入
 
 ```
-/test-run <prd-name>                          # 手動模式（產 checklist）
-/test-run <prd-name> --auto <staging-url>     # Playwright 自動執行
-/test-run <prd-name> --auto <staging-url> --auth user@email:pwd
+/record-test-run <prd-name>                          # 手動模式（產 checklist）
+/record-test-run <prd-name> --auto <staging-url>     # Playwright 自動執行
+/record-test-run <prd-name> --auto <staging-url> --auth user@email:pwd
 ```
 
 如果沒有指定 PRD，掃 `prds/` 找有 `test-cases.md` 的 PRD 詢問。
@@ -148,11 +148,11 @@ PM 回報結果或 auto 模式跑完後：
 
 ```bash
 # 手動模式
-/test-run journey-contact-trigger
+/record-test-run journey-contact-trigger
 
 # Playwright auto 模式
-/test-run journey-contact-trigger --auto https://staging.maac.io
+/record-test-run journey-contact-trigger --auto https://staging.maac.io
 
 # 帶登入
-/test-run custom-field-tagging --auto https://staging.maac.io --auth user@test.com:pwd
+/record-test-run custom-field-tagging --auto https://staging.maac.io --auth user@test.com:pwd
 ```

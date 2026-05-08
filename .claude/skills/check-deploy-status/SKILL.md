@@ -1,6 +1,6 @@
 ---
-name: deploy-status
-description: "輸入 PR 號（cantata/Zeffiroso/Polifonia/rubato/Grazioso）→ 回傳 merged → CI → release → production verification 四階段狀態。Triggers on: deploy status, 部署狀態, 為什麼沒上線, why not in production, check deployment, 確認部署, 上線了嗎."
+name: check-deploy-status
+description: "輸入 PR 號（cantata/Zeffiroso/Polifonia/rubato/Grazioso）→ 回傳 merged → CI → release → production verification 四階段狀態（前身 deploy-status）。Triggers on: check deploy status, deploy status, 部署狀態, 為什麼沒上線, why not in production, check deployment, 確認部署, 上線了嗎."
 ---
 
 # Deploy Status
@@ -154,14 +154,14 @@ curl -I -s -o /dev/null -w "%{http_code}\n" https://<prod_url>
 
 ```
 # 單一 PR 狀態查詢
-/deploy-status --pr Zeffiroso#4534
+/check-deploy-status --pr Zeffiroso#4534
 
 # 多 PR 批次
-/deploy-status --pr cantata#3625 Zeffiroso#4534 Polifonia#593
+/check-deploy-status --pr cantata#3625 Zeffiroso#4534 Polifonia#593
 
 # 加 production smoke test
-/deploy-status --pr Zeffiroso#4534 --smoke
+/check-deploy-status --pr Zeffiroso#4534 --smoke
 
 # 自訂 owner（非 chatbotgang）
-/deploy-status --pr Polifonia#593 --owner chatbotgang
+/check-deploy-status --pr Polifonia#593 --owner chatbotgang
 ```

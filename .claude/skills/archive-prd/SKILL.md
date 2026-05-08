@@ -1,6 +1,6 @@
 ---
 name: archive-prd
-description: "歸檔 PRD：讀取 spec-delta 更新 Product Spec，搬 PRD 到 archive，更新 changelog。Triggers on: archive prd, 歸檔, finalize prd."
+description: "歸檔 PRD：讀取 spec-delta 更新 Product Spec，搬 PRD 到 archive，更新 changelog。Use when ready to ship/close a finished PRD. Triggers on: archive prd, 歸檔, ship prd, close prd, prd done."
 ---
 
 # Archive PRD
