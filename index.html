@@ -186,8 +186,8 @@
 
         /* ===== PAIN POINT CARDS ===== */
         .pain-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
-            margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
+            margin-top: 2rem; max-width: 1100px; margin-left: auto; margin-right: auto;
         }
         .pain-card {
             background: #ffffff; border-radius: 20px; padding: 1.6rem 1.8rem;
@@ -277,6 +277,57 @@
         }
         .tree-aside strong { color: var(--accent-cyan); }
 
+        /* ===== ARCHITECTURE STACK ===== */
+        .arch-stack { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; max-width: 1100px; margin: 1.2rem auto 0; }
+        .arch-layer {
+            background: #ffffff; border-radius: 18px; padding: 1rem 1.4rem;
+            border: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-sm);
+            width: 100%; text-align: left;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .arch-layer:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .arch-layer-1 { border-top: 4px solid var(--accent-purple); }
+        .arch-layer-2 { border-top: 4px solid var(--accent-orange); }
+        .arch-layer-3 { border-top: 4px solid var(--accent-cyan); }
+        .arch-layer-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.7rem; }
+        .arch-num {
+            width: 2.2rem; height: 2.2rem; border-radius: 50%;
+            background: linear-gradient(135deg, #1d1d1f, #434344);
+            color: white; font-weight: 800; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .arch-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem; }
+        .arch-badge {
+            font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem;
+            border-radius: 999px; background: rgba(255, 107, 0, 0.1); color: var(--accent-orange);
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .arch-sub { font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.15rem; }
+        .arch-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .arch-chip {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem; font-weight: 600; color: #1d1d1f;
+            padding: 0.35rem 0.8rem; border-radius: 8px;
+            background: #f5f5f7; border: 1px solid rgba(0,0,0,0.05);
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .arch-chip em { font-style: normal; color: var(--accent-orange); font-weight: 700; margin-left: 0.2rem; }
+        .arch-chip:hover { background: var(--accent-orange); color: #fff; transform: translateY(-1px); }
+        .arch-chip:hover em { color: #fff; }
+        .arch-chip-strong { background: #1d1d1f; color: #fff; }
+        .arch-chip-strong:hover { background: var(--accent-orange); }
+        .arch-loop {
+            margin-top: 0.7rem; padding: 0.6rem 0.9rem; border-radius: 10px;
+            background: rgba(127, 90, 240, 0.06); border: 1px dashed rgba(127, 90, 240, 0.3);
+            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;
+        }
+        .arch-arrow { font-size: 1.4rem; color: var(--text-secondary); opacity: 0.5; line-height: 1; }
+        @media (max-width: 768px) {
+            .arch-chips { gap: 0.35rem; }
+            .arch-chip { font-size: 0.78rem; padding: 0.3rem 0.6rem; }
+            .arch-title { font-size: 0.98rem; }
+        }
+
         /* ===== TOOL ROW ===== */
         .tool-row {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
@@ -356,7 +407,7 @@
 </head>
 
 <body>
-    <div class="page-indicator" id="pageIndicator">1 / 7</div>
+    <div class="page-indicator" id="pageIndicator">1 / 8</div>
     <nav class="nav-controls">
         <button id="prevBtn" aria-label="Previous Slide">&#9650;</button>
         <button id="nextBtn" aria-label="Next Slide">&#9660;</button>
@@ -369,15 +420,15 @@
             <div class="content">
                 <div class="highlight-bar">Crescendo Lab &middot; PM Tooling</div>
                 <h1 class="neon-text">PM Release Accelerator</h1>
-                <h2 class="subtitle">AI Skills &times; Google Workspace &times; Slack</h2>
-                <p>自動化 PM 產品開發文件流程<br>從 PRD 撰寫到翻譯發布，一條指令完成所有文件</p>
+                <h2 class="subtitle">Git-as-SSOT &times; AI Skills &times; Release Pipeline</h2>
+                <p>16 個 Claude Code Skills，從探索評估到上線發布<br>PRD 與 Spec 住在 Git，下游發布鏈全自動</p>
                 <div class="cover-tags">
-                    <span class="cover-tag">&#x1F4DD; PRD Generator</span>
-                    <span class="cover-tag">&#x1F9EA; Test Case</span>
-                    <span class="cover-tag">&#x1F4E2; Release Note</span>
-                    <span class="cover-tag">&#x1F310; Translation</span>
-                    <span class="cover-tag">&#x1F517; Pipeline</span>
-                    <span class="cover-tag">&#x2705; Verify</span>
+                    <span class="cover-tag">&#x1F9E0; Discovery</span>
+                    <span class="cover-tag">&#x1F4DD; PRD Lifecycle</span>
+                    <span class="cover-tag">&#x1F680; Release Chain</span>
+                    <span class="cover-tag">&#x1F501; Closed Loop</span>
+                    <span class="cover-tag">&#x1F465; 4-Role Review</span>
+                    <span class="cover-tag">&#x2705; Spec-as-Code</span>
                 </div>
                 <div class="cover-links">
                     <a href="https://github.com/Lydia47/pm-release-accelerator" class="cover-link" target="_blank">&#x1F419; GitHub Repo</a>
@@ -392,27 +443,37 @@
             <div class="chapter-badge">BEFORE</div>
             <div class="content">
                 <h2>Pain Points</h2>
-                <p>每次產品上線前，PM 都要面對這些重複性高、容易出錯的文件工作</p>
+                <p>PM 文件工作的六大重複痛：寫得慢、review 沒紀錄、規格漂移、發布鏈手動接</p>
                 <div class="pain-grid">
                     <div class="pain-card">
                         <span class="pain-num">&#x1F4C4;</span>
-                        <h4>PRD 撰寫耗時</h4>
-                        <p>散亂的 Google Docs、Slack threads、PDF 需手動整理成結構化 PRD，每次花費 2-4 小時</p>
+                        <h4>PRD 寫得慢</h4>
+                        <p>散亂的 Google Docs、Slack threads、PDF 需手動整理成結構化 PRD，每次 2-4 小時</p>
                     </div>
                     <div class="pain-card">
-                        <span class="pain-num">&#x1F310;</span>
-                        <h4>翻譯流程瑣碎</h4>
-                        <p>EN/TH/JA 三語翻譯需手動對照術語表，review request 手動發 Slack 給不同 reviewer</p>
+                        <span class="pain-num">&#x1F4DC;</span>
+                        <h4>沒有 Product Spec SSOT</h4>
+                        <p>系統現況散落在 codebase 與工程師腦袋裡。新 PRD 跟現況衝突，無法自動偵測</p>
+                    </div>
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F465;</span>
+                        <h4>Review 缺結構</h4>
+                        <p>PM/Eng/QA/PD 四角度 review 用 Google Doc 評論散著，找不到 must-fix 和 nice-to-have 的差別</p>
                     </div>
                     <div class="pain-card">
                         <span class="pain-num">&#x1F9EA;</span>
                         <h4>測試追蹤困難</h4>
-                        <p>Feature Spec 中的 test cases 散落各處，無法自動產出腳本或追蹤結果</p>
+                        <p>Test cases 散落 PRD 各處，無法自動產 Playwright 腳本或追每次測試結果</p>
                     </div>
                     <div class="pain-card">
                         <span class="pain-num">&#x1F4E2;</span>
                         <h4>Release Note 重工</h4>
                         <p>每次從 PRD 手動摘要，重新排版 Internal Update，手動貼 Slack</p>
+                    </div>
+                    <div class="pain-card">
+                        <span class="pain-num">&#x1F310;</span>
+                        <h4>翻譯流程瑣碎</h4>
+                        <p>EN/TH/JA 三語翻譯手動對照術語表，review request 手動發 Slack，發布手動跑 CLI</p>
                     </div>
                 </div>
             </div>
@@ -423,44 +484,84 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>6 個 Claude Code Skills，加速產品開發文件產出</p>
+                <p>16 個 Claude Code Skills，分三層覆蓋從探索到上線的完整 PM 工作流</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>/prd</strong> &mdash; User Scenario &rarr; Deep Research（codebase + reqflow + 競品）&rarr; 完整 PRD + Feature Spec + Test Cases，一條龍產出</div>
+                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/product-thinking</code>：ICE 評分 / 四大風險掃描 / 成功指標 / 假設句型，引導 PM 結構化評估功能需求</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>/test-case</strong> &mdash; 解析 test cases &rarr; Playwright 腳本 + AI 瀏覽器測試 + 測試報告 + Asana bug task</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>/release-note</strong> &mdash; PRD &rarr; Internal Update &rarr; 寫回 PRD Doc + 直推 Slack（含 thread 拆分）</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">4</div>
-                        <div class="flow-text"><strong>/translate</strong> &mdash; 用戶填完 zh-TW → AI 自動翻譯 EN/TH/JA 寫回同一份 Sheet → 推 Slack review（附 PRD）→ Reviewer 確認後 <code>locales-publish</code> 自動更新 staging &amp; production</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">5</div>
-                        <div class="flow-text"><strong>/release-pipeline</strong> &mdash; PRD Doc ID &rarr; 一鍵串接 /test-case &rarr; /release-note &rarr; /translate，每步 user confirmation gate，失敗可 retry 或 skip</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-num">6</div>
-                        <div class="flow-text"><strong>/verify</strong> &mdash; Feature Name + Staging URL &rarr; Build check + Playwright golden path 驗證 + 截圖收集 + 結構化 Verification Report</div>
+                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate</code>（cl-locales）&rarr; <code>/verify</code>。<code>/release-pipeline</code> 一鍵串接，<code>/ga-tracking</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 16 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽16-支" style="color: var(--accent-cyan);">README</a>。</p>
             </div>
         </section>
 
         <!-- ===== SLIDE 4: Architecture Diagram ===== -->
         <section class="slide">
             <div class="chapter-badge">ARCHITECTURE</div>
-            <div class="content" style="max-width: 1100px;">
+            <div class="content" style="max-width: 1180px;">
                 <h2>Architecture</h2>
-                <p>從 User Scenario 到產品上線，所有產出寫入同一份 PRD Google Doc</p>
-                <div style="margin-top: 1.5rem; text-align: center;">
-                    <img src="assets/architecture-diagram.png" alt="PM Release Accelerator Architecture" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+                <p>三層架構：探索 &rarr; PRD Lifecycle（Git SSOT）&rarr; Release Chain</p>
+                <div class="arch-stack">
+                    <div class="arch-layer arch-layer-1">
+                        <div class="arch-layer-head">
+                            <span class="arch-num">1</span>
+                            <div>
+                                <div class="arch-title">Discovery</div>
+                                <div class="arch-sub">問題與解法評估</div>
+                            </div>
+                        </div>
+                        <div class="arch-chips">
+                            <span class="arch-chip">/product-thinking</span>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">&darr;</div>
+                    <div class="arch-layer arch-layer-2">
+                        <div class="arch-layer-head">
+                            <span class="arch-num">2</span>
+                            <div>
+                                <div class="arch-title">PRD Lifecycle <span class="arch-badge">Git-as-SSOT</span></div>
+                                <div class="arch-sub">PRD 與 Spec 住在 repo；Google Doc 是 read-only snapshot</div>
+                            </div>
+                        </div>
+                        <div class="arch-chips">
+                            <span class="arch-chip">/new-prd</span>
+                            <span class="arch-chip">/sync-prd</span>
+                            <span class="arch-chip arch-chip-strong">/review-prd</span>
+                            <span class="arch-chip">/sync-gdoc</span>
+                            <span class="arch-chip">/pull-gdoc-comments</span>
+                            <span class="arch-chip">/archive-prd</span>
+                            <span class="arch-chip">/gen-product-spec</span>
+                        </div>
+                        <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack / gdoc 評論透過 sync-prd &amp; pull-gdoc-comments 自動回流</div>
+                    </div>
+                    <div class="arch-arrow">&darr;</div>
+                    <div class="arch-layer arch-layer-3">
+                        <div class="arch-layer-head">
+                            <span class="arch-num">3</span>
+                            <div>
+                                <div class="arch-title">Release Chain</div>
+                                <div class="arch-sub">test &rarr; release notes &rarr; translate &rarr; verify，<code>/release-pipeline</code> 一鍵串接</div>
+                            </div>
+                        </div>
+                        <div class="arch-chips">
+                            <span class="arch-chip">/gen-test-cases</span>
+                            <span class="arch-chip">/test-run <em>--auto</em></span>
+                            <span class="arch-chip">/gen-release-notes</span>
+                            <span class="arch-chip">/gen-hc-content</span>
+                            <span class="arch-chip">/translate</span>
+                            <span class="arch-chip">/verify</span>
+                            <span class="arch-chip">/ga-tracking</span>
+                            <span class="arch-chip arch-chip-strong">/release-pipeline</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -485,12 +586,12 @@
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x1F3A8;</span>
                         <div class="tool-name">Figma MCP</div>
-                        <div class="tool-sub">設計稿截圖比對<br>test-case 用</div>
+                        <div class="tool-sub">設計稿截圖比對<br>test-run / verify 用</div>
                     </div>
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x2705;</span>
                         <div class="tool-name">Asana MCP</div>
-                        <div class="tool-sub">Bug task 建立<br>test-case 用</div>
+                        <div class="tool-sub">Bug task 建立<br>test-run / verify 用</div>
                     </div>
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x1F3AD;</span>
@@ -504,8 +605,8 @@
                     </div>
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x1F680;</span>
-                        <div class="tool-name">locales-publish</div>
-                        <div class="tool-sub">翻譯發布到 Firebase<br>staging &amp; production</div>
+                        <div class="tool-name">cl-locales</div>
+                        <div class="tool-sub">翻譯 CRUD + 發布到 Firebase Storage<br>staging &amp; production</div>
                     </div>
                 </div>
             </div>
@@ -529,28 +630,28 @@
                         <div class="step-circle">2</div>
                         <div class="step-content">
                             <h4>安裝 Skills 到 Claude Code</h4>
-                            <p><code>cd pm-release-accelerator &amp;&amp; cp -r .claude/commands/* ~/.claude/commands/</code></p>
+                            <p><code>cd pm-release-accelerator &amp;&amp; cp -r .claude/skills/* ~/.claude/skills/</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">3</div>
                         <div class="step-content">
-                            <h4>安裝 &amp; 認證 gws CLI</h4>
-                            <p><code>npm install -g @googleworkspace/cli</code><br><code>gws auth setup</code> &rarr; <code>gws auth login -s drive,sheets,docs</code></p>
+                            <h4>安裝 CLI 工具</h4>
+                            <p><strong>gws</strong>（必要）：<code>npm i -g @googleworkspace/cli</code> &rarr; <code>gws auth login -s drive,sheets,docs</code><br><strong>cl-locales</strong>（用 <code>/translate</code> 才需要）：見 <a href="https://github.com/chatbotgang/skills/tree/main/skills/cl-locales" target="_blank" style="color: var(--accent-cyan);">chatbotgang/skills</a> 或安裝 <a href="https://github.com/chatbotgang/cclab" target="_blank" style="color: var(--accent-cyan);">cclab</a> plugin</p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">4</div>
                         <div class="step-content">
                             <h4>開始使用</h4>
-                            <p>在 Claude Code 輸入 <code>/prd interactive</code>，貼入 user scenario 即可一條龍產出完整 PRD</p>
+                            <p>跟 AI 對話探索問題 &rarr; 需要時 <code>/product-thinking</code> 評估 &rarr; <code>/new-prd</code> 建立 PRD draft，後續可 <code>/sync-prd</code>、<code>/review-prd</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">5</div>
                         <div class="step-content">
                             <h4>下游串接</h4>
-                            <p>拿到 PRD Doc ID 後 &rarr; <code>/release-note &lt;DOC_ID&gt;</code> &rarr; <code>/translate &lt;product&gt; auto</code></p>
+                            <p>PRD 定稿後 &rarr; <code>/release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-gdoc</p>
                         </div>
                     </div>
                 </div>
@@ -562,7 +663,7 @@
             <div class="chapter-badge">CASE STUDY</div>
             <div class="content" style="max-width: 1100px;">
                 <h2>實戰案例：WebWidget Lead Capture</h2>
-                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成</p>
+                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成<br><span style="font-size: 0.85rem; color: var(--text-secondary);">（此案例使用早期 v1 命令；現在對應 <code>/new-prd</code> &rarr; <code>/gen-release-notes</code> &rarr; <code>/translate</code>）</span></p>
 
                 <div style="background: #f9f9fb; border-radius: 14px; padding: 1rem 1.5rem; text-align: left; margin-bottom: 1.2rem; border: 1px solid rgba(0,0,0,0.06);">
                     <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-orange); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;">User Scenario Input</div>
@@ -587,7 +688,7 @@
                     <div class="flow-step">
                         <div class="flow-num">3</div>
                         <div class="flow-text">
-                            <strong style="color: var(--accent-orange);">/translate</strong> &mdash; Release Note 自動翻譯成 EN/TH/JA，產出 Google Sheet（同 tab 多語言欄位），可接 <code>locales-publish</code> 發布<br>
+                            <strong style="color: var(--accent-orange);">/translate</strong> &mdash; Release Note 自動翻譯成 EN/TH/JA，產出 Google Sheet（同 tab 多語言欄位），可接 <code>locales-publish</code> 發布<span style="font-size: 0.85rem; color: var(--text-secondary);"> &middot; 現已改用 <code>cl-locales</code></span><br>
                             <a href="https://docs.google.com/spreadsheets/d/1SyVJFAyOrRVQlzvwxjp9ygvsHO7pcgTkKVuNPSwnfwM/edit" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.95rem;">&#x1F4CA; Translation Sheet &rarr;</a>
                         </div>
                     </div>
@@ -631,20 +732,20 @@
                 </div>
                 <div class="next-step-grid">
                     <div class="next-step-card">
-                        <h3>&#x1F504; Agent 自動化</h3>
-                        <p>串接 Scheduled Agents，定期掃 reqflow 主動提議新功能</p>
+                        <h3>&#x1F4DC; Spec 自動補全</h3>
+                        <p>用 <code>/gen-product-spec</code> 對既有 codebase 反向產出 Product Spec，補齊 SSOT baseline</p>
                     </div>
                     <div class="next-step-card">
-                        <h3>&#x1F4CA; Adoption Dashboard</h3>
-                        <p>自動追蹤 feature 上線後的使用數據</p>
+                        <h3>&#x1F501; Closed Loop 普及</h3>
+                        <p>把所有 Slack 討論、會議紀錄都用 <code>/sync-prd</code> 回流到 PRD，Google Doc 評論用 <code>/pull-gdoc-comments</code> 整理</p>
                     </div>
                     <div class="next-step-card">
-                        <h3>&#x2705; /verify 上線驗證</h3>
-                        <p>Build check + Playwright golden path + 截圖報告，結構化驗證已上線功能</p>
+                        <h3>&#x1F465; 4-Role Review 制度化</h3>
+                        <p>每份 PRD 進開發前都跑 <code>/review-prd</code>，PM/Eng/QA/PD 平行 subagent 審查，產出 review.md</p>
                     </div>
                     <div class="next-step-card">
-                        <h3>&#x1F4DD; PRD 回寫</h3>
-                        <p>直接更新 Google Doc 的 rich formatting（不只純文字）</p>
+                        <h3>&#x1F504; Scheduled Agents</h3>
+                        <p>串接 Scheduled Agents，定期掃 reqflow + 主動建議新 PRD，Adoption Dashboard 追蹤上線後成效</p>
                     </div>
                 </div>
                 <div style="margin-top: 2.5rem; opacity: 0.46; font-size: 0.95rem; color: var(--text-secondary);">
