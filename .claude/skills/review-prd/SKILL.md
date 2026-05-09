@@ -100,7 +100,7 @@ Respond in Traditional Chinese.
 
 ### Step 3: Synthesize & Write review.md
 
-After all 4 subagents return, synthesize their results AND write the full review to `prds/{name}/review.md` so PM can read it at their own pace and/or sync it to Google Doc.
+After all 4 subagents return, synthesize their results AND write the full review to `prds/{name}/review.md` so PM can read it at their own pace and/or sync it to Outline (primary) or Google Doc (cross-org alternative).
 
 **Synthesis rules:**
 - If multiple roles flag the same issue, merge into one entry and note the consensus
@@ -186,7 +186,7 @@ After writing `review.md`, present a **short** summary to PM in the chat — do 
 
 {一行 highlight：最關鍵的 2-3 個議題點到即可}
 
-請檢視 review.md 後告訴我要 apply 哪些（可分批回覆）。需要的話也可以 `/sync-gdoc` 同步到 Google Doc 討論。
+請檢視 review.md 後告訴我要 apply 哪些（可分批回覆）。需要的話也可以 `/sync-outline` 同步到 Outline 給內部討論，或 `/sync-gdoc` 給跨 org stakeholder。
 ```
 
 Then wait for PM. **Do NOT modify the PRD until PM explicitly approves changes.** Apply only PM-approved changes.

@@ -6,6 +6,14 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 author: "{作者}"
 reviewers: []
+# Outline (primary, 內部 SSOT) — 由 /sync-outline 寫入
+# outline_doc_id: ""
+# outline_url: ""
+# outline_synced_at: ""
+# Google Doc (alternative, 對外分享) — 由 /sync-gdoc 寫入
+# gdoc_id: ""
+# gdoc_url: ""
+# gdoc_synced_at: ""
 ---
 
 # {PRD 標題}

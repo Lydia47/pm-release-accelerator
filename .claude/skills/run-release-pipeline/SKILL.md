@@ -153,19 +153,25 @@ PM 提供：
    - Slack Review: TH → #channel | JA → #channel
    - Production publish: 待 reviewer 確認後手動觸發
 
-   繼續到 gdoc 同步？
+   繼續到 doc 同步？
    ```
 
-### Phase 6：Sync to Google Doc（可選）
+### Phase 6：Sync to Outline / Google Doc（可選）
 
-**只有當 PRD 是 local + frontmatter 有 `gdoc_id` 或 PM 要求時才跑。**
+**只有 PRD 是 local + frontmatter 有 `outline_doc_id` 或 `gdoc_id`，或 PM 要求時才跑。**
 
-1. 確認：「準備把 prds/[name]/ 所有 .md 同步到 Google Doc。」
-2. **委派給 `sync-gdoc` skill**：
+預設路徑：
+
+- **Primary：** 若 frontmatter 有 `outline_doc_id` 或 PM 想內部分享 → 委派 `sync-outline`（Outline 為內部 SSOT primary）
+- **Alternative：** 若 frontmatter 有 `gdoc_id` 或 PM 要對外分享給沒 Outline 帳號的 stakeholder → 委派 `sync-gdoc`
+- 兩者皆需要：先 sync-outline（內部）再 sync-gdoc（對外），分別記在 frontmatter
+
+1. 確認：「準備把 prds/[name]/ 所有 .md 同步到 [Outline / Google Doc / 兩者]。」
+2. **委派給 `sync-outline` 或 `sync-gdoc` skill**：
    - 動態掃描資料夾找出存在的 .md
-   - 每個檔案對應一個分頁
-   - 已有 gdoc → 更新；沒有 → 新建並把 ID 寫回 frontmatter
-3. 結果：「Google Doc 已同步：[URL]，N 個分頁」
+   - 每個檔案對應一個 child doc（Outline）或分頁（GDoc）
+   - 已有 doc → 更新；沒有 → 新建並把 ID 寫回 frontmatter
+3. 結果：「Outline / Google Doc 已同步：[URL]，N 個 child / 分頁」
 
 ### Phase 7：Pipeline Summary
 

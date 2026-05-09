@@ -1,9 +1,9 @@
 # PM Release Accelerator
 
 ## Overview
-23 個 Claude Code Skills，分三層：
+25 個 Claude Code Skills，分三層：
 - **探索層**：`/evaluate-feature`, `/screenshot-competitors`
-- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`, `/check-prd-status`, `/sync-spec-to-prd`
+- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-outline`, `/pull-outline-comments`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`, `/check-prd-status`, `/sync-spec-to-prd`
 - **發布鏈**：`/gen-test-cases`, `/record-test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate-locales`, `/verify-release`, `/run-release-pipeline`, `/embed-ga4`, `/check-deploy-status`, `/announce-launch`, `/run-launch-retro`
 
 採用 **pm-hub 架構**（PRD/Spec 住在 `prds/`、`specs/`），加上 release-side 自動化。
@@ -51,22 +51,24 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 | Figma MCP | — | `/record-test-run`（PD 比對）, `/verify-release` |
 | Asana MCP | — | `/record-test-run`, `/verify-release` |
 | GitHub MCP / CLI | `gh` | `/gen-product-spec`, `/verify-release`, `/check-deploy-status` |
-| cl-outline plugin | `mcp__plugin_cl-outline_outline__*` | `/patch-outline-safely`, `/announce-launch`, `/screenshot-competitors` |
+| cl-outline plugin | `mcp__plugin_cl-outline_outline__*` | **`/sync-outline`**, **`/pull-outline-comments`**, `/patch-outline-safely`, `/announce-launch`, `/screenshot-competitors` |
 | GCS (gcloud/gsutil) | — | `/screenshot-competitors` |
 | Firebase CLI | `firebase` | `/check-deploy-status`（Firebase Hosting release 查詢） |
 | cl-locales | `cl-locales`（plugin）or `~/.claude/skills/cl-locales/scripts/locales-cli`（手動） | `/translate-locales` |
 
 ## Spec / PRD 連動機制
 
-- **PRD 寫在 `prds/{name}/prd.md`** — frontmatter 含 `status` (draft/in-review/approved/archived)、`domain`、`gdoc_id`（如同步過）
+- **PRD 寫在 `prds/{name}/prd.md`** — frontmatter 含 `status` (draft/in-review/approved/archived)、`domain`、`outline_doc_id`（內部 SSOT primary）、`gdoc_id`（對外 alternative）
 - **Spec Delta** — PRD 中的 `## Spec Delta` 區塊標 Added/Modified/Removed
 - **歸檔時 `/archive-prd`** — 讀 Spec Delta 更新 `specs/{domain}/spec.md`，搬 PRD 到 `prds/archive/{date}-{name}/`
 - **Test cases 與 PRD 同步** — PRD 改了就重跑 `/gen-test-cases` 覆蓋 `test-cases.md`；test runs 不會被覆蓋
-- **Google Doc snapshot** — `/sync-gdoc` 每個 .md 對應一個 tab；source of truth 是 repo
+- **Outline snapshot（primary）** — `/sync-outline` 每個 .md 對應一個 nested child doc；內部 SSOT 預設路徑
+- **Google Doc snapshot（cross-org alternative）** — `/sync-gdoc` 每個 .md 對應一個 tab；給沒 Outline 帳號的外部 stakeholder
+- **Source of truth 永遠是 repo** — Outline / GDoc 都是 read-only snapshot
 
 ## 部署
 
-- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 20 skill 三層架構）
+- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 25 skill 三層架構）
 - 修改後 push 到 main 即自動部署到 https://lydia47.github.io/pm-release-accelerator/
 
 ## 與 pm-hub 的關係

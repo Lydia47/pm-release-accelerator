@@ -123,9 +123,13 @@ Internal Update 結構：
 4. **回報** channel link 給 PM
 5. 本地備份：`~/Downloads/[FeatureName]_Release_Note.md`
 
-### Step 6：（可選）同步到 Google Doc
+### Step 6：（可選）同步到 Outline / Google Doc
 
-若 PRD frontmatter 有 `gdoc_id`，問 PM：「要 `/sync-gdoc` 把 release-notes.md 推到 Google Doc 嗎？」
+依 PRD frontmatter 的同步路徑，問 PM：
+
+- 若有 `outline_doc_id`（**primary**）：「要 `/sync-outline` 把 release-notes.md 推到 Outline 嗎？」
+- 若有 `gdoc_id`（對外分享 alternative）：「要 `/sync-gdoc` 把 release-notes.md 推到 Google Doc 嗎？」
+- 兩者皆有：兩個都跑（內部 SSOT + 對外 share）
 
 或若有舊式 PRD Google Doc 的 `{{INTERNAL_UPDATE_CONTENT}}` placeholder，可直接 `replaceAllText`：
 ```bash
@@ -151,7 +155,7 @@ gws docs documents batchUpdate \
 完成後提醒：
 > 接下來可以：
 > - `/gen-hc-content {name}` 產 Help Center 素材
-> - `/translate-locales {product} auto --prd <gdoc_url>` 翻譯 UI 字串
+> - `/translate-locales {product} auto --prd <outline_url or gdoc_url>` 翻譯 UI 字串
 > - `/run-release-pipeline {name}` 跑完整 release pipeline
 
 ## Example Invocation
