@@ -1,9 +1,9 @@
 # PM Release Accelerator
 
 ## Overview
-20 個 Claude Code Skills，分三層：
+21 個 Claude Code Skills，分三層：
 - **探索層**：`/evaluate-feature`, `/screenshot-competitors`
-- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`
+- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`, `/check-prd-status`
 - **發布鏈**：`/gen-test-cases`, `/record-test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate-locales`, `/verify-release`, `/run-release-pipeline`, `/embed-ga4`, `/check-deploy-status`, `/announce-launch`
 
 採用 **pm-hub 架構**（PRD/Spec 住在 `prds/`、`specs/`），加上 release-side 自動化。
