@@ -42,10 +42,11 @@
 │    /embed-ga4        GA4 SPA 埋碼（gtag + analytics module）│
 │    /check-deploy-status      跨 repo PR → merge/CI/release/prod 狀態 │
 │    /announce-launch     已上線 → #announce-product 短公告 draft │
+│    /run-launch-retro    上線後 N 天 GA + reqflow + Slack + Asana 回流 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Skills 全覽（21 支）
+## Skills 全覽（22 支）
 
 ### 探索 / 評估
 
@@ -82,6 +83,7 @@
 | `/embed-ga4` | GA4 SPA 埋碼（gtag.js + 集中式 analytics module + RouteTracker） | `index.html`, `src/lib/analytics.js`, App.jsx |
 | `/check-deploy-status` | 跨 repo PR → 四階段狀態（merged → CI → release → smoke），含 cantata/Zeffiroso/Polifonia/rubato/Grazioso 對照表 | 結構化 status table（含 ✅/❌/⚠️/❓） |
 | `/announce-launch` | 已上線功能 → #announce-product 短版 Slack draft（en/zh-TW），與 `/gen-release-notes` 互補 | Slack draft preview + 編輯連結 |
+| `/run-launch-retro` | 上線後 N 天（預設 14）拉 GA4 metrics（BigQuery）+ reqflow reflux + Slack 反應 + Asana follow-up，產 learnings | `prds/{name}/retrospective-{date}.md` + 可選 Slack draft |
 
 ## 目錄結構
 

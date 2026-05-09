@@ -2,3 +2,6 @@
 node_modules/
 *.log
 .claude/worktrees/
+
+# run-launch-retro per-PRD config (BigQuery dataset, Asana gid, etc.)
+prds/*/.retro-config.yaml
