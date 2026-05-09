@@ -182,7 +182,22 @@ PM 提供：
    ```bash
    ~/.cargo/bin/gws drive files create --params '{"name":"[FeatureName]_Verification_Report","mimeType":"application/vnd.google-apps.document","parents":["1abeez_q7YDfH0uYYbz4kGznStD8QySaQ"]}' --upload ~/Downloads/[FeatureName]_Verification_Report.md
    ```
-4. **若有 issue**，問 PM 是否建 Asana task（用 Asana MCP）
+4. **若有 issue，propose Asana task preview**（不直接建立）：
+
+   - 對每個 P0/P1 failed item，先用 `mcp__claude_ai_Asana__create_task_preview` 產生 task draft（含 title / description / project / assignee 候選）
+   - 把所有 draft 列成 markdown table 給 PM：
+
+     ```
+     ## Proposed Asana Tasks
+
+     | Severity | Title | Project | Assignee | Action |
+     |---|---|---|---|---|
+     | P0 | [Bug] TC-007 Modal 沒打開 | MAAC Bugs | @Eng-XXX | [ ] confirm / [ ] skip |
+     | P1 | [Bug] TC-012 Validation 缺 | MAAC Bugs | @Eng-YYY | [ ] confirm / [ ] skip |
+     ```
+
+   - **等 PM 對每個 item 標 confirm / skip 才實際建立**（用 `create_task_confirm`）
+   - 若 PM 全 skip，不建任何 task；不要因為「跑都跑了，建一下沒差」自動建
 
 ## Example Invocation
 
