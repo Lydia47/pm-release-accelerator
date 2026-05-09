@@ -1,6 +1,6 @@
 ---
 name: sync-gdoc
-description: "將 PRD 資料夾同步到 Google Doc（建立或更新）。動態偵測存在的 .md 檔案，每個檔案對應一個分頁。Triggers on: sync gdoc, google doc, 同步文件, 產生 gdoc, push gdoc."
+description: "將 PRD 資料夾推送（snapshot）到 Google Doc，每個 .md 檔對應一個分頁。Markdown 是 source of truth；如果 markdown 是從 meeting / Slack 結論進來的，先跑 sync-prd 再 sync-gdoc。Triggers on: sync gdoc, google doc, 同步文件, 產生 gdoc, push gdoc, push to google doc."
 ---
 
 # Sync PRD to Google Doc
@@ -35,14 +35,18 @@ PM 可以指定 PRD：`/sync-gdoc journey-datetime-scheduled-trigger`
 
 ## Workflow
 
-### Step 1：確認狀態
+### Step 1：確認狀態 + 新鮮度檢查
 
-1. 讀取 `prds/{name}/prd.md` 的 frontmatter，檢查是否已有 `gdoc_id`
+1. 讀取 `prds/{name}/prd.md` 的 frontmatter，檢查是否已有 `gdoc_id`、`gdoc_synced_at`
 2. 掃描 PRD 資料夾中存在的 .md 檔案
-3. 告知 PM：
+3. **新鮮度檢查**：對每個 .md 檔比對 mtime vs `gdoc_synced_at`
+   - 若任一 .md 比 GDoc 新且**沒有**先跑 `/sync-prd`，提醒 PM：
+     > 「偵測到 prd.md / sync-prd 寫入後 GDoc 還沒更新。是否先確認 `/sync-prd` 已收齊所有 meeting / Slack 結論？或可直接 push 既有 markdown 到 GDoc。」
+   - PM 確認後才繼續
+4. 告知 PM：
    - 如果有 `gdoc_id`：「將更新現有 Google Doc: {gdoc_url}，共 N 個分頁」
    - 如果沒有 `gdoc_id`：「將建立新的 Google Doc，共 N 個分頁」
-4. 等 PM 確認後再執行
+5. 等 PM 確認後再執行
 
 ### Step 2：建立或準備 Google Doc
 
@@ -70,7 +74,9 @@ PM 可以指定 PRD：`/sync-gdoc journey-datetime-scheduled-trigger`
 
 ### Step 4：更新 frontmatter
 
-將 `gdoc_id` 和 `gdoc_url` 寫入 `prd.md` 的 frontmatter（如果是新建）。
+寫入 `prd.md` 的 frontmatter：
+- `gdoc_id`、`gdoc_url`（若是新建）
+- `gdoc_synced_at: {ISO 8601 timestamp}`（每次都更新，給 Step 1 新鮮度檢查用）
 
 ### Step 5：回報結果
 

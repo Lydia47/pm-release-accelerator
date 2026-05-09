@@ -26,6 +26,20 @@ test-cases.md（定義）          test-runs/（執行紀錄）
   不打勾                         打勾
 ```
 
+## When to use this vs `/verify-release`
+
+兩者都會用 Playwright，但目的不同：
+
+| 場景 | 用 `/record-test-run` | 用 `/verify-release` |
+|---|---|---|
+| 階段 | 開發中 / staging QA 迭代 | Ship gate（上線前最後一道） |
+| 範圍 | 全套 P0/P1/P2 test cases | golden path 只走核心 happy path |
+| 產出 | `prds/{name}/test-runs/{date}.md`（給 QA 打勾或 auto fill） | `prds/{name}/verification-{date}.md`（含截圖 + verdict） |
+| 失敗時 | 繼續跑剩下的，最後標 fail count；可直接建 Asana bug | 卡住 ship、要 PM decide hold or ship-with-known-issues |
+| 觸發 | `/run-release-pipeline` Phase 3 自動帶；或手動 | `/run-release-pipeline` 完成後另外觸發 |
+
+簡單記憶：**record-test-run = 開發過程的 QA checklist；verify-release = ship 前的 final gate**。同 PRD 通常先 record-test-run（多次），最後上線前跑一次 verify-release。
+
 ## 輸入
 
 ```

@@ -31,7 +31,26 @@ description: "歸檔 PRD：讀取 spec-delta 更新 Product Spec，搬 PRD 到 a
 ### Step 2：更新 Product Spec
 
 1. 讀取 `prds/{name}/prd.md` 中的 **Spec Delta** 區塊（Added / Modified / Removed）
-2. 讀取 `specs/{domain}/spec.md`（如不存在則從 `templates/spec-template.md` 建立）
+2. **檢查 `specs/{domain}/spec.md` 是否存在：**
+
+   #### Case A：spec 已存在 → 繼續
+
+   照原流程套 Spec Delta。
+
+   #### Case B：spec 不存在 → STOP，明確問 PM
+
+   不要無聲從 template 建空殼 — domain 第一次出現通常代表這是新 module，需要先把現有行為 reverse-engineer 成 spec，再套這次 PRD 的 delta。
+
+   呈現給 PM：
+
+   > ⚠️ `specs/{domain}/spec.md` 不存在。三個選項：
+   >
+   > 1. **（推薦）先跑 `/gen-product-spec {domain}` 反向產出 spec baseline**，再回來繼續歸檔
+   > 2. 從 `templates/spec-template.md` 建立空 spec（你之後手動填）
+   > 3. Abort 歸檔（這份 PRD 維持 active 狀態）
+
+   等 PM 選擇後再繼續。**不要替 PM 選**。
+
 3. 根據 Spec Delta 更新 Product Spec：
    - **Added** → 新增 Requirements 和 Scenarios
    - **Modified** → 修改對應的 Requirements 和 Scenarios

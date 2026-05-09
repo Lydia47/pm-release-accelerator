@@ -82,6 +82,10 @@ PM 提供：
 
 ### Phase 3：Test Run
 
+> **Note：** 這個 phase 跑的是 `record-test-run`（開發階段全套 P0/P1/P2 testing）。
+> Ship 前最後驗證請另外觸發 `/verify-release`（golden path smoke test），不在 pipeline 內。
+> 詳見兩個 SKILL.md 的「When to use this vs the other」段落。
+
 **Skip：** 若 `record-test-run` 在 `--skip`，標 SKIPPED 進 Phase 4
 
 1. 確認：「準備建立 test run 執行紀錄。」

@@ -17,6 +17,20 @@ description: "上線前驗證（前身 verify）：給 feature 名稱與 staging
 - 「實際結果完全等於預期」才能標 PASS
 - Flaky 結果先重試一次再標 FAIL
 
+## When to use this vs `/record-test-run`
+
+兩者都會用 Playwright，但目的不同：
+
+| 場景 | 用 `/verify-release` | 用 `/record-test-run` |
+|---|---|---|
+| 階段 | Ship gate（上線前最後一道） | 開發中 / staging QA 迭代 |
+| 範圍 | golden path 只走核心 happy path | 全套 P0/P1/P2 test cases |
+| 產出 | `prds/{name}/verification-{date}.md`（含截圖 + verdict） | `prds/{name}/test-runs/{date}.md`（給 QA 打勾或 auto fill） |
+| 失敗時 | 卡住 ship、要 PM decide hold or ship-with-known-issues | 繼續跑剩下的，最後標 fail count；可直接建 Asana bug |
+| 觸發 | `/run-release-pipeline` 完成後另外觸發 | `/run-release-pipeline` Phase 3 自動帶；或手動 |
+
+簡單記憶：**verify-release = ship 前的 final gate；record-test-run = 開發過程的 QA checklist**。同 PRD 通常先 record-test-run（多次），最後上線前跑一次 verify-release。
+
 ## 輸入
 
 PM 提供：
