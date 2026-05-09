@@ -22,8 +22,10 @@
 │    /new-prd        建立 prds/{name}/ + evaluation.md         │
 │    /sync-prd       會議結論 / Slack 討論回流到 PRD            │
 │    /review-prd     PM/Eng/QA/PD 四角色平行 review            │
-│    /sync-gdoc      推到 Google Doc 給 stakeholder            │
-│    /pull-gdoc-comments   把 Doc 評論整理回 PRD                │
+│    /sync-outline   推到 Outline（內部 SSOT primary）           │
+│    /pull-outline-comments  Outline 評論回流到 PRD             │
+│    /sync-gdoc      推到 Google Doc（對外分享 alternative）     │
+│    /pull-gdoc-comments   GDoc 評論回流（外部 stakeholder）     │
 │    /archive-prd    更新 specs/ + 搬到 archive                │
 │    /gen-product-spec     從 source code 反向產 SSOT spec      │
 │    /patch-outline-safely   cl-outline patch 的 safe wrapper     │
@@ -47,7 +49,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Skills 全覽（23 支）
+## Skills 全覽（25 支）
 
 ### 探索 / 評估
 
@@ -63,8 +65,10 @@
 | `/new-prd` | 整理對話結論 + 讀現有 spec → 建 PRD draft | `prds/{name}/prd.md` + `evaluation.md` |
 | `/sync-prd` | 把會議 / Slack 決策同步進 PRD（含人工確認 gate） | 修改 `prds/{name}/prd.md` |
 | `/review-prd` | PM/Eng/QA/PD **四 subagent 平行** review，含跨 PRD 衝突偵測 | `prds/{name}/review.md` |
-| `/sync-gdoc` | PRD 資料夾 → Google Doc，每個 .md 一個分頁 | Google Doc URL（寫回 `gdoc_id` frontmatter） |
-| `/pull-gdoc-comments` | Google Doc 評論 → 結構化摘要 → 回流到 PRD | 修改 `prd.md`、可選 mark resolved |
+| `/sync-outline` | **（primary）** PRD 資料夾 → Outline，parent doc + 每個 .md 一個 nested child；走 patch-outline-safely | Outline URL + 寫回 `outline_doc_id` frontmatter |
+| `/pull-outline-comments` | **（primary）** Outline doc + children 評論 → 結構化摘要 → 回流到 PRD | 修改 `prd.md`、可選 mark resolved |
+| `/sync-gdoc` | （alternative）PRD 資料夾 → Google Doc，每個 .md 一個分頁 — 用於對外分享、跨 org stakeholder | Google Doc URL（寫回 `gdoc_id` frontmatter） |
+| `/pull-gdoc-comments` | （alternative）Google Doc 評論 → PRD — 用於外部 stakeholder 在 GDoc 留的回饋 | 修改 `prd.md`、可選 mark resolved |
 | `/archive-prd` | Spec Delta 更新 `specs/` + 搬 PRD 到 archive | `specs/{domain}/spec.md` 更新 + `prds/archive/{date}-{name}/` |
 | `/gen-product-spec` | 平行 subagent 讀 source code → 反向產出 Product Spec | `specs/{domain}/spec.md` + capability files |
 | `/patch-outline-safely` | cl-outline `update_document` 的 pre/post-flight 驗證 wrapper，防 silent fail | per-patch ✅/❌ + revision before/after |
@@ -138,7 +142,7 @@
 | **review.md** | `/review-prd` 四角色 subagent debate 結果 |
 | **Test Cases** | 從 PRD 產生的測試案例定義，PRD 改了就重新產生（會被覆蓋） |
 | **Test Run** | 每次測試的執行紀錄，從 test cases 複製，QA 打勾用（不會被覆蓋） |
-| **Closed Loop** | Slack/會議/Google Doc 的外部討論透過 `/sync-prd` 與 `/pull-gdoc-comments` 回流 |
+| **Closed Loop** | Slack/會議/Outline/Google Doc 的外部討論透過 `/sync-prd`、`/pull-outline-comments`（內部）、`/pull-gdoc-comments`（外部）回流 |
 
 ## 生命週期
 
@@ -149,7 +153,7 @@ draft → in-review → approved → archived
 | 階段 | 動作 | Git 操作 |
 |:-----|:-----|:---------|
 | **draft** | PM + AI refine PRD | branch + commit `prds/{name}/` |
-| **in-review** | team review | 開 PR、用 `/sync-gdoc` 推 Google Doc |
+| **in-review** | team review | 開 PR、用 `/sync-outline` 推 Outline 給內部；對外用 `/sync-gdoc` |
 | **approved** | PRD 定稿 | merge PR |
 | **archived** | spec-delta 更新 spec + PRD 搬到 archive | `/archive-prd` |
 
@@ -173,7 +177,8 @@ draft → in-review → approved → archived
 /run-release-pipeline ─┬─→ /gen-test-cases ─→ /record-test-run（--auto Playwright）
                    ├─→ /gen-release-notes ─→ Slack
                    ├─→ /translate-locales ──────→ Sheet → review → publish
-                   └─→ /sync-gdoc ──────→ Google Doc
+                   ├─→ /sync-outline ───→ Outline（內部 primary）
+                   └─→ /sync-gdoc ──────→ Google Doc（對外 alternative）
    │
    │ 上線前
    ▼
@@ -241,7 +246,8 @@ cp -r /tmp/cl-skills/skills/cl-locales ~/.claude/skills/cl-locales
 
 | 工具 | 用途 | 使用的 Skills |
 |:-----|:-----|:-------------|
-| **gws CLI** | Google Drive/Sheets/Docs 讀寫 | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate-locales`, `/verify-release` |
+| **gws CLI** | Google Drive/Sheets/Docs 讀寫 | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate-locales`, `/verify-release`, `/run-launch-retro` |
+| **cl-outline plugin** | Outline doc / comment / attachment 讀寫 | `/sync-outline`, `/pull-outline-comments`, `/patch-outline-safely`, `/announce-launch`, `/screenshot-competitors` |
 | **Slack MCP** | 讀 thread / 發訊息 / review request | `/sync-prd`, `/gen-release-notes`, `/translate-locales` |
 | **Figma MCP** | 設計稿截圖比對 | `/record-test-run`, `/verify-release` |
 | **Asana MCP** | Bug task 建立 | `/record-test-run`, `/verify-release` |

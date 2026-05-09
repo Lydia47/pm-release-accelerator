@@ -1,11 +1,13 @@
 ---
 name: pull-gdoc-comments
-description: "從 Google Doc 讀取 comment（包含 stakeholder gdoc feedback），整理成結構化摘要，協助 PM 決定如何反映到 PRD。Triggers on: pull comments, gdoc comments, 拉評論, 讀取評論, review comments, stakeholder feedback gdoc, stakeholder gdoc feedback."
+description: "從 Google Doc 讀取 comment，整理成結構化摘要，協助 PM 決定如何反映到 PRD。**內部 stakeholder 評論用 /pull-outline-comments**；本 skill 適合外部 / 跨 org stakeholder 在 GDoc 上的評論回流。Triggers on: pull gdoc comments, 拉 gdoc 評論, gdoc comments, external stakeholder feedback gdoc."
 ---
 
 # Pull Google Doc Comments
 
 從 Google Doc 讀取 stakeholder 留下的 comment，整理成結構化摘要，協助 PM 處理回饋。
+
+> **預設用 `/pull-outline-comments`（primary，內部 stakeholder）**。本 skill 是 alternative path：用於外部 / 跨 org stakeholder 在 Google Doc 留下的評論回流。
 
 ## 規則
 

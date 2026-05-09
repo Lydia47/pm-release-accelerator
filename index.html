@@ -421,7 +421,7 @@
                 <div class="highlight-bar">Crescendo Lab &middot; PM Tooling</div>
                 <h1 class="neon-text">PM Release Accelerator</h1>
                 <h2 class="subtitle">Git-as-SSOT &times; AI Skills &times; Release Pipeline</h2>
-                <p>23 個 Claude Code Skills，從探索評估到上線發布<br>PRD 與 Spec 住在 Git，下游發布鏈全自動</p>
+                <p>25 個 Claude Code Skills，從探索評估到上線發布<br>PRD 與 Spec 住在 Git，Outline 為內部 SSOT 對外 snapshot</p>
                 <div class="cover-tags">
                     <span class="cover-tag">&#x1F9E0; Discovery</span>
                     <span class="cover-tag">&#x1F4DD; PRD Lifecycle</span>
@@ -484,7 +484,7 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>23 個 Claude Code Skills，分三層覆蓋從探索到上線、含 lifecycle 觀察與反向同步的完整 PM 工作流</p>
+                <p>25 個 Claude Code Skills，分三層覆蓋從探索到上線、含 lifecycle 觀察、Outline / GDoc 雙路徑同步、反向同步的完整 PM 工作流</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
@@ -492,14 +492,14 @@
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>（含 <code>--dry-run</code>）, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/patch-outline-safely</code>（cl-outline patch 的 pre/post-flight 驗證 wrapper）, <code>/check-prd-status</code>（lifecycle dashboard）, <code>/sync-spec-to-prd</code>（reverse sync）。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-outline</code>（**primary**）, <code>/pull-outline-comments</code>, <code>/sync-gdoc</code>（含 <code>--dry-run</code>，對外 alternative）, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/patch-outline-safely</code>, <code>/check-prd-status</code>（lifecycle dashboard）, <code>/sync-spec-to-prd</code>（reverse sync）。PRD 與 Spec 住在 Git，Outline 為內部 read-only snapshot，GDoc 用於對外分享</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
                         <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/record-test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate-locales</code>（cl-locales）&rarr; <code>/verify-release</code>（Asana propose-only）&rarr; <code>/check-deploy-status</code>（跨 repo PR 部署狀態）&rarr; <code>/announce-launch</code>（短公告 draft）&rarr; <code>/run-launch-retro</code>（上線後 N 天 GA + reqflow + Slack + Asana 回流）。<code>/run-release-pipeline</code> 串接，<code>/embed-ga4</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
-                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 23 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽23-支" style="color: var(--accent-cyan);">README</a>。</p>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 25 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽25-支" style="color: var(--accent-cyan);">README</a>。</p>
             </div>
         </section>
 
@@ -536,6 +536,8 @@
                             <span class="arch-chip">/new-prd</span>
                             <span class="arch-chip">/sync-prd</span>
                             <span class="arch-chip arch-chip-strong">/review-prd</span>
+                            <span class="arch-chip arch-chip-strong">/sync-outline</span>
+                            <span class="arch-chip">/pull-outline-comments</span>
                             <span class="arch-chip">/sync-gdoc</span>
                             <span class="arch-chip">/pull-gdoc-comments</span>
                             <span class="arch-chip">/archive-prd</span>
@@ -544,7 +546,7 @@
                             <span class="arch-chip">/check-prd-status</span>
                             <span class="arch-chip">/sync-spec-to-prd</span>
                         </div>
-                        <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack / gdoc 評論透過 sync-prd &amp; pull-gdoc-comments 自動回流；spec 改動透過 sync-spec-to-prd 反向回填</div>
+                        <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack 透過 sync-prd 回流；Outline 評論（內部）透過 pull-outline-comments、GDoc 評論（外部）透過 pull-gdoc-comments；spec 改動透過 sync-spec-to-prd 反向回填</div>
                     </div>
                     <div class="arch-arrow">&darr;</div>
                     <div class="arch-layer arch-layer-3">
@@ -658,7 +660,7 @@
                         <div class="step-circle">5</div>
                         <div class="step-content">
                             <h4>下游串接</h4>
-                            <p>PRD 定稿後 &rarr; <code>/run-release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-gdoc</p>
+                            <p>PRD 定稿後 &rarr; <code>/run-release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-outline（內部）/ sync-gdoc（對外）</p>
                         </div>
                     </div>
                 </div>
@@ -670,7 +672,7 @@
             <div class="chapter-badge">REFERENCE</div>
             <div class="content" style="max-width: 1240px;">
                 <h2>使用情境一覽</h2>
-                <p>23 個 skill 對應的觸發情境 — 用自然語言講出觸發詞，Claude Code 會自動 invoke 對應 skill</p>
+                <p>25 個 skill 對應的觸發情境 — 用自然語言講出觸發詞，Claude Code 會自動 invoke 對應 skill</p>
 
                 <style>
                     .ref-section { margin-top: 1.5rem; }
@@ -696,8 +698,10 @@
                         <div class="ref-card"><code>/new-prd</code><p>從 evaluation.md 或對話起草 PRD draft</p><span class="trigger">「新需求」「create prd」「draft from idea」</span></div>
                         <div class="ref-card"><code>/sync-prd</code><p>把會議結論 / Slack 討論 fold 進 PRD</p><span class="trigger">「會議結論」「meeting notes」「incorporate feedback」</span></div>
                         <div class="ref-card"><code>/review-prd</code><p>4 subagent 平行 PM/Eng/QA/PD review + 跨 PRD 衝突偵測</p><span class="trigger">「review prd」「審查」「multi-perspective feedback」</span></div>
-                        <div class="ref-card"><code>/sync-gdoc</code><p>PRD 推 GDoc snapshot；含 <code>--dry-run</code> + 新鮮度檢查</p><span class="trigger">「推到 google doc」「sync gdoc」「push gdoc」</span></div>
-                        <div class="ref-card"><code>/pull-gdoc-comments</code><p>從 GDoc 拉評論回流到 PRD</p><span class="trigger">「拉評論」「stakeholder gdoc feedback」</span></div>
+                        <div class="ref-card"><code>/sync-outline</code><p><strong>（primary）</strong>PRD 推 Outline 內部 SSOT；parent + nested children，走 patch-outline-safely</p><span class="trigger">「推到 outline」「sync outline」「push outline」</span></div>
+                        <div class="ref-card"><code>/pull-outline-comments</code><p><strong>（primary）</strong>從 Outline doc + children 拉內部 stakeholder 評論回流到 PRD</p><span class="trigger">「拉 outline 評論」「outline feedback」</span></div>
+                        <div class="ref-card"><code>/sync-gdoc</code><p>（alternative）對外分享 / 跨 org stakeholder 用；含 <code>--dry-run</code></p><span class="trigger">「對外分享 gdoc」「sync gdoc」「push gdoc」</span></div>
+                        <div class="ref-card"><code>/pull-gdoc-comments</code><p>（alternative）外部 stakeholder 在 GDoc 留的評論回流</p><span class="trigger">「拉 gdoc 評論」「external feedback gdoc」</span></div>
                         <div class="ref-card"><code>/archive-prd</code><p>套 Spec Delta 更新 spec、搬到 archive；spec 不存在會 STOP 三選一</p><span class="trigger">「歸檔」「ship prd」「close prd」</span></div>
                         <div class="ref-card"><code>/gen-product-spec</code><p>4 subagent 反向產出 Product Spec from source code</p><span class="trigger">「寫 spec」「document current behavior」「what does X do」</span></div>
                         <div class="ref-card"><code>/patch-outline-safely</code><p>cl-outline patch 含 pre/post-flight 驗證，防 silent fail</p><span class="trigger">「安全更新 outline」「patch outline」</span></div>
@@ -715,7 +719,7 @@
                         <div class="ref-card"><code>/gen-hc-content</code><p>Help Center 素材：介紹 + 情境 + 步驟 + FAQ</p><span class="trigger">「help center」「產生文件」「hc content」</span></div>
                         <div class="ref-card"><code>/translate-locales</code><p>zh-TW → EN/TH/JA + Slack review + cl-locales publish</p><span class="trigger">「翻譯」「locales」「多國語言」</span></div>
                         <div class="ref-card"><code>/verify-release</code><p>上線前 build check + golden path + Asana propose-only</p><span class="trigger">「上線前」「smoke test」「golden path」「verify release」</span></div>
-                        <div class="ref-card"><code>/run-release-pipeline</code><p>串 gen-test-cases → record-test-run → release-notes → translate-locales → sync-gdoc，每步 PM gate</p><span class="trigger">「一鍵發布」「release pipeline」「end-to-end release」</span></div>
+                        <div class="ref-card"><code>/run-release-pipeline</code><p>串 gen-test-cases → record-test-run → release-notes → translate-locales → sync-outline / sync-gdoc，每步 PM gate</p><span class="trigger">「一鍵發布」「release pipeline」「end-to-end release」</span></div>
                         <div class="ref-card"><code>/embed-ga4</code><p>GA4 SPA 埋碼：gtag.js + analytics module + RouteTracker</p><span class="trigger">「set up analytics」「埋 GA4」「add page tracking」</span></div>
                         <div class="ref-card"><code>/check-deploy-status</code><p>跨 repo PR → merged / CI / release / smoke 4 階段</p><span class="trigger">「部署狀態」「為什麼沒上線」「check deployment」</span></div>
                         <div class="ref-card"><code>/announce-launch</code><p>已上線 → #announce-product 短公告 draft（zh-TW / en）</p><span class="trigger">「上線通知」「announce launch」「公告 draft」</span></div>
@@ -806,7 +810,7 @@
                     </div>
                     <div class="next-step-card">
                         <h3>&#x1F501; Closed Loop 普及</h3>
-                        <p>把所有 Slack 討論、會議紀錄都用 <code>/sync-prd</code> 回流到 PRD，Google Doc 評論用 <code>/pull-gdoc-comments</code> 整理</p>
+                        <p>把所有 Slack 討論、會議紀錄都用 <code>/sync-prd</code> 回流到 PRD；內部 stakeholder Outline 評論用 <code>/pull-outline-comments</code>、外部 GDoc 評論用 <code>/pull-gdoc-comments</code></p>
                     </div>
                     <div class="next-step-card">
                         <h3>&#x1F465; 4-Role Review 制度化</h3>

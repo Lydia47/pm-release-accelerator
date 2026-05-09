@@ -1,11 +1,13 @@
 ---
 name: sync-gdoc
-description: "將 PRD 資料夾推送（snapshot）到 Google Doc，每個 .md 檔對應一個分頁。Markdown 是 source of truth；如果 markdown 是從 meeting / Slack 結論進來的，先跑 sync-prd 再 sync-gdoc。Triggers on: sync gdoc, google doc, 同步文件, 產生 gdoc, push gdoc, push to google doc."
+description: "將 PRD 資料夾推送（snapshot）到 Google Doc，每個 .md 檔對應一個分頁。**內部 SSOT 用 /sync-outline 為 primary**；本 skill 適合對外分享、跨 org stakeholder（沒 Outline 帳號）。Markdown 是 source of truth；先跑 sync-prd 再 sync-gdoc。Triggers on: sync gdoc, google doc, 同步文件, 產生 gdoc, push gdoc, push to google doc, share to external stakeholder."
 ---
 
 # Sync PRD to Google Doc
 
 將 PRD 資料夾中的 markdown 檔案同步到 Google Doc，每個檔案一個分頁，帶格式。
+
+> **預設用 `/sync-outline`（primary）**。本 skill 是 alternative path：用於對外分享、跨 org stakeholder（沒 Outline 帳號）、客戶 / vendor 協作。內部 SSOT snapshot 已不走 GDoc。
 
 ## 規則
 

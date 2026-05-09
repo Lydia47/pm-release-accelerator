@@ -42,7 +42,7 @@ PM 可提供以下任一種：
    - **Key list**：例 `leadCapture.form.title = 收集聯絡資訊`
    - **`auto`**：AI 掃描 sheet 找 zh-TW 已填但 EN/TH/JA 為空的列
 2. **Product**（必填）：`maac` / `caac` / `admin-center` / `liff`
-3. **PRD 連結**（選填）：Google Doc URL，會附在 Slack review request 裡
+3. **PRD 連結**（選填）：Outline 或 Google Doc URL，會附在 Slack review request 裡（Outline 為內部 primary，GDoc 為對外 alternative）
 4. **目標語言**（選填）：`en`, `th`, `ja` 的子集，預設全部
 
 ## Workflow
