@@ -145,10 +145,40 @@ PM 會回答：高風險 / 中風險 / 低風險
 > 如果我們___，使用者會___，我們會看到___，最終達到___。
 ```
 
+### Step 6.5：落地評估報告（避免 session 中斷遺失）
+
+報告呈現給 PM 後，主動詢問：
+
+> 「這份評估要落地到 `prds/{name}/evaluation.md` 嗎？建議 yes — session 中斷或新開 session 後 `/new-prd` 還能直接讀檔接續。」
+
+**如果 PM 同意：**
+
+1. 詢問 PRD 名稱（kebab-case，例如 `whatsapp-agent-recognition`）。若 PM 還沒決定，提供 2-3 個從功能名稱推導的候選名供選擇。
+2. 建立 `prds/{prd-name}/` 目錄（如不存在）
+3. 寫入 `prds/{prd-name}/evaluation.md`，含 frontmatter：
+
+   ```yaml
+   ---
+   prd_name: {prd-name}
+   created_via: evaluate-feature
+   created_at: {YYYY-MM-DD}
+   ---
+
+   {Step 6 的完整報告內容}
+   ```
+
+4. 確認：「✅ 已寫入 `prds/{prd-name}/evaluation.md`，後續 `/new-prd {prd-name}` 會優先讀這個檔案。」
+
+**如果 PM 不要：**
+
+提醒 PM「評估僅在本次對話 context 中，建議**在同 session** 接著跑 `/new-prd`，否則結論會遺失。」
+
 ### Step 7：引導下一步
 
-報告完成後，詢問 PM：
+報告 + 落地確認完成後，依 Step 6.5 的結果分支：
 
-> 「評估完成。方向確定的話，要建立 PRD 嗎？（使用 `/new-prd`）」
+- **已落地（evaluation.md 寫入）：**
+  > 「評估完成且已落地。要建立 PRD 嗎？執行 `/new-prd {prd-name}`，會讀取 `prds/{prd-name}/evaluation.md` 接續。」
 
-這份評估報告會由 `/new-prd` 自動整理存入 `evaluation.md`。
+- **未落地（PM 選不寫檔）：**
+  > 「評估完成。方向確定的話，要建立 PRD 嗎？執行 `/new-prd`（會從本次 session 對話 context 抓取結論；session 中斷會遺失，建議盡快接續）。」
