@@ -685,13 +685,14 @@
                     .ref-subgroup { margin-top: 0.7rem; }
                     .ref-subgroup-title { font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
                     .ref-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.55rem; }
-                    .ref-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 0.6rem 0.8rem; box-shadow: var(--shadow-sm); position: relative; }
-                    .ref-card code { background: rgba(255, 102, 0, 0.08); color: var(--accent-orange); padding: 0.15rem 0.45rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; display: inline-block; }
-                    .ref-card p { font-size: 0.78rem; color: var(--text-primary); margin: 0.35rem 0 0.25rem; line-height: 1.4; }
+                    .ref-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 0.6rem 0.8rem; box-shadow: var(--shadow-sm); position: relative; display: flex; flex-direction: column; }
+                    .ref-card.has-badge { padding-top: 1.5rem; }
+                    .ref-card code { background: rgba(255, 102, 0, 0.08); color: var(--accent-orange); padding: 0.15rem 0.45rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; display: inline-block; align-self: flex-start; max-width: 100%; word-break: break-all; }
+                    .ref-card p { font-size: 0.78rem; color: var(--text-primary); margin: 0.35rem 0 0.25rem; line-height: 1.4; flex: 1; }
                     .ref-card .trigger { font-size: 0.7rem; color: var(--text-secondary); font-style: italic; line-height: 1.4; }
                     .ref-card.is-primary { border: 1.5px solid var(--accent-orange); background: linear-gradient(180deg, rgba(255, 102, 0, 0.05) 0%, #ffffff 50%); }
                     .ref-card.is-orchestrator { border: 1.5px solid var(--accent-cyan, #00b8d4); background: linear-gradient(180deg, rgba(0, 184, 212, 0.05) 0%, #ffffff 50%); }
-                    .ref-card .badge { display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 0.05rem 0.35rem; border-radius: 4px; color: white; margin-left: 0.3rem; vertical-align: 1px; }
+                    .ref-card .badge { position: absolute; top: 0.45rem; right: 0.55rem; font-size: 0.55rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; color: white; letter-spacing: 0.04em; white-space: nowrap; }
                     .ref-card .badge-primary { background: var(--accent-orange); }
                     .ref-card .badge-orchestrator { background: var(--accent-cyan, #00b8d4); }
                 </style>
@@ -719,8 +720,8 @@
                     <div class="ref-subgroup">
                         <div class="ref-subgroup-title">外部同步 — Outline 為內部 SSOT primary，GDoc 為跨 org alternative</div>
                         <div class="ref-grid">
-                            <div class="ref-card is-primary"><code>/sync-outline</code><span class="badge badge-primary">PRIMARY</span><p>PRD 推 Outline；parent + nested children，走 patch-outline-safely 安全更新</p><span class="trigger">「推到 outline」「sync outline」「push outline」</span></div>
-                            <div class="ref-card is-primary"><code>/pull-outline-comments</code><span class="badge badge-primary">PRIMARY</span><p>從 Outline doc + children 拉內部 stakeholder 評論回流到 PRD</p><span class="trigger">「拉 outline 評論」「outline feedback」</span></div>
+                            <div class="ref-card is-primary has-badge"><code>/sync-outline</code><span class="badge badge-primary">PRIMARY</span><p>PRD 推 Outline；parent + nested children，走 patch-outline-safely 安全更新</p><span class="trigger">「推到 outline」「sync outline」「push outline」</span></div>
+                            <div class="ref-card is-primary has-badge"><code>/pull-outline-comments</code><span class="badge badge-primary">PRIMARY</span><p>從 Outline doc + children 拉內部 stakeholder 評論回流到 PRD</p><span class="trigger">「拉 outline 評論」「outline feedback」</span></div>
                             <div class="ref-card"><code>/sync-gdoc</code><p>對外分享 / 跨 org stakeholder（沒 Outline 帳號）；含 <code>--dry-run</code></p><span class="trigger">「對外分享 gdoc」「sync gdoc」「push gdoc」</span></div>
                             <div class="ref-card"><code>/pull-gdoc-comments</code><p>外部 stakeholder 在 GDoc 留的評論回流</p><span class="trigger">「拉 gdoc 評論」「external feedback gdoc」</span></div>
                         </div>
@@ -777,7 +778,7 @@
                     <div class="ref-subgroup">
                         <div class="ref-subgroup-title">Pipeline 編排 &amp; 上線後</div>
                         <div class="ref-grid">
-                            <div class="ref-card is-orchestrator"><code>/run-release-pipeline</code><span class="badge badge-orchestrator">ORCHESTRATOR</span><p>串 gen-test-cases → record-test-run → release-notes → translate-locales → sync-outline / sync-gdoc，每步 PM gate</p><span class="trigger">「一鍵發布」「release pipeline」「end-to-end release」</span></div>
+                            <div class="ref-card is-orchestrator has-badge"><code>/run-release-pipeline</code><span class="badge badge-orchestrator" title="Orchestrator — 一鍵串接整條 release pipeline">⚡ PIPELINE</span><p>串 gen-test-cases → record-test-run → release-notes → translate-locales → sync-outline / sync-gdoc，每步 PM gate</p><span class="trigger">「一鍵發布」「release pipeline」「end-to-end release」</span></div>
                             <div class="ref-card"><code>/run-launch-retro</code><p>launch 後 N 天 GA + reqflow + Slack + Asana 回流 → learnings</p><span class="trigger">「上線後檢討」「launch retro」「retrospective」</span></div>
                         </div>
                     </div>
