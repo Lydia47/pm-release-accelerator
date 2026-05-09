@@ -91,6 +91,12 @@
             display: flex; justify-content: center; align-items: center;
             position: relative; padding: 2rem; overflow: hidden;
         }
+        .slide.slide-tall {
+            /* Reference slides with dense content: allow vertical growth instead of clipping */
+            height: auto; min-height: 100vh; overflow: visible;
+            align-items: flex-start;
+            padding: 3rem 2rem;
+        }
         .content {
             max-width: 1000px; width: 100%; text-align: center;
             opacity: 0; transform: translateY(40px) scale(0.98);
@@ -673,7 +679,7 @@
         </section>
 
         <!-- ===== SLIDE 7: Skills Reference / 使用情境 ===== -->
-        <section class="slide">
+        <section class="slide slide-tall">
             <div class="chapter-badge">REFERENCE</div>
             <div class="content" style="max-width: 1240px;">
                 <h2>使用情境一覽</h2>
