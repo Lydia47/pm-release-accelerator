@@ -488,15 +488,15 @@
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/product-thinking</code>：ICE 評分 / 風險掃描 / 成功指標 / 假設句型；<code>/competitor-screenshot</code>：平行 Playwright 截圖 → JPEG → GCS → Outline attachment append</div>
+                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/evaluate-feature</code>：ICE 評分 / 風險掃描 / 成功指標 / 假設句型；<code>/screenshot-competitors</code>：平行 Playwright 截圖 → JPEG → GCS → Outline attachment append</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/outline-patch-safe</code>（cl-outline patch 的 pre/post-flight 驗證 wrapper）。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-gdoc</code>, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/patch-outline-safely</code>（cl-outline patch 的 pre/post-flight 驗證 wrapper）。PRD 與 Spec 住在 Git，Google Doc 是 read-only snapshot</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate</code>（cl-locales）&rarr; <code>/verify</code> &rarr; <code>/deploy-status</code>（跨 repo PR 部署狀態）&rarr; <code>/announce-slack</code>（短公告 draft）。<code>/release-pipeline</code> 串接，<code>/ga-tracking</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
+                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/record-test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate-locales</code>（cl-locales）&rarr; <code>/verify-release</code> &rarr; <code>/check-deploy-status</code>（跨 repo PR 部署狀態）&rarr; <code>/announce-launch</code>（短公告 draft）。<code>/run-release-pipeline</code> 串接，<code>/embed-ga4</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
                 <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 20 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽20-支" style="color: var(--accent-cyan);">README</a>。</p>
@@ -519,8 +519,8 @@
                             </div>
                         </div>
                         <div class="arch-chips">
-                            <span class="arch-chip">/product-thinking</span>
-                            <span class="arch-chip">/competitor-screenshot</span>
+                            <span class="arch-chip">/evaluate-feature</span>
+                            <span class="arch-chip">/screenshot-competitors</span>
                         </div>
                     </div>
                     <div class="arch-arrow">&darr;</div>
@@ -540,7 +540,7 @@
                             <span class="arch-chip">/pull-gdoc-comments</span>
                             <span class="arch-chip">/archive-prd</span>
                             <span class="arch-chip">/gen-product-spec</span>
-                            <span class="arch-chip">/outline-patch-safe</span>
+                            <span class="arch-chip">/patch-outline-safely</span>
                         </div>
                         <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack / gdoc 評論透過 sync-prd &amp; pull-gdoc-comments 自動回流</div>
                     </div>
@@ -550,20 +550,20 @@
                             <span class="arch-num">3</span>
                             <div>
                                 <div class="arch-title">Release Chain</div>
-                                <div class="arch-sub">test &rarr; release notes &rarr; translate &rarr; verify，<code>/release-pipeline</code> 一鍵串接</div>
+                                <div class="arch-sub">test &rarr; release notes &rarr; translate-locales &rarr; verify-release，<code>/run-release-pipeline</code> 一鍵串接</div>
                             </div>
                         </div>
                         <div class="arch-chips">
                             <span class="arch-chip">/gen-test-cases</span>
-                            <span class="arch-chip">/test-run <em>--auto</em></span>
+                            <span class="arch-chip">/record-test-run <em>--auto</em></span>
                             <span class="arch-chip">/gen-release-notes</span>
                             <span class="arch-chip">/gen-hc-content</span>
-                            <span class="arch-chip">/translate</span>
-                            <span class="arch-chip">/verify</span>
-                            <span class="arch-chip">/ga-tracking</span>
-                            <span class="arch-chip">/deploy-status</span>
-                            <span class="arch-chip">/announce-slack</span>
-                            <span class="arch-chip arch-chip-strong">/release-pipeline</span>
+                            <span class="arch-chip">/translate-locales</span>
+                            <span class="arch-chip">/verify-release</span>
+                            <span class="arch-chip">/embed-ga4</span>
+                            <span class="arch-chip">/check-deploy-status</span>
+                            <span class="arch-chip">/announce-launch</span>
+                            <span class="arch-chip arch-chip-strong">/run-release-pipeline</span>
                         </div>
                     </div>
                 </div>
@@ -590,12 +590,12 @@
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x1F3A8;</span>
                         <div class="tool-name">Figma MCP</div>
-                        <div class="tool-sub">設計稿截圖比對<br>test-run / verify 用</div>
+                        <div class="tool-sub">設計稿截圖比對<br>record-test-run / verify-release 用</div>
                     </div>
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x2705;</span>
                         <div class="tool-name">Asana MCP</div>
-                        <div class="tool-sub">Bug task 建立<br>test-run / verify 用</div>
+                        <div class="tool-sub">Bug task 建立<br>record-test-run / verify-release 用</div>
                     </div>
                     <div class="tool-box">
                         <span class="tool-icon-lg">&#x1F3AD;</span>
@@ -641,21 +641,21 @@
                         <div class="step-circle">3</div>
                         <div class="step-content">
                             <h4>安裝 CLI 工具</h4>
-                            <p><strong>gws</strong>（必要）：<code>npm i -g @googleworkspace/cli</code> &rarr; <code>gws auth login -s drive,sheets,docs</code><br><strong>cl-locales</strong>（用 <code>/translate</code> 才需要）：見 <a href="https://github.com/chatbotgang/skills/tree/main/skills/cl-locales" target="_blank" style="color: var(--accent-cyan);">chatbotgang/skills</a> 或安裝 <a href="https://github.com/chatbotgang/cclab" target="_blank" style="color: var(--accent-cyan);">cclab</a> plugin</p>
+                            <p><strong>gws</strong>（必要）：<code>npm i -g @googleworkspace/cli</code> &rarr; <code>gws auth login -s drive,sheets,docs</code><br><strong>cl-locales</strong>（用 <code>/translate-locales</code> 才需要）：見 <a href="https://github.com/chatbotgang/skills/tree/main/skills/cl-locales" target="_blank" style="color: var(--accent-cyan);">chatbotgang/skills</a> 或安裝 <a href="https://github.com/chatbotgang/cclab" target="_blank" style="color: var(--accent-cyan);">cclab</a> plugin</p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">4</div>
                         <div class="step-content">
                             <h4>開始使用</h4>
-                            <p>跟 AI 對話探索問題 &rarr; 需要時 <code>/product-thinking</code> 評估 &rarr; <code>/new-prd</code> 建立 PRD draft，後續可 <code>/sync-prd</code>、<code>/review-prd</code></p>
+                            <p>跟 AI 對話探索問題 &rarr; 需要時 <code>/evaluate-feature</code> 評估 &rarr; <code>/new-prd</code> 建立 PRD draft，後續可 <code>/sync-prd</code>、<code>/review-prd</code></p>
                         </div>
                     </div>
                     <div class="step-box">
                         <div class="step-circle">5</div>
                         <div class="step-content">
                             <h4>下游串接</h4>
-                            <p>PRD 定稿後 &rarr; <code>/release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-gdoc</p>
+                            <p>PRD 定稿後 &rarr; <code>/run-release-pipeline &lt;prd-name&gt;</code> 一鍵串 test &rarr; release notes &rarr; translate &rarr; sync-gdoc</p>
                         </div>
                     </div>
                 </div>
@@ -667,7 +667,7 @@
             <div class="chapter-badge">CASE STUDY</div>
             <div class="content" style="max-width: 1100px;">
                 <h2>實戰案例：WebWidget Lead Capture</h2>
-                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成<br><span style="font-size: 0.85rem; color: var(--text-secondary);">（此案例使用早期 v1 命令；現在對應 <code>/new-prd</code> &rarr; <code>/gen-release-notes</code> &rarr; <code>/translate</code>）</span></p>
+                <p style="margin-bottom: 1.5rem;">從一句 User Scenario 到完整 PRD + 翻譯，全程 AI 自動完成<br><span style="font-size: 0.85rem; color: var(--text-secondary);">（此案例使用早期 v1 命令；現在對應 <code>/new-prd</code> &rarr; <code>/gen-release-notes</code> &rarr; <code>/translate-locales</code>）</span></p>
 
                 <div style="background: #f9f9fb; border-radius: 14px; padding: 1rem 1.5rem; text-align: left; margin-bottom: 1.2rem; border: 1px solid rgba(0,0,0,0.06);">
                     <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-orange); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;">User Scenario Input</div>
@@ -692,7 +692,7 @@
                     <div class="flow-step">
                         <div class="flow-num">3</div>
                         <div class="flow-text">
-                            <strong style="color: var(--accent-orange);">/translate</strong> &mdash; Release Note 自動翻譯成 EN/TH/JA，產出 Google Sheet（同 tab 多語言欄位），可接 <code>locales-publish</code> 發布<span style="font-size: 0.85rem; color: var(--text-secondary);"> &middot; 現已改用 <code>cl-locales</code></span><br>
+                            <strong style="color: var(--accent-orange);">/translate-locales</strong> &mdash; Release Note 自動翻譯成 EN/TH/JA，產出 Google Sheet（同 tab 多語言欄位），可接 <code>locales-publish</code> 發布<span style="font-size: 0.85rem; color: var(--text-secondary);"> &middot; 現已改用 <code>cl-locales</code></span><br>
                             <a href="https://docs.google.com/spreadsheets/d/1SyVJFAyOrRVQlzvwxjp9ygvsHO7pcgTkKVuNPSwnfwM/edit" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.95rem;">&#x1F4CA; Translation Sheet &rarr;</a>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 ---
 name: gen-product-spec
-description: Use when a module needs its current behavior documented as a product spec, when the user says "gen spec", "product spec", "寫 spec", "產生 spec", or wants a baseline SSOT for an existing codebase module
+description: Use when a module needs its current behavior documented as a product spec — also when asked "what does X module do" or to "document current behavior" of a module. Triggers on "gen spec", "product spec", "寫 spec", "產生 spec", "document current behavior", "what does X module do".
 ---
 
 # Generate Product Spec

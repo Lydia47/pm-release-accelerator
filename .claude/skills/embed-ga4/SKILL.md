@@ -1,6 +1,6 @@
 ---
-name: ga-tracking
-description: "GA4 埋碼到 React SPA：給一個 Measurement ID 自動接 gtag.js + 集中式 analytics module + React Router page_view + 守門式 event tracking。Triggers on: ga4, ga tracking, analytics, gtag, 埋碼, page view tracking."
+name: embed-ga4
+description: "GA4 埋碼到 React SPA（前身 ga-tracking）：給一個 Measurement ID 自動接 gtag.js + 集中式 analytics module + React Router page_view + 守門式 event tracking。Triggers on: embed ga4, set up analytics, add page tracking, setup ga4, ga4, ga tracking, analytics, gtag, 埋碼, page view tracking."
 ---
 
 # GA4 Tracking Embedder
@@ -50,7 +50,7 @@ Step 4. 建立資料串流 → 平台選「網頁（Web）」
 Step 5. 串流詳細資料頁 → 複製「評估 ID」(G-XXXXXXXXXX)
 Step 6.（選用）管理 → 事件 → 把 login / feature_use 標記為「關鍵事件」
 
-拿到 ID 後重新呼叫 /ga-tracking <G-XXXXXXXXXX>
+拿到 ID 後重新呼叫 /embed-ga4 <G-XXXXXXXXXX>
 ```
 
 ID 格式正確就進 Phase 1。
@@ -230,8 +230,8 @@ Measurement ID: {{MEASUREMENT_ID}} (stored only in index.html)
 ## Example Invocation
 
 ```
-/ga-tracking G-HZRJ3ZNSB9
-/ga-tracking G-ABC123XYZ
+/embed-ga4 G-HZRJ3ZNSB9
+/embed-ga4 G-ABC123XYZ
 要追蹤的事件：登入成功、送第一則訊息、匯出報表
-/ga-tracking help
+/embed-ga4 help
 ```

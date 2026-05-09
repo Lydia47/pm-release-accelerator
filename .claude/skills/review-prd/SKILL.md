@@ -1,6 +1,6 @@
 ---
 name: review-prd
-description: Use when a PRD draft is ready for structured review, when the user says "review prd", "審查", "check prd", or wants multi-perspective feedback before finalizing a PRD
+description: Use when a PRD draft is ready for structured review (4-role parallel: PM/Eng/QA/PD), when the user says "review prd", "審查", "check prd", or wants multi-perspective feedback before finalizing a PRD. For non-PRD plans, prefer vp-review-loop:plan-review.
 ---
 
 # Review PRD

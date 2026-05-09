@@ -1,6 +1,6 @@
 ---
-name: outline-patch-safe
-description: "包裝 cl-outline update_document 加上 pre/post-flight 驗證，避免 editMode patch 在 findText 不存在時 silent fail。Triggers on: outline patch, 安全更新 outline, outline update verify, patch outline."
+name: patch-outline-safely
+description: "包裝 cl-outline update_document 加上 pre/post-flight 驗證，避免 editMode patch 在 findText 不存在時 silent fail（前身 outline-patch-safe）。Triggers on: patch outline safely, outline patch, 安全更新 outline, outline update verify, patch outline."
 ---
 
 # Outline Patch Safe
@@ -104,16 +104,16 @@ description: "包裝 cl-outline update_document 加上 pre/post-flight 驗證，
 
 ```bash
 # 單一 patch
-/outline-patch-safe --doc-id abc123 --patches '[{"findText":"OOS","replaceText":"P0","mode":"patch"}]'
+/patch-outline-safely --doc-id abc123 --patches '[{"findText":"OOS","replaceText":"P0","mode":"patch"}]'
 
 # 多 patch + 從檔案讀
-/outline-patch-safe --doc-id abc123 --patches ./patches.json
+/patch-outline-safely --doc-id abc123 --patches ./patches.json
 
 # Dry-run 只驗 findText 不執行
-/outline-patch-safe --doc-id abc123 --patches ./patches.json --dry-run
+/patch-outline-safely --doc-id abc123 --patches ./patches.json --dry-run
 
 # Append 一段到末尾
-/outline-patch-safe --doc-id abc123 --patches '[{"replaceText":"\n## Update 2026-05-08\n...","mode":"append"}]'
+/patch-outline-safely --doc-id abc123 --patches '[{"replaceText":"\n## Update 2026-05-08\n...","mode":"append"}]'
 ```
 
 ## Reference MCP Tools

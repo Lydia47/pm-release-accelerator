@@ -1,11 +1,11 @@
 ---
-name: release-pipeline
-description: "Release Pipeline orchestrator：給 PRD（local prds/{name} 或 Google Doc ID），依序串接 gen-test-cases → test-run → gen-release-notes → translate，可選 sync-gdoc 同步。每步都有 user confirmation gate。Triggers on: release pipeline, pipeline, 串接, 一鍵發布, end-to-end release."
+name: run-release-pipeline
+description: "Release Pipeline orchestrator（前身 release-pipeline）：給 PRD（local prds/{name} 或 Google Doc ID），依序串接 gen-test-cases → record-test-run → gen-release-notes → translate-locales，可選 sync-gdoc 同步。每步都有 user confirmation gate。Triggers on: run release pipeline, release pipeline, pipeline, 串接, 一鍵發布, end-to-end release."
 ---
 
 # Release Pipeline Orchestrator
 
-你是漸強的 PM workflow 編排專家。給定一份 PRD（local 或 Google Doc），依序串接下游 skills — `gen-test-cases` → `test-run` → `gen-release-notes` → `translate` — 每步之間都有 PM 確認 gate。
+你是漸強的 PM workflow 編排專家。給定一份 PRD（local 或 Google Doc），依序串接下游 skills — `gen-test-cases` → `record-test-run` → `gen-release-notes` → `translate-locales` — 每步之間都有 PM 確認 gate。
 
 ## 規則
 
@@ -23,8 +23,8 @@ PM 提供：
    - **Local**：`<PRD_NAME>`（對應 `prds/{name}/` 資料夾）
    - **Google Doc**：完整 URL 或 Doc ID
 2. **Staging URL**（選填）：`test-run --auto` 用，沒給就在 Phase 3 詢問
-3. **Product**（選填）：`maac` / `caac` / `admin-center` / `liff`，`translate` 用
-4. **`--skip`**（選填）：逗號分隔，可選 `gen-test-cases`, `test-run`, `gen-release-notes`, `translate`
+3. **Product**（選填）：`maac` / `caac` / `admin-center` / `liff`，`translate-locales` 用
+4. **`--skip`**（選填）：逗號分隔，可選 `gen-test-cases`, `record-test-run`, `gen-release-notes`, `translate-locales`
 5. **`--auto-test`**（選填）：test-run 用 Playwright 自動執行（需 staging URL）
 
 ## Workflow
@@ -49,7 +49,7 @@ PM 提供：
    Step 1: gen-test-cases   — 從 PRD 產生測試案例定義
    Step 2: test-run         — 建測試執行紀錄（[--auto: Playwright 自動跑 / 手動 checklist]）
    Step 3: gen-release-notes — 產 Release Notes（External + Internal 版本）
-   Step 4: translate         — UI 翻譯 EN/TH/JA → Sheet → Slack review
+   Step 4: translate-locales       — UI 翻譯 EN/TH/JA → Sheet → Slack review
    Step 5: sync-gdoc        — [若有 gdoc_id] 同步所有 .md 到 Google Doc
 
    Skipped: [none / list]
@@ -82,13 +82,13 @@ PM 提供：
 
 ### Phase 3：Test Run
 
-**Skip：** 若 `test-run` 在 `--skip`，標 SKIPPED 進 Phase 4
+**Skip：** 若 `record-test-run` 在 `--skip`，標 SKIPPED 進 Phase 4
 
 1. 確認：「準備建立 test run 執行紀錄。」
 2. **判定模式：**
    - 若有 `--auto-test` + staging URL → Playwright AI-driven 模式
    - 否則 → 手動 checklist 模式（QA 人工打勾）
-3. **委派給 `test-run` skill**：
+3. **委派給 `record-test-run` skill**：
    - 從 `test-cases.md` 複製到 `prds/{name}/test-runs/{YYYY-MM-DD}.md`
    - Auto 模式：跑 Playwright 後填入結果（pass/fail/blocked + screenshot 路徑）
    - 手動模式：交給 QA 自行打勾
@@ -129,13 +129,13 @@ PM 提供：
 
 ### Phase 5：Translate
 
-**Skip：** 若 `translate` 在 `--skip`，標 SKIPPED 進 Phase 6
+**Skip：** 若 `translate-locales` 在 `--skip`，標 SKIPPED 進 Phase 6
 
 1. 確認：「準備開始翻譯流程（需要 product 與翻譯範圍）。」
 2. 收集：
    - **Product**：用 Phase 1 抽到的，或問 PM
    - **翻譯範圍**：問 PM — `auto`（自動掃 sheet 找未翻譯）或 specific keys
-3. **委派給 `translate` skill**：
+3. **委派給 `translate-locales` skill**：
    - 讀 UI Translation Sheet
    - 翻 EN（SaaS 專業）/ TH（ภาษาทางการ）/ JA（敬語）
    - 寫回同一份 sheet
@@ -179,7 +179,7 @@ PM: [Owner] | Product: [Product] | Target: [Date]
 │ gen-test-cases    │ ✅ DONE  │ X cases (P0/P1/P2)         │
 │ test-run          │ ✅ DONE  │ Pass X / Fail Y / Block Z  │
 │ gen-release-notes │ ✅ DONE  │ Slack #channel + .md       │
-│ translate         │ ⏭ SKIP  │ —                          │
+│ translate-locales     │ ⏭ SKIP  │ —                          │
 │ sync-gdoc         │ ✅ DONE  │ [Google Doc URL]           │
 └──────────────────┴──────────┴────────────────────────────┘
 
@@ -194,7 +194,7 @@ PM: [Owner] | Product: [Product] | Target: [Date]
   - Translation Sheet: [URL]
 
 Suggested Follow-up:
-  - /verify "[FeatureName]" [staging_url] — 上線前驗證
+  - /verify-release "[FeatureName]" [staging_url] — 上線前驗證
   - /archive-prd [name] — 開發完畢後歸檔，更新 Product Spec
   - `cl-locales publish` — reviewer 確認後發翻譯到 Firebase Storage
 ```
@@ -210,17 +210,17 @@ Suggested Follow-up:
 
 ```bash
 # 完整 pipeline，從 local PRD
-/release-pipeline custom-field-tagging
+/run-release-pipeline custom-field-tagging
 
 # 從 Google Doc
-/release-pipeline 1Fat-GQ4yvnukbsXGK1Md44O1sFm5o8uHrzSpvwyR2nc
+/run-release-pipeline 1Fat-GQ4yvnukbsXGK1Md44O1sFm5o8uHrzSpvwyR2nc
 
 # 指定 staging + product + 自動測試
-/release-pipeline custom-field-tagging --staging https://staging.maac.io --product maac --auto-test
+/run-release-pipeline custom-field-tagging --staging https://staging.maac.io --product maac --auto-test
 
 # 跳過翻譯
-/release-pipeline custom-field-tagging --skip translate
+/run-release-pipeline custom-field-tagging --skip translate-locales
 
-# 只跑 release-notes + translate（跳過測試）
-/release-pipeline custom-field-tagging --skip gen-test-cases,test-run
+# 只跑 release-notes + translate-locales（跳過測試）
+/run-release-pipeline custom-field-tagging --skip gen-test-cases,record-test-run
 ```

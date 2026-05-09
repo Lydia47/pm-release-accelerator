@@ -1,6 +1,6 @@
 ---
 name: sync-prd
-description: Use when syncing meeting notes, Slack discussions, or verbal decisions into an existing PRD — triggers on "sync prd", "同步", "會議結論", "meeting notes", "slack update"
+description: Use when syncing meeting notes, Slack discussions, or verbal decisions into an existing PRD; also when you need to incorporate feedback or fold in decisions. Run sync-prd before sync-gdoc to keep markdown as source of truth. Triggers on "sync prd", "同步", "會議結論", "meeting notes", "slack update", "incorporate feedback", "fold in decisions".
 ---
 
 # Sync PRD

@@ -1,6 +1,6 @@
 ---
 name: gen-test-cases
-description: Use when test cases need to be generated or regenerated from a PRD, before QA begins, or after PRD requirements change — triggers on "gen test cases", "產生測試", "generate tests", "test cases"
+description: Use when test cases need to be generated or regenerated from a PRD, before QA begins, or after PRD requirements change. This produces a test plan; for TDD implementation, use superpowers:test-driven-development. Triggers on "gen test cases", "產生測試", "generate tests", "test cases".
 ---
 
 # Generate Test Cases
@@ -13,7 +13,7 @@ Generate structured, executable test cases from PRD content. Every test case mus
 - Test cases must be concrete, executable, and pass/fail judgable
 - Cover all 4 types: Happy Path, Edge Cases, Error Handling, Regression
 - Each run overwrites `prds/{name}/test-cases.md` to stay in sync with PRD
-- `test-cases.md` defines test cases — do NOT use it for execution tracking (use `/test-run` for that)
+- `test-cases.md` defines test cases — do NOT use it for execution tracking (use `/record-test-run` for that)
 
 ## Workflow
 
@@ -134,7 +134,7 @@ Show the generated test cases to PM and ask:
 
 After PM confirms, remind:
 
-> To start testing, use `/test-run` to create an execution record for QA to track results.
+> To start testing, use `/record-test-run` to create an execution record for QA to track results.
 
 ## Common Mistakes
 
@@ -144,7 +144,7 @@ After PM confirms, remind:
 | Priority by gut feel | Use the priority rules table — P0 = blocks launch, P1 = has workaround, P2 = low impact |
 | Skipping TBD items | Generate the case, mark as BLOCKED — visibility matters |
 | Single-step test cases | Every test case needs at least 2 steps with clear Expected Results |
-| Not suggesting /test-run | Always remind PM after confirmation |
+| Not suggesting /record-test-run | Always remind PM after confirmation |
 | Dismissing specs without reading | Read the spec first, THEN decide if it's relevant |
 | Outputting without PM review | Always present and ask for feedback before finalizing |
 
@@ -155,6 +155,6 @@ After PM confirms, remind:
 - You're writing "N/A" for Precondition instead of thinking about setup
 - You're generating test cases without reading the existing spec
 - You're silently skipping a TBD item instead of marking it BLOCKED
-- You finished without mentioning `/test-run`
+- You finished without mentioning `/record-test-run`
 
 **All of these mean: Go back to the workflow. Follow the steps.**
