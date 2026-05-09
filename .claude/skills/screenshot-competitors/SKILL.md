@@ -117,8 +117,23 @@ gsutil -m cp \
    ### mailchimp / pricing
    ![mailchimp-pricing](attachment-url-2)
    ```
-3. **追加到文件**：用 `mcp__plugin_cl-outline_outline__update_document` 帶 `editMode: append`（不要 overwrite 整份文件）
-4. 回傳更新後的 Outline 文件 URL
+3. **透過 `/patch-outline-safely` 追加到文件**（**不要直接呼叫 cl-outline `update_document`**）：
+
+   - 把上述 markdown 區塊作為 single patch 傳入：
+
+     ```json
+     [
+       {
+         "replaceText": "{完整 markdown 區塊}",
+         "mode": "append"
+       }
+     ]
+     ```
+
+   - 用 Skill tool 觸發 `patch-outline-safely`，附 `--doc-id {outline-doc-id} --patches '[...]'`
+   - patch-outline-safely 會做 pre-flight（fetch 確認 doc 存在）+ post-flight（fetch 確認 revision bump、新內容存在）— 避免 silent fail
+
+4. 回傳更新後的 Outline 文件 URL（patch-outline-safely 的輸出含 final URL）
 
 ### Step 6：回報 summary
 
