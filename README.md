@@ -27,6 +27,7 @@
 │    /archive-prd    更新 specs/ + 搬到 archive                │
 │    /gen-product-spec     從 source code 反向產 SSOT spec      │
 │    /patch-outline-safely   cl-outline patch 的 safe wrapper     │
+│    /check-prd-status   active PRD lifecycle dashboard         │
 └────────────────────────┬────────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,7 +45,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Skills 全覽（20 支）
+## Skills 全覽（21 支）
 
 ### 探索 / 評估
 
@@ -65,6 +66,7 @@
 | `/archive-prd` | Spec Delta 更新 `specs/` + 搬 PRD 到 archive | `specs/{domain}/spec.md` 更新 + `prds/archive/{date}-{name}/` |
 | `/gen-product-spec` | 平行 subagent 讀 source code → 反向產出 Product Spec | `specs/{domain}/spec.md` + capability files |
 | `/patch-outline-safely` | cl-outline `update_document` 的 pre/post-flight 驗證 wrapper，防 silent fail | per-patch ✅/❌ + revision before/after |
+| `/check-prd-status` | 掃 `prds/` active PRD → 推算 lifecycle stage / next step / blockers，可選 `--stale 14d` 篩停滯 | Markdown dashboard table + stage 分布 + top blockers |
 
 ### 上線發布鏈
 
