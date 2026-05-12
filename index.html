@@ -421,6 +421,11 @@
             background: var(--task-soft, rgba(255,107,0,0.08)); border: 1px solid rgba(0,0,0,0.05);
             border-radius: 8px; padding: 0.28rem 0.55rem;
             max-width: 100%; overflow-wrap: anywhere; word-break: break-word;
+            text-decoration: none; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+        .task-chip:hover, .task-chip:focus {
+            transform: translateY(-1px); border-color: var(--task-color, var(--accent-orange));
+            background: #fff; outline: none;
         }
         .task-output-list {
             list-style: none; display: grid; gap: 0.45rem;
@@ -747,7 +752,7 @@
 
                             <div class="task-side">
                                 <div class="task-info-box">
-                                    <h4>建議使用 Skills</h4>
+                                    <h4>建議使用 Skills（可點擊）</h4>
                                     <div class="task-chip-list" id="taskPanelSkills"></div>
                                 </div>
                                 <div class="task-info-box">
@@ -1220,7 +1225,11 @@
                         </div>
                     </div>
                 `).join('');
-                taskPanelSkills.innerHTML = data.skills.map(skill => `<span class="task-chip">${skill}</span>`).join('');
+                const skillRepoUrl = (label) => {
+                    const match = label.match(/\/([a-z0-9-]+)/i);
+                    return match ? `https://github.com/Lydia47/pm-release-accelerator/tree/main/.claude/skills/${match[1]}` : 'https://github.com/Lydia47/pm-release-accelerator/tree/main/.claude/skills';
+                };
+                taskPanelSkills.innerHTML = data.skills.map(skill => `<a class="task-chip" href="${skillRepoUrl(skill)}" target="_blank" rel="noopener noreferrer" title="Open ${skill} skill repo">${skill}</a>`).join('');
                 taskPanelOutputs.innerHTML = data.outputs.map(output => `<li>${output}</li>`).join('');
                 taskPanelAvoid.innerHTML = data.avoid.map(item => `<li>${item}</li>`).join('');
                 taskPanelGate.innerHTML = data.gate;
