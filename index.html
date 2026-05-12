@@ -105,7 +105,8 @@
         .slide.visible .content { opacity: 1; transform: translateY(0) scale(1); }
         .content h2, .content p, .content .card-grid, .content .pain-grid,
         .content .flow-steps, .content .tool-row, .content .step-boxes,
-        .content .doc-tree, .content .links-container, .content .next-step-grid {
+        .content .doc-tree, .content .links-container, .content .next-step-grid,
+        .content .task-map-shell {
             opacity: 0; transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s var(--ease-out-back);
         }
@@ -118,6 +119,7 @@
         .slide.visible .content .step-boxes,
         .slide.visible .content .doc-tree,
         .slide.visible .content .links-container,
+        .slide.visible .content .task-map-shell,
         .slide.visible .content .next-step-grid { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
 
         .page-indicator {
@@ -334,6 +336,127 @@
             .arch-title { font-size: 0.98rem; }
         }
 
+        /* ===== TASK MAP ===== */
+        .task-map-shell {
+            display: grid; grid-template-columns: 330px 1fr; gap: 1.2rem;
+            max-width: 1180px; margin: 1.4rem auto 0; text-align: left;
+            min-width: 0;
+        }
+        .task-tabs {
+            display: flex; flex-direction: column; gap: 0.8rem;
+        }
+        .task-tab {
+            width: 100%; border: 1px solid rgba(0,0,0,0.08); background: #fff;
+            border-radius: 14px; padding: 1rem 1.1rem; text-align: left;
+            cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+            font-family: var(--font-main); position: relative; overflow: hidden;
+        }
+        .task-tab::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+            background: var(--task-color, var(--accent-orange)); opacity: 0.45;
+        }
+        .task-tab:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+        .task-tab[aria-selected="true"] {
+            border-color: var(--task-color, var(--accent-orange));
+            background: linear-gradient(135deg, rgba(255,255,255,0.98), var(--task-soft, rgba(255,107,0,0.08)));
+            box-shadow: var(--shadow-md);
+        }
+        .task-tab-kicker {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--task-color, var(--accent-orange)); margin-bottom: 0.45rem;
+        }
+        .task-tab-title { font-size: 1.08rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.3rem; }
+        .task-tab-desc { font-size: 0.88rem; line-height: 1.45; color: var(--text-secondary); overflow-wrap: anywhere; }
+        .task-map-panel {
+            background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 18px;
+            padding: 1.4rem; box-shadow: var(--shadow-md); min-height: 520px;
+            min-width: 0; overflow-wrap: anywhere;
+        }
+        .task-panel-head {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 1rem; margin-bottom: 1rem;
+        }
+        .task-panel-title { font-size: 1.45rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.35rem; }
+        .task-panel-summary { font-size: 0.98rem; line-height: 1.55; color: var(--text-secondary); margin: 0; }
+        .task-weight {
+            flex-shrink: 0; border-radius: 999px; padding: 0.45rem 0.8rem;
+            background: var(--task-soft, rgba(255,107,0,0.08)); color: var(--task-color, var(--accent-orange));
+            font-size: 0.76rem; font-weight: 900; letter-spacing: 0.04em;
+        }
+        .task-detail-grid {
+            display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 1rem; align-items: start;
+            min-width: 0;
+        }
+        .task-flow {
+            display: flex; flex-direction: column; gap: 0.65rem;
+            min-width: 0;
+        }
+        .task-flow-step {
+            display: grid; grid-template-columns: 2.1rem 1fr; gap: 0.75rem; align-items: start;
+            padding: 0.85rem; border-radius: 12px; background: #fafafa; border: 1px solid rgba(0,0,0,0.05);
+            min-width: 0;
+        }
+        .task-step-num {
+            width: 2.1rem; height: 2.1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background: var(--task-color, var(--accent-orange)); color: #fff; font-size: 0.82rem; font-weight: 900;
+        }
+        .task-flow-step h4 { font-size: 0.98rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.22rem; }
+        .task-flow-step p { font-size: 0.82rem; line-height: 1.45; margin: 0; color: var(--text-secondary); }
+        .task-side {
+            display: flex; flex-direction: column; gap: 0.8rem;
+            min-width: 0;
+        }
+        .task-info-box {
+            border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; background: #fff; padding: 0.95rem;
+        }
+        .task-info-box h4 {
+            font-size: 0.84rem; font-weight: 900; color: var(--task-color, var(--accent-orange));
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem;
+        }
+        .task-chip-list { display: flex; flex-wrap: wrap; gap: 0.42rem; }
+        .task-chip {
+            display: inline-flex; font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.75rem; font-weight: 700; color: #1d1d1f;
+            background: var(--task-soft, rgba(255,107,0,0.08)); border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 8px; padding: 0.28rem 0.55rem;
+            max-width: 100%; overflow-wrap: anywhere; word-break: break-word;
+        }
+        .task-output-list {
+            list-style: none; display: grid; gap: 0.45rem;
+        }
+        .task-output-list li {
+            font-size: 0.86rem; color: var(--text-main); line-height: 1.4;
+            display: grid; grid-template-columns: 1rem 1fr; gap: 0.45rem;
+        }
+        .task-output-list li::before {
+            content: ''; width: 0.45rem; height: 0.45rem; border-radius: 50%;
+            background: var(--task-color, var(--accent-orange)); margin-top: 0.45rem;
+        }
+        .task-gate {
+            margin-top: 1rem; border-radius: 12px; padding: 0.9rem 1rem;
+            background: var(--task-soft, rgba(255,107,0,0.08));
+            border: 1px dashed var(--task-color, var(--accent-orange));
+            font-size: 0.9rem; line-height: 1.5; color: var(--text-main);
+        }
+        .task-gate strong { color: var(--task-color, var(--accent-orange)); }
+        @media (max-width: 980px) {
+            .task-map-shell { grid-template-columns: 1fr; }
+            .task-tabs { display: grid; grid-template-columns: repeat(3, 1fr); }
+            .task-tab { min-height: 150px; }
+        }
+        @media (max-width: 768px) {
+            #taskMapSlide h2 { font-size: 1.78rem; line-height: 1.15; }
+            #taskMapSlide .content > p { font-size: 1rem; line-height: 1.65; }
+            .task-map-panel { min-height: auto; padding: 1rem; }
+            .task-tabs, .task-detail-grid { grid-template-columns: 1fr; }
+            .task-panel-head { flex-direction: column; }
+            .task-map-shell { margin-top: 1rem; }
+            .task-tab { min-height: auto; }
+            .task-panel-title { font-size: 1.28rem; }
+            .task-flow-step { grid-template-columns: 2rem 1fr; }
+        }
+
         /* ===== TOOL ROW ===== */
         .tool-row {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
@@ -413,7 +536,7 @@
 </head>
 
 <body>
-    <div class="page-indicator" id="pageIndicator">1 / 8</div>
+    <div class="page-indicator" id="pageIndicator">1 / 10</div>
     <nav class="nav-controls">
         <button id="prevBtn" aria-label="Previous Slide">&#9650;</button>
         <button id="nextBtn" aria-label="Next Slide">&#9660;</button>
@@ -575,6 +698,67 @@
                             <span class="arch-chip">/announce-launch</span>
                             <span class="arch-chip">/run-launch-retro</span>
                             <span class="arch-chip arch-chip-strong">/run-release-pipeline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SLIDE 5: Interactive Task Map ===== -->
+        <section class="slide slide-tall" id="taskMapSlide">
+            <div class="chapter-badge">TASK MAP</div>
+            <div class="content" style="max-width: 1240px;">
+                <h2>三大任務使用地圖</h2>
+                <p>依任務不確定性決定流程重量：0-1 先探索，新功能跑完整閉環，優化用 evidence 小步迭代。點擊左側任務類型查看建議流程。</p>
+
+                <div class="task-map-shell" id="taskMap">
+                    <div class="task-tabs" role="tablist" aria-label="PM Release Accelerator task types">
+                        <button class="task-tab" type="button" role="tab" id="task-tab-zero" aria-controls="task-panel" aria-selected="true" data-task="zero" style="--task-color:#2563eb; --task-soft:#eff6ff;">
+                            <span class="task-tab-kicker">0-1</span>
+                            <div class="task-tab-title">新產品</div>
+                            <div class="task-tab-desc">問題與市場仍高度不確定，重點是探索、驗證假設，不急著規格化。</div>
+                        </button>
+                        <button class="task-tab" type="button" role="tab" id="task-tab-feature" aria-controls="task-panel" aria-selected="false" data-task="feature" style="--task-color:#059669; --task-soft:#ecfdf5;">
+                            <span class="task-tab-kicker">Feature</span>
+                            <div class="task-tab-title">既有產品新功能</div>
+                            <div class="task-tab-desc">最適合完整使用，讓新需求安全接進既有 spec、review 與 release pipeline。</div>
+                        </button>
+                        <button class="task-tab" type="button" role="tab" id="task-tab-optimize" aria-controls="task-panel" aria-selected="false" data-task="optimize" style="--task-color:#d97706; --task-soft:#fffbeb;">
+                            <span class="task-tab-kicker">Improve</span>
+                            <div class="task-tab-title">既有功能優化</div>
+                            <div class="task-tab-desc">從 data / CS / Slack / sales evidence 出發，聚焦小改動、回歸驗證與成效回收。</div>
+                        </button>
+                    </div>
+
+                    <div class="task-map-panel" id="task-panel" role="tabpanel" aria-live="polite" aria-labelledby="task-tab-zero" style="--task-color:#2563eb; --task-soft:#eff6ff;">
+                        <div class="task-panel-head">
+                            <div>
+                                <div class="task-panel-title" id="taskPanelTitle"></div>
+                                <p class="task-panel-summary" id="taskPanelSummary"></p>
+                            </div>
+                            <div class="task-weight" id="taskPanelWeight"></div>
+                        </div>
+
+                        <div class="task-detail-grid">
+                            <div>
+                                <div class="task-flow" id="taskPanelFlow"></div>
+                                <div class="task-gate" id="taskPanelGate"></div>
+                            </div>
+
+                            <div class="task-side">
+                                <div class="task-info-box">
+                                    <h4>建議使用 Skills</h4>
+                                    <div class="task-chip-list" id="taskPanelSkills"></div>
+                                </div>
+                                <div class="task-info-box">
+                                    <h4>主要產出</h4>
+                                    <ul class="task-output-list" id="taskPanelOutputs"></ul>
+                                </div>
+                                <div class="task-info-box">
+                                    <h4>不建議</h4>
+                                    <ul class="task-output-list" id="taskPanelAvoid"></ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -939,13 +1123,137 @@
             if (quickStartLink) {
                 quickStartLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    scrollToSlide(5);
+                    scrollToSlide(6);
+                });
+            }
+
+            const taskData = {
+                zero: {
+                    color: '#2563eb',
+                    soft: '#eff6ff',
+                    tabId: 'task-tab-zero',
+                    title: '0-1 新產品：Discovery OS',
+                    summary: '用 PM Release Accelerator 輔助探索與驗證，不要一開始就跑完整 PRD pipeline。這類任務的關鍵風險是問題、客群與價值主張是否成立。',
+                    weight: '輕到中量流程',
+                    skills: ['/evaluate-feature', '/screenshot-competitors', 'lightweight /new-prd', '/verify-release', '/run-launch-retro'],
+                    flow: [
+                        ['釐清機會', '先整理 user、problem、替代方案、solution candidates、成功指標與 kill criteria。'],
+                        ['掃描市場', '用競品截圖與 workflow 比較找出 segment、positioning、差異化假設與 moat。'],
+                        ['輕量文件', '先產 opportunity brief、MVP scope、validation plan；不要急著寫完整 release spec。'],
+                        ['MVP 驗證', '到 prototype / MVP 要交付時，才進 test cases、verify release 與 launch retro。']
+                    ],
+                    outputs: ['Opportunity Brief', 'MVP Scope', 'Validation / Kill Criteria', '競品與 positioning 摘要'],
+                    avoid: ['一開始就跑完整 /run-release-pipeline', '把不確定假設寫成重規格 PRD', '只比功能，不比 workflow 與 data moat'],
+                    gate: '<strong>決策 Gate：</strong>只有當使用者痛點、MVP 範圍與驗證方式都清楚時，才進入 PRD / MVP delivery。'
+                },
+                feature: {
+                    color: '#059669',
+                    soft: '#ecfdf5',
+                    tabId: 'task-tab-feature',
+                    title: '既有產品新功能：Spec / PRD / Release OS',
+                    summary: '這是 repo 最適合完整發揮的場景。重點是讓新功能安全接入既有產品行為，並把 review、test、release、translation 與 spec 更新串成閉環。',
+                    weight: '完整流程',
+                    skills: ['/gen-product-spec', '/evaluate-feature', '/new-prd', '/review-prd', '/sync-outline', '/pull-outline-comments', '/run-release-pipeline', '/verify-release', '/announce-launch', '/archive-prd'],
+                    flow: [
+                        ['讀現況', '先讀 specs/ 或用 /gen-product-spec 建立 current behavior SSOT，避免 PRD 與現況脫節。'],
+                        ['建立 PRD', '用 /evaluate-feature 評估後，再 /new-prd 寫 PRD，並明確標示 Spec Delta。'],
+                        ['團隊 Review', '用 /review-prd 讓 PM / Eng / QA / PD 平行檢查風險、衝突、edge cases 與測試缺口。'],
+                        ['發布閉環', '用 /run-release-pipeline 串 test、release notes、translation；上線後 /archive-prd 回寫 specs/。']
+                    ],
+                    outputs: ['PRD + Spec Delta', 'Review.md', 'Test Cases / Test Run', 'Release Notes / Locales', 'Updated Product Spec'],
+                    avoid: ['沒有 current spec 就直接寫需求', '只同步到 Google Doc 卻不回流 PRD', '上線後忘記 /archive-prd，讓 specs/ 過期'],
+                    gate: '<strong>閉環 Gate：</strong>新功能完成的標準不是 PRD merge，而是上線後 Spec Delta 已回寫，下一次 Claude 能讀到最新產品行為。'
+                },
+                optimize: {
+                    color: '#d97706',
+                    soft: '#fffbeb',
+                    tabId: 'task-tab-optimize',
+                    title: '既有功能優化：Optimization Loop',
+                    summary: '優化任務不一定需要完整 PRD。先用 evidence 定位問題，再用小步變更、回歸驗證與上線後數據決定下一輪。',
+                    weight: '輕量迭代',
+                    skills: ['簡版 /evaluate-feature', 'selective /review-prd', '/gen-test-cases', '/verify-release', '/run-launch-retro', '/sync-spec-to-prd'],
+                    flow: [
+                        ['Evidence First', '先整理 GA / funnel / usage、CS feedback、Slack 討論、sales quote 與現有 spec。'],
+                        ['診斷問題', '判斷是 discoverability、理解成本、操作成本、效能、錯誤率或期待落差。'],
+                        ['小步變更', '寫 optimization brief，聚焦 expected metric movement、rollback plan 與 regression scope。'],
+                        ['回收學習', '上線後跑 /run-launch-retro，決定 expand、iterate 或 rollback。']
+                    ],
+                    outputs: ['Optimization Brief', 'Regression-focused Test Cases', 'Verification Report', 'Metric Result / Retro', 'Next Iteration Decision'],
+                    avoid: ['每個小優化都開完整 PRD pipeline', '沒有 baseline metric 就宣稱改善', '只測新 behavior，不測 old flow regression'],
+                    gate: '<strong>學習 Gate：</strong>指標有效就擴大，無效就 rollback 或 iterate；優化的價值要由 evidence 回收，而不是由主觀感覺判斷。'
+                }
+            };
+
+            const taskMap = document.getElementById('taskMap');
+            const taskPanel = document.getElementById('task-panel');
+            const taskPanelTitle = document.getElementById('taskPanelTitle');
+            const taskPanelSummary = document.getElementById('taskPanelSummary');
+            const taskPanelWeight = document.getElementById('taskPanelWeight');
+            const taskPanelFlow = document.getElementById('taskPanelFlow');
+            const taskPanelSkills = document.getElementById('taskPanelSkills');
+            const taskPanelOutputs = document.getElementById('taskPanelOutputs');
+            const taskPanelAvoid = document.getElementById('taskPanelAvoid');
+            const taskPanelGate = document.getElementById('taskPanelGate');
+
+            const renderTask = (key) => {
+                if (!taskData[key] || !taskMap) return;
+                const data = taskData[key];
+
+                document.querySelectorAll('.task-tab').forEach(tab => {
+                    const isSelected = tab.dataset.task === key;
+                    tab.setAttribute('aria-selected', String(isSelected));
+                    tab.tabIndex = isSelected ? 0 : -1;
+                });
+
+                taskPanel.style.setProperty('--task-color', data.color);
+                taskPanel.style.setProperty('--task-soft', data.soft);
+                taskPanel.setAttribute('aria-labelledby', data.tabId);
+                taskPanelTitle.textContent = data.title;
+                taskPanelSummary.textContent = data.summary;
+                taskPanelWeight.textContent = data.weight;
+                taskPanelFlow.innerHTML = data.flow.map((step, index) => `
+                    <div class="task-flow-step">
+                        <div class="task-step-num">${index + 1}</div>
+                        <div>
+                            <h4>${step[0]}</h4>
+                            <p>${step[1]}</p>
+                        </div>
+                    </div>
+                `).join('');
+                taskPanelSkills.innerHTML = data.skills.map(skill => `<span class="task-chip">${skill}</span>`).join('');
+                taskPanelOutputs.innerHTML = data.outputs.map(output => `<li>${output}</li>`).join('');
+                taskPanelAvoid.innerHTML = data.avoid.map(item => `<li>${item}</li>`).join('');
+                taskPanelGate.innerHTML = data.gate;
+            };
+
+            if (taskMap) {
+                renderTask('zero');
+                document.querySelectorAll('.task-tab').forEach(tab => {
+                    tab.addEventListener('click', () => renderTask(tab.dataset.task));
+                    tab.addEventListener('keydown', (e) => {
+                        const tabs = Array.from(document.querySelectorAll('.task-tab'));
+                        const current = tabs.indexOf(tab);
+                        let next = current;
+                        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (current + 1) % tabs.length;
+                        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+                        if (next !== current) {
+                            e.preventDefault();
+                            tabs[next].focus();
+                            renderTask(tabs[next].dataset.task);
+                        }
+                    });
                 });
             }
 
             if (slides.length > 0) {
-                updateIndicator(0);
-                slides[0].classList.add('visible');
+                const targetFromHash = window.location.hash ? document.querySelector(window.location.hash) : null;
+                const initialSlide = targetFromHash && targetFromHash.classList.contains('slide') ? targetFromHash : slides[0];
+                currentIndex = Math.max(0, slides.indexOf(initialSlide));
+                updateIndicator(currentIndex);
+                initialSlide.classList.add('visible');
+                if (initialSlide !== slides[0]) {
+                    initialSlide.scrollIntoView({ behavior: 'auto' });
+                }
             }
         });
     </script>
