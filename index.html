@@ -618,19 +618,19 @@
             <div class="chapter-badge">SOLUTION</div>
             <div class="content">
                 <h2>What We Built</h2>
-                <p>25 個 Claude Code Skills，分三層覆蓋從探索到上線、含 lifecycle 觀察、Outline / GDoc 雙路徑同步、反向同步的完整 PM 工作流</p>
+                <p>25 個 Claude Code Skills，主三層架構覆蓋探索 → PRD → 上線發布，外加 1 個輔助工具（pack-repo）</p>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div class="flow-num">1</div>
-                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/evaluate-feature</code>：ICE 評分 / 風險掃描 / 成功指標 / 假設句型；<code>/screenshot-competitors</code>：平行 Playwright 截圖 → JPEG → GCS → Outline attachment append</div>
+                        <div class="flow-text"><strong>探索層</strong> &mdash; <code>/evaluate-feature</code>：ICE 評分 / 風險掃描 / 成功指標 / 假設句型；<code>/competitive-research</code>：positioning matrix + 差異化窄縫。scope 模糊時銜接 superpowers:brainstorming</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">2</div>
-                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/sync-outline</code>（**primary**）, <code>/pull-outline-comments</code>, <code>/sync-gdoc</code>（含 <code>--dry-run</code>，對外 alternative）, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/patch-outline-safely</code>, <code>/check-prd-status</code>（lifecycle dashboard）, <code>/sync-spec-to-prd</code>（reverse sync）。PRD 與 Spec 住在 Git，Outline 為內部 read-only snapshot，GDoc 用於對外分享</div>
+                        <div class="flow-text"><strong>PRD Lifecycle（Git-as-SSOT）</strong> &mdash; <code>/new-prd</code>, <code>/sync-prd</code>, <code>/review-prd</code>（4 subagent 平行 PM/Eng/QA/PD review）, <code>/triple-a-review</code>（lightweight Align/Author/Audit）, <code>/sync-outline</code>（<strong>primary</strong>）, <code>/pull-outline-comments</code>, <code>/sync-gdoc</code>（對外 alternative）, <code>/pull-gdoc-comments</code>, <code>/archive-prd</code>, <code>/gen-product-spec</code>, <code>/patch-outline-safely</code>, <code>/tidy-outline-headings</code>（順 6 條結構原則）, <code>/check-prd-status</code>（lifecycle dashboard）。PRD 與 Spec 住在 Git，Outline 為內部 SSOT 對外 snapshot，GDoc 用於跨 org 分享</div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-num">3</div>
-                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/record-test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate-locales</code>（cl-locales）&rarr; <code>/verify-release</code>（Asana propose-only）&rarr; <code>/check-deploy-status</code>（跨 repo PR 部署狀態）&rarr; <code>/announce-launch</code>（短公告 draft）&rarr; <code>/run-launch-retro</code>（上線後 N 天 GA + reqflow + Slack + Asana 回流）。<code>/run-release-pipeline</code> 串接，<code>/embed-ga4</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
+                        <div class="flow-text"><strong>上線發布鏈</strong> &mdash; <code>/gen-test-cases</code> &rarr; <code>/record-test-run</code>（<code>--auto</code> Playwright）&rarr; <code>/gen-release-notes</code>（推 Slack）&rarr; <code>/translate-locales</code>（cl-locales）&rarr; <code>/verify-release</code>（build + golden path + 截圖）&rarr; <code>/announce-launch</code>（#announce-product Slack draft）。<code>/run-release-pipeline</code> 串接整條鏈，<code>/embed-ga4</code> 處理 GA4 SPA 埋碼，<code>/gen-hc-content</code> 產 Help Center 素材</div>
                     </div>
                 </div>
                 <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">完整 25 skill 表 &amp; 目錄結構請見 <a href="https://github.com/Lydia47/pm-release-accelerator#skills-全覽25-支" style="color: var(--accent-cyan);">README</a>。</p>
@@ -654,7 +654,8 @@
                         </div>
                         <div class="arch-chips">
                             <span class="arch-chip">/evaluate-feature</span>
-                            <span class="arch-chip">/screenshot-competitors</span>
+                            <span class="arch-chip">/competitive-research</span>
+                            <span class="arch-chip">superpowers:brainstorming</span>
                         </div>
                     </div>
                     <div class="arch-arrow">&darr;</div>
@@ -678,9 +679,10 @@
                             <span class="arch-chip">/gen-product-spec</span>
                             <span class="arch-chip">/patch-outline-safely</span>
                             <span class="arch-chip">/check-prd-status</span>
-                            <span class="arch-chip">/sync-spec-to-prd</span>
+                            <span class="arch-chip">/triple-a-review</span>
+                            <span class="arch-chip">/tidy-outline-headings</span>
                         </div>
-                        <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack 透過 sync-prd 回流；Outline 評論（內部）透過 pull-outline-comments、GDoc 評論（外部）透過 pull-gdoc-comments；spec 改動透過 sync-spec-to-prd 反向回填</div>
+                        <div class="arch-loop">&#x21BB; Closed Loop：會議 / Slack 透過 sync-prd 回流；Outline 評論（內部）透過 pull-outline-comments、GDoc 評論（外部）透過 pull-gdoc-comments</div>
                     </div>
                     <div class="arch-arrow">&darr;</div>
                     <div class="arch-layer arch-layer-3">
@@ -699,9 +701,7 @@
                             <span class="arch-chip">/translate-locales</span>
                             <span class="arch-chip">/verify-release</span>
                             <span class="arch-chip">/embed-ga4</span>
-                            <span class="arch-chip">/check-deploy-status</span>
                             <span class="arch-chip">/announce-launch</span>
-                            <span class="arch-chip">/run-launch-retro</span>
                             <span class="arch-chip arch-chip-strong">/run-release-pipeline</span>
                         </div>
                     </div>
@@ -895,8 +895,8 @@
                 <div class="ref-section">
                     <div class="ref-section-title">1. Discovery（探索評估）</div>
                     <div class="ref-grid">
-                        <div class="ref-card"><code>/evaluate-feature</code><p>ICE 評分、4 大風險、成功指標、假設句型</p><span class="trigger">「評估這個 idea」「功能評估」「ICE scoring」</span></div>
-                        <div class="ref-card"><code>/screenshot-competitors</code><p>平行 Playwright 截圖 → JPEG → GCS → Outline patch</p><span class="trigger">「截競品」「競品截圖」「screenshot pricing」</span></div>
+                        <div class="ref-card"><code>/evaluate-feature</code><p>ICE 評分、4 大風險、成功指標、假設句型</p><span class="trigger">「評估」「功能評估」「值不值得做」「ICE scoring」</span></div>
+                        <div class="ref-card"><code>/competitive-research</code><p>positioning matrix + feature comparison + 差異化窄縫 + sources</p><span class="trigger">「競品研究」「對比 X 跟 Y」「positioning」「差異化」</span></div>
                     </div>
                 </div>
 
@@ -906,9 +906,10 @@
                     <div class="ref-subgroup">
                         <div class="ref-subgroup-title">撰寫與審查</div>
                         <div class="ref-grid">
-                            <div class="ref-card"><code>/new-prd</code><p>從 evaluation.md 或對話起草 PRD draft</p><span class="trigger">「新需求」「create prd」「draft from idea」</span></div>
-                            <div class="ref-card"><code>/sync-prd</code><p>把會議結論 / Slack 討論 fold 進 PRD</p><span class="trigger">「會議結論」「meeting notes」「incorporate feedback」</span></div>
-                            <div class="ref-card"><code>/review-prd</code><p>4 subagent 平行 PM/Eng/QA/PD review + 跨 PRD 衝突偵測</p><span class="trigger">「review prd」「審查」「multi-perspective feedback」</span></div>
+                            <div class="ref-card"><code>/new-prd</code><p>從 evaluation.md 或對話起草 PRD draft</p><span class="trigger">「新需求」「想做 X」「起草」「create prd」「draft from idea」</span></div>
+                            <div class="ref-card"><code>/sync-prd</code><p>把會議結論 / Slack 討論 fold 進 PRD</p><span class="trigger">「會議結論」「把 X 加進 PRD」「meeting notes」「incorporate feedback」</span></div>
+                            <div class="ref-card"><code>/review-prd</code><p>4 subagent 平行 PM/Eng/QA/PD review + 跨 PRD 衝突偵測</p><span class="trigger">「review prd」「審查」「找漏洞」「multi-perspective feedback」</span></div>
+                            <div class="ref-card"><code>/triple-a-review</code><p>單一需求輕量級 Align/Author/Audit 檢查（lighter than review-prd）</p><span class="trigger">「triple-a」「審查需求」「這個需求完整嗎」</span></div>
                         </div>
                     </div>
 
@@ -925,16 +926,16 @@
                     <div class="ref-subgroup">
                         <div class="ref-subgroup-title">Spec 管理</div>
                         <div class="ref-grid">
-                            <div class="ref-card"><code>/gen-product-spec</code><p>4 subagent 反向產出 Product Spec from source code</p><span class="trigger">「寫 spec」「document current behavior」「what does X do」</span></div>
-                            <div class="ref-card"><code>/archive-prd</code><p>套 Spec Delta 更新 spec、搬到 archive；spec 不存在會 STOP 三選一</p><span class="trigger">「歸檔」「ship prd」「close prd」</span></div>
-                            <div class="ref-card"><code>/sync-spec-to-prd</code><p>spec.md hot-fix 反向回填到同 domain active PRD</p><span class="trigger">「把 spec 改回 prd」「hot-fix spec」「reverse sync」</span></div>
+                            <div class="ref-card"><code>/gen-product-spec</code><p>4 subagent 反向產出 Product Spec from source code</p><span class="trigger">「X module 做什麼」「寫 spec」「document X」「what does X do」</span></div>
+                            <div class="ref-card"><code>/archive-prd</code><p>套 Spec Delta 更新 spec、搬到 archive；spec 不存在會 STOP 三選一</p><span class="trigger">「歸檔」「ship prd」「PRD 完成了」「close prd」</span></div>
                         </div>
                     </div>
 
                     <div class="ref-subgroup">
-                        <div class="ref-subgroup-title">Patch utility &amp; 進度追蹤</div>
+                        <div class="ref-subgroup-title">Outline 整理 &amp; 進度追蹤</div>
                         <div class="ref-grid">
                             <div class="ref-card"><code>/patch-outline-safely</code><p>cl-outline patch 含 pre/post-flight 驗證，防 silent fail</p><span class="trigger">「安全更新 outline」「patch outline」</span></div>
+                            <div class="ref-card"><code>/tidy-outline-headings</code><p>6 條結構原則：H2 起跳 / 不跳級 / 分組 / emoji 只放母章節</p><span class="trigger">「outline 不好讀」「順 outline」「heading hierarchy」</span></div>
                             <div class="ref-card"><code>/check-prd-status</code><p>掃 active PRD → 推算 stage / next step / blockers</p><span class="trigger">「prd 進度」「哪些 prd in flight」「prd dashboard」</span></div>
                         </div>
                     </div>
@@ -946,9 +947,9 @@
                     <div class="ref-subgroup">
                         <div class="ref-subgroup-title">測試與內容</div>
                         <div class="ref-grid">
-                            <div class="ref-card"><code>/gen-test-cases</code><p>從 PRD 產 P0/P1/P2 × Happy/Edge/Error/Regression</p><span class="trigger">「產生測試」「gen test cases」「test cases」</span></div>
+                            <div class="ref-card"><code>/gen-test-cases</code><p>從 PRD 產 P0/P1/P2 × Happy/Edge/Error/Regression</p><span class="trigger">「產生測試」「測試案例」「gen test cases」「給 QA 測試清單」</span></div>
                             <div class="ref-card"><code>/record-test-run</code><p>建 QA 執行紀錄；<code>--auto</code> 用 Playwright 自動跑</p><span class="trigger">「開測試」「new test run」「playwright run」</span></div>
-                            <div class="ref-card"><code>/gen-release-notes</code><p>External + Internal 兩版；可選推 Slack（學頻道風格）</p><span class="trigger">「release notes」「發布說明」「changelog」</span></div>
+                            <div class="ref-card"><code>/gen-release-notes</code><p>External + Internal 兩版；可選推 Slack（學頻道風格）</p><span class="trigger">「release notes」「發布說明」「changelog」「internal update」</span></div>
                             <div class="ref-card"><code>/gen-hc-content</code><p>Help Center 素材：介紹 + 情境 + 步驟 + FAQ</p><span class="trigger">「help center」「產生文件」「hc content」</span></div>
                         </div>
                     </div>
@@ -957,25 +958,30 @@
                         <div class="ref-subgroup-title">翻譯與驗證</div>
                         <div class="ref-grid">
                             <div class="ref-card"><code>/translate-locales</code><p>zh-TW → EN/TH/JA + Slack review + cl-locales publish</p><span class="trigger">「翻譯」「locales」「多國語言」</span></div>
-                            <div class="ref-card"><code>/verify-release</code><p>上線前 build check + golden path + Asana propose-only</p><span class="trigger">「上線前」「smoke test」「golden path」「verify release」</span></div>
-                            <div class="ref-card"><code>/embed-ga4</code><p>GA4 SPA 埋碼：gtag.js + analytics module + RouteTracker</p><span class="trigger">「set up analytics」「埋 GA4」「add page tracking」</span></div>
+                            <div class="ref-card is-primary has-badge"><code>/verify-release</code><span class="badge badge-primary">CRITICAL</span><p>上線前 build check + golden path + 截圖證據</p><span class="trigger">「驗證」「來測一下」「smoke test」「golden path」「上線前」「部署完了嗎」</span></div>
+                            <div class="ref-card"><code>/embed-ga4</code><p>GA4 SPA 埋碼：gtag.js + analytics module + RouteTracker</p><span class="trigger">「埋碼」「埋 GA4」「set up analytics」「add page tracking」</span></div>
                         </div>
                     </div>
 
                     <div class="ref-subgroup">
-                        <div class="ref-subgroup-title">公告與監控</div>
+                        <div class="ref-subgroup-title">公告</div>
                         <div class="ref-grid">
-                            <div class="ref-card"><code>/check-deploy-status</code><p>跨 repo PR → merged / CI / release / smoke 4 階段</p><span class="trigger">「部署狀態」「為什麼沒上線」「check deployment」</span></div>
-                            <div class="ref-card"><code>/announce-launch</code><p>已上線 → #announce-product 短公告 draft（zh-TW / en）</p><span class="trigger">「上線通知」「announce launch」「公告 draft」</span></div>
+                            <div class="ref-card"><code>/announce-launch</code><p>已上線 → #announce-product 短公告 draft（zh-TW / en）</p><span class="trigger">「公告」「上線通知」「announce launch」「跟團隊講 X 上線了」</span></div>
                         </div>
                     </div>
 
                     <div class="ref-subgroup">
-                        <div class="ref-subgroup-title">Pipeline 編排 &amp; 上線後</div>
+                        <div class="ref-subgroup-title">Pipeline 編排</div>
                         <div class="ref-grid">
                             <div class="ref-card is-orchestrator has-badge"><code>/run-release-pipeline</code><span class="badge badge-orchestrator" title="Orchestrator — 一鍵串接整條 release pipeline">⚡ PIPELINE</span><p>串 gen-test-cases → record-test-run → release-notes → translate-locales → sync-outline / sync-gdoc，每步 PM gate</p><span class="trigger">「一鍵發布」「release pipeline」「end-to-end release」</span></div>
-                            <div class="ref-card"><code>/run-launch-retro</code><p>launch 後 N 天 GA + reqflow + Slack + Asana 回流 → learnings</p><span class="trigger">「上線後檢討」「launch retro」「retrospective」</span></div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="ref-section">
+                    <div class="ref-section-title">4. 工具型（Auxiliary）</div>
+                    <div class="ref-grid">
+                        <div class="ref-card"><code>/pack-repo</code><p>Repomix 打包 repo 成 AI 友好 XML，給非技術同事或 Claude Web 用</p><span class="trigger">「打包 repo」「pack repo」「給非技術同事看 codebase」</span></div>
                     </div>
                 </div>
 
@@ -1140,12 +1146,12 @@
                     title: '0-1 新產品：Discovery OS',
                     summary: '用 PM Release Accelerator 輔助探索與驗證，不要一開始就跑完整 PRD pipeline。這類任務的關鍵風險是問題、客群與價值主張是否成立。',
                     weight: '輕到中量流程',
-                    skills: ['/evaluate-feature', '/screenshot-competitors', 'lightweight /new-prd', '/verify-release', '/run-launch-retro'],
+                    skills: ['/evaluate-feature', 'superpowers:brainstorming', 'lightweight /new-prd', '/verify-release'],
                     flow: [
                         ['釐清機會', '先整理 user、problem、替代方案、solution candidates、成功指標與 kill criteria。'],
                         ['掃描市場', '用競品截圖與 workflow 比較找出 segment、positioning、差異化假設與 moat。'],
                         ['輕量文件', '先產 opportunity brief、MVP scope、validation plan；不要急著寫完整 release spec。'],
-                        ['MVP 驗證', '到 prototype / MVP 要交付時，才進 test cases、verify release 與 launch retro。']
+                        ['MVP 驗證', '到 prototype / MVP 要交付時，才進 test cases、verify release。']
                     ],
                     outputs: ['Opportunity Brief', 'MVP Scope', 'Validation / Kill Criteria', '競品與 positioning 摘要'],
                     avoid: ['一開始就跑完整 /run-release-pipeline', '把不確定假設寫成重規格 PRD', '只比功能，不比 workflow 與 data moat'],
@@ -1176,12 +1182,12 @@
                     title: '既有功能優化：Optimization Loop',
                     summary: '優化任務不一定需要完整 PRD。先用 evidence 定位問題，再用小步變更、回歸驗證與上線後數據決定下一輪。',
                     weight: '輕量迭代',
-                    skills: ['簡版 /evaluate-feature', 'selective /review-prd', '/gen-test-cases', '/verify-release', '/run-launch-retro', '/sync-spec-to-prd'],
+                    skills: ['簡版 /evaluate-feature', 'selective /review-prd', '/gen-test-cases', '/verify-release', '/sync-prd'],
                     flow: [
                         ['Evidence First', '先整理 GA / funnel / usage、CS feedback、Slack 討論、sales quote 與現有 spec。'],
                         ['診斷問題', '判斷是 discoverability、理解成本、操作成本、效能、錯誤率或期待落差。'],
                         ['小步變更', '寫 optimization brief，聚焦 expected metric movement、rollback plan 與 regression scope。'],
-                        ['回收學習', '上線後跑 /run-launch-retro，決定 expand、iterate 或 rollback。']
+                        ['回收學習', '上線後比對 baseline metric，決定 expand、iterate 或 rollback。']
                     ],
                     outputs: ['Optimization Brief', 'Regression-focused Test Cases', 'Verification Report', 'Metric Result / Retro', 'Next Iteration Decision'],
                     avoid: ['每個小優化都開完整 PRD pipeline', '沒有 baseline metric 就宣稱改善', '只測新 behavior，不測 old flow regression'],
