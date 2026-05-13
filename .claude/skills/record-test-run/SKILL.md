@@ -1,6 +1,6 @@
 ---
 name: record-test-run
-description: "從 test-cases.md 建立一份新的 test run 執行紀錄供 QA 打勾（前身 test-run）。可選 --auto 用 Playwright AI 自動執行並填入結果。Triggers on: record test run, test run, 開測試, 建立測試, new test run, 開始測試, auto test, playwright run."
+description: "**Use IMMEDIATELY when user wants to start or log a QA test run** — phrases like 開測試 / 開始測 / 跑測試 / record test run / new test run / 建立 test run / QA 來打勾 / 跑 playwright / auto test / 來測一下 (when test-cases.md exists) / 執行測試 / 測試紀錄. Creates test-run-{date}.md from test-cases.md as a live QA checklist. With --auto runs Playwright MCP to fill results automatically. If test-cases.md missing, suggest /gen-test-cases first. For pre-ship smoke test (not full case execution), use verify-release instead."
 ---
 
 # Test Run

@@ -1,6 +1,6 @@
 ---
 name: patch-outline-safely
-description: "包裝 cl-outline update_document 加上 pre/post-flight 驗證，避免 editMode patch 在 findText 不存在時 silent fail（前身 outline-patch-safe）。Triggers on: patch outline safely, outline patch, 安全更新 outline, outline update verify, patch outline."
+description: "**Use whenever modifying an existing Outline doc via editMode=patch** — phrases like patch outline / 安全更新 outline / 改 outline 段落 / update outline section / outline patch verify / 替換 outline 某一段 / 改 outline 內容. Wraps cl-outline update_document with pre-flight (verify findText exists, suggest similar via difflib if not) + post-flight (verify revision incremented AND content changed) checks. Mandatory wrapper for any Outline patch — direct update_document calls silently no-op when findText doesn't match. Other skills (tidy-outline-headings, etc.) call this as their patch primitive."
 ---
 
 # Outline Patch Safe

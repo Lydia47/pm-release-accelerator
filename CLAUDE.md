@@ -1,10 +1,13 @@
 # PM Release Accelerator
 
 ## Overview
-25 個 Claude Code Skills，分三層：
-- **探索層**：`/evaluate-feature`, `/screenshot-competitors`
-- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/sync-outline`, `/pull-outline-comments`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`, `/check-prd-status`, `/sync-spec-to-prd`
-- **發布鏈**：`/gen-test-cases`, `/record-test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate-locales`, `/verify-release`, `/run-release-pipeline`, `/embed-ga4`, `/check-deploy-status`, `/announce-launch`, `/run-launch-retro`
+25 個 Claude Code Skills，分四層（2026-05-13 優化：移除 4 個低使用率 skill、補進 3 個本地獨有 skill、aggressive description 重寫）：
+- **探索層**：`/evaluate-feature`（scope 模糊時銜接 superpowers:brainstorming）、`/competitive-research`
+- **PRD Lifecycle**（Git-as-SSOT）：`/new-prd`, `/sync-prd`, `/review-prd`, `/triple-a-review`, `/sync-outline`, `/pull-outline-comments`, `/sync-gdoc`, `/pull-gdoc-comments`, `/archive-prd`, `/gen-product-spec`, `/patch-outline-safely`, `/tidy-outline-headings`, `/check-prd-status`
+- **發布鏈**：`/gen-test-cases`, `/record-test-run`, `/gen-release-notes`, `/gen-hc-content`, `/translate-locales`, `/verify-release`, `/run-release-pipeline`, `/embed-ga4`, `/announce-launch`
+- **工具型**：`/pack-repo`（Repomix 打包 repo context 給非技術同事或 Claude Web）
+
+**已歸檔到 `~/.claude/skills-archive/`**（30 天 0 使用率，需要時可手動 mv 回來）：`screenshot-competitors`, `run-launch-retro`, `sync-task-board`, `sync-spec-to-prd`, `check-deploy-status`, `init-project`, `locales-publish`（已被 translate-locales 取代）
 
 採用 **pm-hub 架構**（PRD/Spec 住在 `prds/`、`specs/`），加上 release-side 自動化。
 
@@ -47,13 +50,11 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 |:-----|:-----|:-------------|
 | gws CLI | `~/.cargo/bin/gws` | `/sync-gdoc`, `/pull-gdoc-comments`, `/translate-locales`, `/verify-release`, `/announce-launch` |
 | Slack MCP | — | `/sync-prd`, `/gen-release-notes`, `/translate-locales`, `/announce-launch` |
-| Playwright MCP | — | `/record-test-run --auto`, `/verify-release`, `/embed-ga4`, `/screenshot-competitors` |
+| Playwright MCP | — | `/record-test-run --auto`, `/verify-release`, `/embed-ga4` |
 | Figma MCP | — | `/record-test-run`（PD 比對）, `/verify-release` |
 | Asana MCP | — | `/record-test-run`, `/verify-release` |
-| GitHub MCP / CLI | `gh` | `/gen-product-spec`, `/verify-release`, `/check-deploy-status` |
-| cl-outline plugin | `mcp__plugin_cl-outline_outline__*` | **`/sync-outline`**, **`/pull-outline-comments`**, `/patch-outline-safely`, `/announce-launch`, `/screenshot-competitors` |
-| GCS (gcloud/gsutil) | — | `/screenshot-competitors` |
-| Firebase CLI | `firebase` | `/check-deploy-status`（Firebase Hosting release 查詢） |
+| GitHub MCP / CLI | `gh` | `/gen-product-spec`, `/verify-release` |
+| cl-outline plugin | `mcp__plugin_cl-outline_outline__*` | **`/sync-outline`**, **`/pull-outline-comments`**, `/patch-outline-safely`, `/announce-launch` |
 | cl-locales | `cl-locales`（plugin）or `~/.claude/skills/cl-locales/scripts/locales-cli`（手動） | `/translate-locales` |
 
 ## Spec / PRD 連動機制
@@ -68,7 +69,7 @@ description: "一行描述功能。Triggers on: keyword1, keyword2, 中文觸發
 
 ## 部署
 
-- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 25 skill 三層架構）
+- **GitHub Pages**: `index.html`（single-page slide deck，已對齊 24 skill 三層架構）
 - 修改後 push 到 main 即自動部署到 https://lydia47.github.io/pm-release-accelerator/
 
 ## 與 pm-hub 的關係
