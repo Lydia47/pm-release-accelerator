@@ -1,6 +1,6 @@
 ---
 name: translate-locales
-description: "UI 字串翻譯流程（前身 translate）：填 zh-TW → 自動翻譯 EN/TH/JA → cl-locales 寫回 Sheet → 推 Slack review → cl-locales publish 發到 Firebase Storage。Triggers on: translate locales, translate, 翻譯, locales, 多國語言, ui translation."
+description: "**Use IMMEDIATELY when user wants to translate UI strings OR publish translations live** — phrases like 翻譯 / translate / 多國語言 / locales / EN/TH/JA / UI 翻譯 / 把這個翻一下 / 三國語言 / 上翻譯 / 發布翻譯 / publish translations / 翻譯上線 / deploy locales / push locales to firebase / sync locales / 讓翻譯生效 / 上傳翻譯 / 更新翻譯. Full pipeline: zh-TW → auto-translate EN/TH/JA → cl-locales 寫回 Sheet → Slack review → publish to Firebase. Can enter at any stage (full flow / publish-only / review-only). Supersedes locales-publish. Supports caac / maac / liff / admin-center. If app target unclear, ask in-skill."
 ---
 
 # Translation Flow
@@ -137,6 +137,29 @@ PM 確認後執行。
 
 ### Phase 4：發 Slack review
 
+#### 4a. 建立 review tab（Translation review_JP&TH sheet）
+
+在 **Translation review_JP&TH** sheet（`1F3R1_N2tqV5xUKP2jC1dSn9JGCF1hx_-j6VYldDAKnk`）建一個 per-batch 的 review tab，讓 reviewer 集中標註。
+
+**Tab 命名規則**：
+
+- **新建時**：`YYYYMMDD_Name`（例如 `20260417_Lydia`）— **不要加任何 leading marker**
+- **Review 完成、changes published 後**：rename 加 `⭕️` prefix → `⭕️20260417_Lydia`
+
+**Status marker 對照表**（都是 post-hoc 套用，不要新建時就先加）：
+
+| Prefix | 意義 |
+|---|---|
+| (無) | In review / 進行中 |
+| `⭕️` | Review done + published |
+| `✅` | 較舊的 done（歷史用法，新批次用 ⭕️） |
+| `⚠️` | 有 issues 待處理 |
+| `❌` | 已放棄 |
+
+⚠️ **不要**從歷史 tab 複製貼上 `⭕️YYYYMMDD_Name` 樣式，那是「已完成」的標記，不是命名格式本身。
+
+#### 4b. 發 Slack review request
+
 自動發給對應 reviewer：
 
 1. **TH review** → Channel `C02KEBW93JT`，Reviewer Oat（`U04UP7B83AN`）
@@ -196,7 +219,9 @@ PM 確認 review 完成（"confirmed"、"all confirmed"）：
    - "gws authentication failed" → 請 PM 跑 `! gws auth login`
    - "Unable to parse range" → 升級 gws CLI 到 ≥ 0.13.3：`! pnpx @googleworkspace/cli`
 
-6. **完成回報**：「翻譯已發布到 staging / production，共 X 個 keys。」
+6. **Rename review tab**：publish 完成後，到 Translation review_JP&TH sheet 把該批次的 tab 從 `YYYYMMDD_Name` 改成 `⭕️YYYYMMDD_Name`（標記 done）。
+
+7. **完成回報**：「翻譯已發布到 staging / production，共 X 個 keys。」
 
 ### Phase 7：（可選）同步 local locale cache
 

@@ -1,6 +1,6 @@
 ---
 name: gen-hc-content
-description: "從 PRD 產生 Help Center 等級的內容素材（功能介紹、情境、操作步驟、FAQ）。PM 自行決定要寫成新文章或追加到現有文章。Triggers on: gen hc, help center, hc content, 產生文件, 寫文件."
+description: "**Use IMMEDIATELY when user wants Help Center / 客服文件 content from a PRD** — phrases like help center / HC content / 寫客服文件 / 寫 help center / 產生使用說明 / 操作說明 / 客戶 FAQ / write user guide / customer documentation / 給客戶看的文件 / 客戶端文件 / 對外說明 / how-to article / KB article. Produces 5 blocks (功能介紹 / 情境 / 操作步驟 / 注意事項 / FAQ) using Crescendo Lab HC conventions and tone. PM decides whether to publish as new article or append to existing. If PRD path unclear, ask in-skill."
 ---
 
 # Generate Help Center Content

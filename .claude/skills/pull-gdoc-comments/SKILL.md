@@ -1,6 +1,6 @@
 ---
 name: pull-gdoc-comments
-description: "從 Google Doc 讀取 comment，整理成結構化摘要，協助 PM 決定如何反映到 PRD。**內部 stakeholder 評論用 /pull-outline-comments**；本 skill 適合外部 / 跨 org stakeholder 在 GDoc 上的評論回流。Triggers on: pull gdoc comments, 拉 gdoc 評論, gdoc comments, external stakeholder feedback gdoc."
+description: "**Use IMMEDIATELY when user wants to pull stakeholder comments from a Google Doc** — phrases like 拉 gdoc 評論 / pull gdoc comments / gdoc comments / GTM 在 gdoc 留言 / 外部回饋 / external stakeholder feedback / 跨 org 留言 / GDoc 上的意見 / 從 gdoc 收評論. Structures comments by author + theme. For INTERNAL stakeholders on Outline, use pull-outline-comments (primary path). This skill is the fallback for external / cross-org reviewers without Outline access. If doc ID unclear, ask in-skill."
 ---
 
 # Pull Google Doc Comments

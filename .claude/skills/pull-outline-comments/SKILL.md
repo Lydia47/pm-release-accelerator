@@ -1,6 +1,6 @@
 ---
 name: pull-outline-comments
-description: "從 Outline doc 讀取 comment（包含 stakeholder feedback），整理成結構化摘要，協助 PM 決定如何反映到 PRD。Outline 是內部 SSOT primary path；GDoc 評論用 pull-gdoc-comments。Triggers on: pull outline comments, outline comments, 拉 outline 評論, outline feedback."
+description: "**Use IMMEDIATELY when user wants to pull stakeholder comments from an Outline doc** — phrases like 拉 outline 評論 / pull outline comments / outline comments / outline feedback / Outline 上面留言 / 同事在 outline 留了什麼 / 收 outline 回饋 / 整理 outline 評論 / 看大家 outline 留什麼 / outline 上的意見. Structures comments by author + theme so PM can decide what to fold back into the PRD. PRIMARY path for internal stakeholder feedback. For external / cross-org stakeholders commenting on GDoc, use pull-gdoc-comments. If doc URL/ID unclear, ask in-skill."
 ---
 
 # Pull Outline Comments → PRD

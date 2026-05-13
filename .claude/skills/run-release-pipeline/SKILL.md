@@ -1,6 +1,6 @@
 ---
 name: run-release-pipeline
-description: "Release Pipeline orchestrator（前身 release-pipeline）：給 PRD（local prds/{name} 或 Google Doc ID），依序串接 gen-test-cases → record-test-run → gen-release-notes → translate-locales，可選 sync-gdoc 同步。每步都有 user confirmation gate。Triggers on: run release pipeline, release pipeline, pipeline, 串接, 一鍵發布, end-to-end release."
+description: "**Use when user wants to chain the full release pipeline end-to-end from a PRD** — phrases like run release pipeline / release pipeline / 一鍵發布 / 跑整套 / 串起來 / end-to-end release / 從測試到上線 / 完整 release flow / 整條串完 / orchestrate release / pipeline 跑一輪. Sequences gen-test-cases → record-test-run → gen-release-notes → translate-locales (optional sync-outline / sync-gdoc). Every phase has PM confirmation gate; supports --skip flag. For single-step needs, invoke that skill directly instead. Not for code-level verification (use verify-release)."
 ---
 
 # Release Pipeline Orchestrator
